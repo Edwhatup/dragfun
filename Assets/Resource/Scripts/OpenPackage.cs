@@ -40,12 +40,9 @@ public class OpenPackage : MonoBehaviour
         for (int i=0; i<chooseCardNumber ;i++)
         {
             GameObject newCard = GameObject.Instantiate(cardPrefab,cardPool.transform);
-
             newCard.GetComponent<CardDisplay>().card = CardStore.RandomCard();
-
             cards.Add(newCard);
         }
-
         SaveCardData();
         //PlayerData.SavePlayerData();
         
@@ -66,11 +63,11 @@ public class OpenPackage : MonoBehaviour
     {
         foreach(var card in cards)
         {
-            int id = card.GetComponent<CardDisplay>().card.id;
-            //Debug.Log("保存读取id："+id.ToString());
-            Data.playerCardIds.Add(id);
-            Data.playerCards[id] += 1;
-            Debug.Log(id+"count:"+Data.playerCards[id]);
+            //int id = card.GetComponent<CardDisplay>().card.id;
+            ////Debug.Log("保存读取id："+id.ToString());
+            //Data.playerCardNames.Add(id);
+            //Data.playerCards[id] += 1;
+            //Debug.Log(id+"count:"+Data.playerCards[id]);
 
         }
     }

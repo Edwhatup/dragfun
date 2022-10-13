@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonoSingleton<T> : MonoBehaviour where T :MonoBehaviour
+public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T instance;
     public static T Instance
@@ -12,29 +12,15 @@ public class MonoSingleton<T> : MonoBehaviour where T :MonoBehaviour
             if(instance ==  null)
             {
                 instance = FindObjectOfType<T>();
-
             }
             return instance;
         }
     }
-
-    private void Awake() 
+    public void Awake() 
     {
         if(instance != null)
         {
             Destroy(gameObject);
-        }    
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        }
     }
 }

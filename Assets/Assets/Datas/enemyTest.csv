@@ -3,3 +3,4 @@ normal,10001,testNormal,50,null
 normal,10002,testNormal2,100,null
 #,number,id,hp,ai
 boss,20001,testSpell,100,null
+

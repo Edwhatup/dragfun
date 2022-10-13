@@ -4,48 +4,51 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class EnemyDisplay : MonoBehaviour,IPointerDownHandler
+public class EnemyDisplay : MonoBehaviour,IPointerDownHandler,IUpdateVisual,ISeletable
 {
-    public Text nameText;
-    public Text healthText;
+    [SerializeField]
+    Text nameText;
+    [SerializeField]
+    Text healthText;
+    [SerializeField]
+    Text descText;
+    [SerializeField]
+    GameObject selectableEdge;
     public Enemy enemy;
 
-    public GameObject selectedEdge;
-    // Start is called before the first frame update
-    void Start()
+
+    public int TargetCount =>0;
+
+    public void OnCreate()
     {
-        showEnemy();
+        Selections.Instance.AddCanSelection(this);
     }
-
-    // Update is called once per frame
-    void Update()
+    public void OnDestory()
     {
-        
+        Selections.Instance.RemoveCanSelection(this);
     }
-
-    public void showEnemy()
-    {
-        nameText.text = enemy.enemyName;
-        if(enemy is BossEnemy)
-        {
-            var boss = enemy as BossEnemy;
-            healthText.text = (boss.enemyHP.ToString()+"/"+boss.enemyHPMax.ToString());
-        }
-
-        if(enemy is NormalEnemy)
-        {
-            var normal = enemy as NormalEnemy;
-            healthText.text = (normal.enemyHP.ToString()+"/"+normal.enemyHPMax.ToString());
-        }
-    }
-
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(BattleManager.Instance.GetWaitingCardState() == 2)
-        {
-            BattleManager.Instance.AttackConfirm(gameObject);//还没写完attack 
-            //Debug.Log("onboard");
-            
-        }    
+             
+    }
+
+    public bool CanSelect()
+    {
+        return true;
+    }
+
+    public void UpdateSelectableVisual()
+    {
+        if(CanSelect())
+            selectableEdge.SetActive(true);
+        else
+            selectableEdge.SetActive(false);
+    }
+
+    public void UpdateVisual()
+    {
+        if (descText) descText.text = enemy.GetDesc();
+        if (healthText) healthText.text = enemy.healthPoint+"/"+enemy.healthPointMax;
+        if (nameText) nameText.text = enemy.name;
     }
 }

@@ -28,22 +28,22 @@ public class CardDisplay : MonoBehaviour
 
     public void  ShowCard()
     {
-        nameText.text = card.cardName;
-        if(card is MonsterCard)
+        nameText.text = card.name;
+        if(card is BattleCard)
         {
             var monster = card as MonsterCard;
-            attackText.text = monster.attack.ToString();
+            attackText.text = monster.atk.ToString();
             healthText.text = monster.healthPoint.ToString();
 
             
-            if (monster.effect == null)
-            {
-                effectText.gameObject.SetActive(false);
-            }
-            else
-            {
-                effectText.text = monster.effect;
-            }
+            //if (monster.effect == null)
+            //{
+            //    effectText.gameObject.SetActive(false);
+            //}
+            //else
+            //{
+            //    effectText.text = monster.effect;
+            //}
 
 
 
@@ -52,8 +52,7 @@ public class CardDisplay : MonoBehaviour
         else if(card is SpellCard)
         {
             var spell = card as SpellCard;
-            effectText.text = spell.effect;
-
+            //effectText.text = spell.effect;
             attackText.gameObject.SetActive(false);
             healthText.gameObject.SetActive(false);
         }

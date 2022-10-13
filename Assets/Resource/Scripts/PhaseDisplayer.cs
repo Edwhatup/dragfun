@@ -11,9 +11,8 @@ public class PhaseDisplayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        BattleManager.Instance.phaseChangeEvent.AddListener(UpdateText);
+        GameManager.Instance.phaseChangeEvent += (arg1,arg2)=>UpdateText();
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -22,6 +21,6 @@ public class PhaseDisplayer : MonoBehaviour
 
     void UpdateText()
     {
-        phaseText.text =  BattleManager.Instance.GamePhase.ToString();
+        phaseText.text =  GameManager.Instance.GamePhase.ToString();
     }
 }

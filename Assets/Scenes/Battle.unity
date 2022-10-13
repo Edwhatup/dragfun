@@ -775,6 +775,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CellBlock (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 3488392846435261736, guid: 7df2f34bcd0962b4ea69687f1acd77bd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3963049013049391059, guid: 7df2f34bcd0962b4ea69687f1acd77bd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2763,6 +2768,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 757231509}
     m_Modifications:
+    - target: {fileID: 1461964229575655493, guid: 7df2f34bcd0962b4ea69687f1acd77bd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2105621372541405155, guid: 7df2f34bcd0962b4ea69687f1acd77bd,
         type: 3}
       propertyPath: m_Name

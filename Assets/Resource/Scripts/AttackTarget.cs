@@ -24,30 +24,30 @@ public class AttackTarget : MonoBehaviour ,IPointerClickHandler
     {
         if(attackable)
         {
-            BattleManager.Instance.AttackConfirm(gameObject);
+            //BattleManager.Instance.AttackConfirm(gameObject);
         }
     }
 
     public void ApplyDamage(int _damage)
     {
-        Enemy enemy = GetComponent<EnemyDisplay>().enemy;
-        if(enemy is BossEnemy)
-        {
-            BossEnemy bossEnemy = GetComponent<EnemyDisplay>().enemy as BossEnemy;
-            bossEnemy.enemyHP -=_damage;
-            if(bossEnemy.enemyHP<=0)
-            {
-                Destroy(gameObject);
-            }
-        }
-        if(enemy is NormalEnemy)
-        {
-            NormalEnemy normalEnemy = GetComponent<EnemyDisplay>().enemy as NormalEnemy;
-            normalEnemy.enemyHP -=_damage;
-            if(normalEnemy.enemyHP<=0)
-            {
-                Destroy(gameObject);
-            }
-        }
+        //Enemy enemy = GetComponent<EnemyDisplay>().enemy;
+        //if(enemy is BossEnemy)
+        //{
+        //    BossEnemy bossEnemy = GetComponent<EnemyDisplay>().enemy as BossEnemy;
+        //    bossEnemy.enemyHP -=_damage;
+        //    if(bossEnemy.enemyHP<=0)
+        //    {
+        //        Destroy(gameObject);
+        //    }
+        //}
+        //if(enemy is NormalEnemy)
+        //{
+        //    NormalEnemy normalEnemy = GetComponent<EnemyDisplay>().enemy as NormalEnemy;
+        //    normalEnemy.enemyHP -=_damage;
+        //    if(normalEnemy.enemyHP<=0)
+        //    {
+        //        Destroy(gameObject);
+        //    }
+        //}
     }
 }

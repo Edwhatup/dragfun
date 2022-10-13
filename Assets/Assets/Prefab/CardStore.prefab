@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardData: {fileID: 4900000, guid: 8dff68691806a06448a799dabac89d25, type: 3}
-  cardIdList: 
 --- !u!114 &1424247240050573503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,8 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4878f0ed6a6d5441a3658ad5cf330a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardPrefab: {fileID: 5767091567719175821, guid: 4aca44b839b057a4aa9d5cb51a3d8d49,
-    type: 3}
+  cardPrefab: {fileID: 0}
   cardPool: {fileID: 0}
   chooseCardNumber: 0
   playerData: {fileID: 0}

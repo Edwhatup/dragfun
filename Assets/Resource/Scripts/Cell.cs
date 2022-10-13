@@ -32,15 +32,15 @@ public class Cell : MonoBehaviour, IPointerDownHandler
         //Debug.Log(card);
         if(SummonCell.activeInHierarchy == true)
         {
-            if(BattleManager.Instance.GetWaitingCardState() == 1 ) 
+            if(GameManager.Instance.GetWaitingCardState() == 1 ) 
             {
-                BattleManager.Instance.SummonConfirm(gameObject);
+                // BattleManager.Instance.SummonConfirm(gameObject);
                 //Debug.Log("summon");
             }
             
-            else if(BattleManager.Instance.GetWaitingCardState() == 2)
+            else if(GameManager.Instance.GetWaitingCardState() == 2)
             {
-                BattleManager.Instance.OnBoardConfirm(gameObject);
+                //BattleManager.Instance.OnBoardConfirm(gameObject);
                 //Debug.Log("onboard");
             }
             
