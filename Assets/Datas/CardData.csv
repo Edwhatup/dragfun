@@ -1,0 +1,6 @@
+#,id,name,att,hp,params
+monster,NormalMonster,咸水鱼人,1,4,
+monster,NormalMonster,淡水鱼人,1,6,
+monster,OnAttack1,洛卡拉,2,2,3,3
+#,id,name,params
+spell,SingleDamage,打击,5

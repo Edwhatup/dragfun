@@ -1,0 +1,26 @@
+dragfun 开发日志
+
+版本：v0.4
+提交时间：2022/10/18 14:00
+
+重大改动:
+文件结构整理，整体代码重构。
+
+已实现的功能：
+基本的回合循环，
+使用卡牌、召唤、攻击、移动和敌人逻辑的框架和实例
+
+
+有待完善的功能：
+详细的回合逻辑，例如行动点之类的概念
+多样化的卡牌功能
+视觉效果队列
+
+如何添加一个新卡牌：
+参照Scripts/Card/Monster Scripts/Card/Spell   Scripts/CardEvent Script/Core/BattleManager文件夹
+
+CardEvent：对于某种特定的操作生成的卡牌事件
+卡牌可以对卡牌事件进行监听，对监听的方法添加EventListenerAttribute特性
+所有的卡牌操作都被委托给BattleManager去执行。
+
+

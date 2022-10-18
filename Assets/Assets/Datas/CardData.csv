@@ -1,5 +1,0 @@
-#,id,name,att,hp,params
-monster,NormalMonster,淡水鱼人,1,4,
-monster,NormalMonster,咸水鱼人,1,6,
-#,id,name,params
-spell,Damage,打击,5
