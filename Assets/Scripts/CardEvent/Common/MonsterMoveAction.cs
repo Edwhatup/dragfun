@@ -7,7 +7,7 @@ using Visual;
 
 namespace CardEvent
 {
-    //移动事件
+    //移动事件，在移动完成后广播
     public class MonsterMoveAction
     {
         public MonsterCard monster;

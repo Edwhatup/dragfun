@@ -7,8 +7,7 @@ namespace Card.Monster
     {
         public NormalMonster(string _cardName, int _attack, int _healthPointMax, params string[] _paras) : base(_cardName, _attack, _healthPointMax, _paras)
         {
-            targetCount = 1;
-            cardTargets = new CardTarget[1] { CardTarget.Enemy };
+
         }
 
         public override string GetDesc()

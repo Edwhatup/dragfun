@@ -75,6 +75,7 @@ namespace Core
         //获取两个cell之间的街道距离
         public int CellDistance(Cell cell1, Cell cell2)
         {
+            if(cell1 == null || cell2 == null) return -1;
             var pos1 = GetCellPos(cell1);
             var pos2 = GetCellPos(cell2);
             return Mathf.Abs(pos1.Item1 - pos2.Item1) + Mathf.Abs(pos1.Item2 - pos2.Item2);
@@ -88,7 +89,19 @@ namespace Core
                     if (ReferenceEquals(cells[i][j], cell)) return (i, j);
                 }
             }
-            return (-1, -1);
+            throw new Exception("未被管理的cell");
+        }
+
+        public int GetCellRow(Cell cell)
+        {
+            for (int i = 0; i < cells.Count; i++)
+            {
+                for (int j = 0; j < cells[i].Count; j++)
+                {
+                    if (ReferenceEquals(cells[i][j], cell)) return i;
+                }
+            }
+            throw new Exception("未被管理的cell");
         }
         public int getRange(GameObject _cell)
         {
@@ -110,5 +123,7 @@ namespace Core
             }
             return row + 1;
         }
+
+        
     }
 }

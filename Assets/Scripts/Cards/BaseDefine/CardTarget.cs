@@ -2,9 +2,9 @@
 {
     public enum CardTarget
     {
-        None,
-        Enemy,
-        FriendlyMonster,
-        Cell
+        None=0,
+        Enemy=1,
+        Monster=2,
+        Cell=4
     }
 }

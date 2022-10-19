@@ -18,26 +18,21 @@ namespace Core
         public static event CardEventListen cardEventListeners;
         public static void CastSpell()
         {
-            Debug.Log("CastSpell");
-            var spell = Selections.Instance.SelectSource as SpellCard;
-            spell.Cast();
-            cardEventListeners?.Invoke(new UseSpellEvent(spell));
+            var spell = Selections.Instance.SourceCard as SpellCard;
             CardManager.Instance.UseSpell(spell);
 
-            Selections.Instance.Clear();
-            GameManager.Instance.Refresh();
+            spell.Cast();
+            cardEventListeners?.Invoke(new UseSpellEvent(spell));
         }
-        public static void SummonMonster(Cell cell)
+        public static void SummonMonster()
         {
-            var monster = Selections.Instance.SelectSource as MonsterCard;
             var visual = Selections.Instance.Selection as PlayerCardVisual;
+            var monster = Selections.Instance.SourceCard as MonsterCard;
+            var cell = Selections.Instance.selections[1] as Cell;
             cell.SummonMonster(visual);
             CardManager.Instance.Summon(monster);
-            //EffectQueue.AddEffect(new SunmonEffect(visual,cell));
-            cardEventListeners?.Invoke(new SummonMonsterEvent(monster, cell));
 
-            Selections.Instance.Clear();
-            GameManager.Instance.Refresh();
+            cardEventListeners?.Invoke(new SummonMonsterEvent(monster, cell));
         }
         public static void MonsterAttack()
         {
@@ -45,20 +40,36 @@ namespace Core
             EnemyVisual enemyVisual = Selections.Instance.selections[1] as EnemyVisual;
             var monster = cardVisual.card as MonsterCard;
             var enemy = enemyVisual.enemy;
+
             AttackEvent attackEvent = new AttackEvent(monster, enemy);
             cardEventListeners?.Invoke(attackEvent);
 
-            enemy.hp -= monster.atk;
-            if (enemy.hp < 0)
-            {
-                enemy.battleState = BattleState.Dead;
-                cardEventListeners?.Invoke(new DeathEvent(enemy, monster));
-            }
+            ApplyDamage(monster, enemy, monster.atk);
+        }
+        public static void SwapMonster()
+        {
+            var visual1 = Selections.Instance.selections[0] as PlayerCardVisual;
+            var visual2 = Selections.Instance.selections[1] as PlayerCardVisual;
+            var cell2 = visual2.cell;
+            visual1.cell.SummonMonster(visual2);
+            cell2.SummonMonster(visual1);
 
-            Selections.Instance.Clear();
-            GameManager.Instance.Refresh();
+            SwapEvent swapEvent = new SwapEvent(visual1.card as MonsterCard, visual2.card as MonsterCard, visual2.cell, visual1.cell);
+            cardEventListeners?.Invoke(swapEvent);
+        }
+        public static void MoveMonster(Cell cell)
+        {
+            var monster = Selections.Instance.SourceCard as MonsterCard;
+            var visual = Selections.Instance.Selection as PlayerCardVisual;
+
+            cell.SummonMonster(visual);
+
+            MonsterMoveAction action = new MonsterMoveAction(monster, visual.cell, cell);
+            cardEventListeners?.Invoke(action);
         }
 
+
+        
         public static void ApplyDamage(AbstractCard source, EnemyCard enemy, int damage)
         {
             enemy.hp -= damage;
@@ -74,21 +85,6 @@ namespace Core
             monster.atk += atkModifier;
             monster.maxHp += hpModifier;
             monster.hp += hpModifier;
-        }
-
-
-
-        public static void MoveMonster(Cell cell)
-        {
-            Debug.Log("MoveMonster");
-            var monster = Selections.Instance.SelectSource as MonsterCard;
-            var visual = Selections.Instance.Selection as PlayerCardVisual;
-            MonsterMoveAction action = new MonsterMoveAction(monster, visual.cell, cell);
-            cell.SummonMonster(visual);
-            cardEventListeners?.Invoke(action);
-
-            Selections.Instance.Clear();
-            GameManager.Instance.Refresh();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Card;
 using Card.Monster;
 using Card.Spell;
+using Core;
 using Seletion;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,59 +21,48 @@ namespace Visual
         public Cell cell;
         [SerializeField]
         Image selectableEdge;
-        public int TargetCount
+
+        
+
+
+        #region ISeletableSource 实现区域
+
+        public bool JudgeCanSelect(ISeletable seletable)
         {
-            get
+            if(card is SpellCard)
             {
-                if (card is SpellCard)
-                    return card.targetCount;
-                else
+                if ((card as SpellCard).targetCount == 0) return seletable is SpellCastRegion;
+                switch((card as SpellCard).cardTargets[Selections.Instance.NextSelectIndex])
                 {
-                    return 1;
-                    //switch (card.state)
-                    //{
-                    //    case PlayerCardState.OnBoard:
-                    //        return card.targetCount;
-                    //    case PlayerCardState.InHand:
-                    //        return 1;
-                    //    default: return 0;
-                    //}
+                    case CardTarget.Cell:
+                        return seletable is Cell;
+                    case CardTarget.Enemy:
+                        return seletable is EnemyVisual;
+                    case CardTarget.Monster:
+                        return (seletable as PlayerCardVisual)?.card is MonsterCard;
                 }
             }
-        }
-
-        public CardTarget CurrentTarget
-        {
-            get
+            else if(card is MonsterCard)
             {
-                if (card is MonsterCard)
+                switch(card.state)
                 {
-                    switch (card.state)
-                    {
-                        case PlayerCardState.OnBoard:
-                            return CardTarget.Enemy;
-                        case PlayerCardState.InHand:
-                            return CardTarget.Enemy;
-                        default: return CardTarget.None;
-                    }
+                    case PlayerCardState.InHand:
+                        if (seletable is Cell && (seletable as Cell).cardVisual == null && (seletable as Cell).movable)
+                            return true;                        
+                        break;
+                    case PlayerCardState.OnBoard:
+                        switch (seletable.GetType().Name)
+                        {
+                            case nameof(EnemyVisual):
+                                return (card as MonsterCard).CanAttack() && CellManager.Instance.GetCellRow(cell) < (card as MonsterCard).atkRange;
+                            case nameof(Cell):
+                                return CellManager.Instance.CellDistance((seletable as Cell), cell) == 1;
+                            case nameof(PlayerCardVisual):
+                                var visual=seletable as PlayerCardVisual;
+                                return visual.card.state==PlayerCardState.OnBoard && CellManager.Instance.CellDistance(visual.cell,cell) == 1;
+                        }
+                        break;
                 }
-                else return card.cardTargets[Selections.Instance.CurrentSelectIndex];
-            }
-        }
-
-        public bool CanSelect()
-        {
-            if (card.state == PlayerCardState.InHand)
-            {
-                if (!Selections.Instance.HasSelectObject)
-                    return true;
-                else return false;
-            }
-            else if (card.state == PlayerCardState.OnBoard)
-            {
-                if (!Selections.Instance.HasSelectObject || Selections.Instance.CurrentTarget == CardTarget.FriendlyMonster)
-                    return true;
-                else return false;
             }
             return false;
         }
@@ -87,21 +77,40 @@ namespace Visual
             Selections.Instance?.RemoveCanSelection(this);
         }
 
-        public void OnPointerDown(PointerEventData eventData)
+        public bool CanSelect()
         {
-            if (CanSelect())
-            {
-                Selections.Instance.AddSelection(this);
-            }
+            return true;
         }
-
         public void UpdateSelectableVisual()
         {
-            if (CanSelect())
+            if (Selections.Instance.CanSelect(this))
                 selectableEdge.color = Color.green;
             else
                 selectableEdge.color = Color.white;
         }
+        public int TargetCount
+        {
+            get
+            {
+                if (card is SpellCard) return (card as SpellCard).targetCount;
+                else return 1;
+            }
+        }
+
+
+        #endregion
+        #region IPointerDownHandler 实现区域
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            if (Selections.Instance.CanSelect(this))
+            {
+                if(Selections.Instance.HasSelectObject)
+                    Selections.Instance.AddSelection(this);
+                else Selections.Instance.AddSelectionSource(this);
+            }
+        }
+        #endregion
+        #region IUpdateVisual实现区域
         public void UpdateVisual()
         {
             if (nameText) nameText.text = card.name;
@@ -126,5 +135,10 @@ namespace Visual
                 healthText.gameObject.SetActive(false);
             }
         }
+
+        
+        #endregion
+
+
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using Card;
 namespace CardEvent
 {
-    //死亡事件
+    //死亡事件，在死亡后触发
     public class DeathEvent
     {
         public AbstractCard dead;

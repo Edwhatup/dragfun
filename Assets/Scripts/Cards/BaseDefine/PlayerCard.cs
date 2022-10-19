@@ -4,8 +4,6 @@
     {
         public PlayerCardState state;
         public int cost;
-        public int targetCount;
-        public CardTarget[] cardTargets;
         public PlayerCard(string name, params string[] paras) : base(name, paras)
         {
             this.state = PlayerCardState.InDeck;

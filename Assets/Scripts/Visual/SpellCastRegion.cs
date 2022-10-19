@@ -10,11 +10,6 @@ namespace Visual
     {
         Image image;
 
-        public bool CanSelect()
-        {
-            return Selections.Instance.SelectSource is SpellCard && Selections.Instance.TargetCount == 0;
-        }
-
         public void Start()
         {
             image = GetComponent<Image>();
@@ -27,7 +22,7 @@ namespace Visual
 
         public void UpdateSelectableVisual()
         {
-            if (CanSelect())
+            if (Selections.Instance.CanSelect(this))
             {
                 image.color = Color.green;
             }
@@ -36,7 +31,7 @@ namespace Visual
 
         void Update()
         {
-            if (CanSelect())
+            if (Selections.Instance.CanSelect(this))
             {
                 if (Input.GetMouseButtonUp(0))
                 {
@@ -45,7 +40,7 @@ namespace Visual
                        rectTrans, Input.mousePosition, null, out Vector2 res);
                     bool isInRegion = rectTrans.rect.Contains(res);
                     if (isInRegion)
-                        BattleManager.CastSpell();
+                        Selections.Instance.AddSelection(this);
                 }
             }
         }

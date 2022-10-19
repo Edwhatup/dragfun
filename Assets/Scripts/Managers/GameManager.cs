@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System;
+using Seletion;
+
 namespace Core
 {
     public enum GamePhase
@@ -77,7 +79,7 @@ namespace Core
             PlayDraw();
         }
         public void Click2GameStart()
-        {
+        { 
             GameStart();
         }
         public void GameFalse()

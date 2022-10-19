@@ -6,14 +6,15 @@ namespace Seletion
 {
     public interface ISeletable
     {
-        bool CanSelect();
         void UpdateSelectableVisual();
         void Start();
         void OnDestroy();
     }
     public interface ISeletableSource : ISeletable
     {
+        //判断当前目标是否可以作为被选中的目标
+        bool JudgeCanSelect(ISeletable seletable);
         int TargetCount { get; }
-        CardTarget CurrentTarget { get; }
+        bool CanSelect();
     }
 }

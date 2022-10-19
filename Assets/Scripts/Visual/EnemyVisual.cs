@@ -24,6 +24,15 @@ namespace Visual
         GameObject selectableEdge;
         public EnemyCard enemy;
 
+        #region  IPointerDownHandler实现区域
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            if (Selections.Instance.CanSelect(this))
+                Selections.Instance.AddSelection(this);
+        }
+        #endregion
+
+        #region ISeletable实现区域
         public void Start()
         {
             Selections.Instance.AddCanSelection(this);
@@ -32,42 +41,24 @@ namespace Visual
         {
             Selections.Instance?.RemoveCanSelection(this);
         }
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            if (CanSelect())
-            {
-                Selections.Instance.AddSelection(this);
-                var card = Selections.Instance.SelectSource;
-                if (card is SpellCard)
-                    BattleManager.CastSpell();
-                else BattleManager.MonsterAttack();
-            }
-        }
-
-        public bool CanSelect()
-        {
-            var card = Selections.Instance.SelectSource;
-            if (Selections.Instance.CurrentTarget == CardTarget.Enemy || (card is MonsterCard && card.state == PlayerCardState.OnBoard))
-            {
-                return true;
-            }
-            else return false;
-        }
-
         public void UpdateSelectableVisual()
         {
-            if (CanSelect())
+            if (Selections.Instance.CanSelect(this))
                 selectableEdge.SetActive(true);
             else
                 selectableEdge.SetActive(false);
         }
+        #endregion
 
+        #region IUpdateVisual实现区域
         public void UpdateVisual()
         {
             if (descText) descText.text = enemy.GetDesc();
             if (healthText) healthText.text = enemy.hp + "/" + enemy.maxHp;
             if (nameText) nameText.text = enemy.name;
         }
+        #endregion
+
     }
 
 }

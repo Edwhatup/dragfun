@@ -14,8 +14,6 @@ namespace Card.Monster
         {
             int.TryParse(paras[0], out hpModifierOnAttack);
             int.TryParse(paras[1], out atkModiferOnAttack);
-            targetCount = 1;
-            cardTargets = new CardTarget[1] { CardTarget.Enemy };
         }
         [EventListener]
         public void OnAttack(object o)
@@ -24,7 +22,6 @@ namespace Card.Monster
             if (attackEvent != null && attackEvent.source == this)
             {
                 BattleManager.Buff(this, this, hpModifierOnAttack, atkModiferOnAttack);
-                GameManager.Instance.Refresh();
             }
         }
         public override string GetDesc()
