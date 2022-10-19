@@ -89,7 +89,10 @@ namespace Seletion
                             BattleManager.SwapMonster();
                             break;
                         case nameof(Cell):
-                            BattleManager.SummonMonster();
+                            if (SourceCard.state == PlayerCardState.OnBoard)
+                                BattleManager.MoveMonster();
+                            else
+                                BattleManager.SummonMonster();
                             break;
                         case nameof(EnemyVisual):
                             BattleManager.MonsterAttack();

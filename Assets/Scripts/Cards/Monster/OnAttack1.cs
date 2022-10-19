@@ -13,7 +13,7 @@ namespace Card.Monster
         public OnAttack1(string name, int atk, int hp, params string[] paras) : base(name, atk, hp, paras)
         {
             int.TryParse(paras[0], out hpModifierOnAttack);
-            int.TryParse(paras[1], out atkModiferOnAttack);
+            int.TryParse(paras[1], out atkModifierOnAttack);
         }
         [EventListener]
         public void OnAttack(object o)
@@ -21,7 +21,7 @@ namespace Card.Monster
             AttackEvent attackEvent = o as AttackEvent;
             if (attackEvent != null && attackEvent.source == this)
             {
-                BattleManager.Buff(this, this, hpModifierOnAttack, atkModiferOnAttack);
+                BattleManager.Buff(this, this, hpModifierOnAttack, atkModifierOnAttack);
             }
         }
         public override string GetDesc()

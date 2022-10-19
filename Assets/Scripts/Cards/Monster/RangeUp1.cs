@@ -11,10 +11,8 @@ namespace Card.Monster
         int RangeModifier;
         public RangeUp1(string name, int atk, int hp, params string[] paras) : base(name, atk, hp, paras)
         {
-            int.TryParse(paras[0], out RangeModifier);
-            targetCount = 1;
+            int.TryParse(paras[0], out RangeModifier);           
             atkRange=1+RangeModifier;
-            cardTargets = new CardTarget[1] { CardTarget.Enemy };
         }
         public override string GetDesc()
         {

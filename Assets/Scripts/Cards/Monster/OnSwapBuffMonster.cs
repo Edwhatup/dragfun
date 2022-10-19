@@ -20,8 +20,8 @@ namespace Card.Monster
         [EventListener]
         public void OnSwap(object o)
         {
-            SwapEvent swapEvent = o as SwapEvent;
-            if (swapEvent != null && swapEvent.sourceCard != this && swapEvent.sourceCard!=this)
+            MonsterMoveEvent swapEvent = o as MonsterMoveEvent;
+            if (swapEvent != null && swapEvent.IsSwap() && swapEvent.sourceMonster != this && swapEvent.targetMonster!=this)
             {
                 BattleManager.Buff(this,this,hpModifierOnAttack,atkModiferOnAttack);
             }

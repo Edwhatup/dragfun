@@ -15,8 +15,6 @@ namespace Card.Monster
         {
             int.TryParse(paras[0], out hpModifierOnMove);
             int.TryParse(paras[1], out atkModifierOnMove);
-            targetCount = 1;
-            cardTargets = new CardTarget[1] { CardTarget.Enemy };
         }
 
         [EventListener]
@@ -25,8 +23,8 @@ namespace Card.Monster
             MonsterMoveEvent moveEvent = o as MonsterMoveEvent;
             if(moveEvent != null)
             {
+                Debug.Log("OnMOve");
                 BattleManager.Buff(this, this, hpModifierOnMove, atkModifierOnMove);
-                GameManager.Instance.Refresh();
             }
         }
         public override string GetDesc()

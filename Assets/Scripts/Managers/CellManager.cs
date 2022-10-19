@@ -91,7 +91,10 @@ namespace Core
             }
             throw new Exception("未被管理的cell");
         }
-
+        public int GetCellRowDistance(Cell cell1,Cell cell2)
+        {
+            return GetCellRow(cell1)-GetCellRow(cell2); ;
+        }
         public int GetCellRow(Cell cell)
         {
             for (int i = 0; i < cells.Count; i++)

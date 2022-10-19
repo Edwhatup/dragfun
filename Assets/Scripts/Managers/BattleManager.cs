@@ -54,17 +54,17 @@ namespace Core
             visual1.cell.SummonMonster(visual2);
             cell2.SummonMonster(visual1);
 
-            SwapEvent swapEvent = new SwapEvent(visual1.card as MonsterCard, visual2.card as MonsterCard, visual2.cell, visual1.cell);
+            MonsterMoveEvent swapEvent = new MonsterMoveEvent(visual1.card as MonsterCard, visual2.card as MonsterCard, visual2.cell, visual1.cell);
             cardEventListeners?.Invoke(swapEvent);
         }
-        public static void MoveMonster(Cell cell)
+        public static void MoveMonster()
         {
             var monster = Selections.Instance.SourceCard as MonsterCard;
             var visual = Selections.Instance.Selection as PlayerCardVisual;
-
+            var cell = Selections.Instance.selections[1] as Cell;
             cell.SummonMonster(visual);
-
-            MonsterMoveAction action = new MonsterMoveAction(monster, visual.cell, cell);
+            
+            MonsterMoveEvent action = new MonsterMoveEvent(monster, visual.cell, cell);
             cardEventListeners?.Invoke(action);
         }
 
