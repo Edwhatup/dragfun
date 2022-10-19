@@ -9,7 +9,7 @@ namespace Card.Monster
     public class OnAttack1 : MonsterCard
     {
         int hpModifierOnAttack;
-        int atkModiferOnAttack;
+        int atkModifierOnAttack;
         public OnAttack1(string name, int atk, int hp, params string[] paras) : base(name, atk, hp, paras)
         {
             int.TryParse(paras[0], out hpModifierOnAttack);
@@ -26,7 +26,7 @@ namespace Card.Monster
         }
         public override string GetDesc()
         {
-            return $"攻击时，获得+{hpModifierOnAttack}+{atkModiferOnAttack}";
+            return $"攻击时，获得+{hpModifierOnAttack}/+{atkModifierOnAttack}";
         }
     }
 }

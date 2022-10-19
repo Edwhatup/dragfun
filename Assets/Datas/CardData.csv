@@ -2,5 +2,7 @@
 monster,NormalMonster,咸水鱼人,1,4,
 monster,NormalMonster,淡水鱼人,1,6,
 monster,OnAttack1,洛卡拉,2,2,3,3
+monster,OnMove1,战士,1,4,3,0
+monster,RangeUp1,弓手,2,1,1
 #,id,name,params
 spell,SingleDamage,打击,5

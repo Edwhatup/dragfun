@@ -14,7 +14,7 @@ namespace CardEvent
         public Cell oldCell;
         public Cell newCell;
 
-        public MonsterMoveAction(MonsterCard monster, Cell oldCell, Cell newCell)
+        public MonsterMoveEvent(MonsterCard monster, Cell oldCell, Cell newCell)
         {
             this.monster = monster;
             this.oldCell = oldCell;
