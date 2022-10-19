@@ -83,7 +83,7 @@ namespace Core
             Debug.Log("MoveMonster");
             var monster = Selections.Instance.SelectSource as MonsterCard;
             var visual = Selections.Instance.Selection as PlayerCardVisual;
-            MonsterMoveAction action = new MonsterMoveAction(monster, visual.cell, cell);
+            MonsterMoveEvent action = new MonsterMoveEvent(monster, visual.cell, cell);
             cell.SummonMonster(visual);
             cardEventListeners?.Invoke(action);
 
