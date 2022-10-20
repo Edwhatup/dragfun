@@ -27,14 +27,29 @@ namespace CardEvent
         //sourceMonster的移动是否为前进
         public bool IsSourceForward()
         {
-            return CellManager.Instance.GetCellRowDistance(targetCell , sourceCell) > 0;
+            return CellManager.Instance.GetCellRowDistance(targetCell , sourceCell) < 0;
         }
         //targetMonster的移动是否为前进
         public bool IsTargetForward()
         {
-            return CellManager.Instance.GetCellRowDistance(sourceCell, targetCell) > 0;
+            return CellManager.Instance.GetCellRowDistance(sourceCell, targetCell) < 0;
         }
         //反生移动的monster个数
+
+        public bool IsForward(MonsterCard monster)
+        {
+            if(monster == sourceMonster)
+            {
+                Debug.Log("对的对的对的");
+                return CellManager.Instance.GetCellRowDistance(targetCell ,sourceCell) < 0;
+                
+            }
+            else if(monster == targetMonster)
+            {
+                return CellManager.Instance.GetCellRowDistance(sourceCell, targetCell) < 0;
+            }
+            else return false;
+        }
         public int MoveMonsterCount()
         {
             return 1 + (targetMonster == null ? 0 : 1);
