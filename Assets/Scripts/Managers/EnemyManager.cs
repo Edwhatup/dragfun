@@ -81,6 +81,12 @@ namespace Core
             if (enemies.Count == 0) GameManager.Instance.GamePass();
         }
 
+        public EnemyCard GetRandomEnemy()
+        {
+            int randomNumber = UnityEngine.Random.Range(0,enemies.Count());
+            return enemies[randomNumber];
+        }
+
         private GameObject CreateEnemyObject(EnemyCard enemy)
         {
             GameObject gameObject = GameObject.Instantiate(enemyPrefab, enemyBoardTrans);

@@ -21,7 +21,7 @@ namespace Card.Monster
         public void OnMove(object o)
         {
             MonsterMoveEvent moveEvent = o as MonsterMoveEvent;
-            if(moveEvent != null && moveEvent.sourceMonster==this)
+            if(moveEvent != null && (moveEvent.sourceMonster==this || moveEvent.targetMonster==this))
             {
                 Debug.Log("OnMOve");
                 BattleManager.Buff(this, this, hpModifierOnMove, atkModifierOnMove);
