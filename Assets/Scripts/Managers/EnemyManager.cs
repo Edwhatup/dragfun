@@ -58,7 +58,8 @@ namespace Core
 
         public void Refresh()
         {
-            foreach (var enemy in enemies)
+            var tmp = GetEnemiesTmpList();
+            foreach (var enemy in tmp)
             {
                 if (enemy.battleState == BattleState.Dead)
                 {
@@ -80,7 +81,15 @@ namespace Core
             LayoutRebuilder.ForceRebuildLayoutImmediate(enemyBoardTrans);
             if (enemies.Count == 0) GameManager.Instance.GamePass();
         }
-
+        public List<EnemyCard> GetEnemiesTmpList()
+        {
+            var res = new List<EnemyCard>();
+            foreach (var enemy in enemies)
+            {
+                res.Add(enemy);
+            }
+            return res;
+        }
         public EnemyCard GetRandomEnemy()
         {
             int randomNumber = UnityEngine.Random.Range(0,enemies.Count());

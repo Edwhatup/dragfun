@@ -62,9 +62,12 @@ namespace Core
             var monster = Selections.Instance.SourceCard as MonsterCard;
             var visual = Selections.Instance.Selection as PlayerCardVisual;
             var cell = Selections.Instance.selections[1] as Cell;
+
+
+            MonsterMoveEvent action = new MonsterMoveEvent(monster, visual.cell, cell);
+
             cell.SummonMonster(visual);
             
-            MonsterMoveEvent action = new MonsterMoveEvent(monster, visual.cell, cell);
             cardEventListeners?.Invoke(action);
         }
 
@@ -73,7 +76,7 @@ namespace Core
         public static void ApplyDamage(AbstractCard source, EnemyCard enemy, int damage)
         {
             enemy.hp -= damage;
-            if (enemy.hp < 0)
+            if (enemy.hp <= 0)
             {
                 enemy.battleState = BattleState.Dead;
                 cardEventListeners?.Invoke(new DeathEvent(enemy, source));
