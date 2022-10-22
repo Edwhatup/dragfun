@@ -8,5 +8,4 @@ namespace Visual
     {
         void UpdateVisual();
     }
-
 }

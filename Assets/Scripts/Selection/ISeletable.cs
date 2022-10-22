@@ -7,14 +7,11 @@ namespace Seletion
     public interface ISeletable
     {
         void UpdateSelectableVisual();
-        void Start();
-        void OnDestroy();
     }
-    public interface ISeletableSource : ISeletable
+    public interface ISeletableSource
     {
-        //判断当前目标是否可以作为被选中的目标
-        bool JudgeCanSelect(ISeletable seletable);
         int TargetCount { get; }
-        bool CanSelect();
+        CardTarget[] CardTargets { get; }
+        bool CanSelect(AbstractCard card, int i);
     }
 }
