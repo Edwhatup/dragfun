@@ -54,8 +54,8 @@ namespace Core
             visual1.cell.SummonMonster(visual2);
             cell2.SummonMonster(visual1);
 
-            MonsterMoveEvent swapEvent = new MonsterMoveEvent(visual1.card as MonsterCard, visual2.card as MonsterCard, visual2.cell, visual1.cell);
-            cardEventListeners?.Invoke(swapEvent);
+
+            CardEventBroadCast(new MonsterMoveEvent(visual1.card as MonsterCard, visual2.card as MonsterCard, visual2.cell, visual1.cell));
         }
         public static void MoveMonster()
         {
@@ -63,21 +63,32 @@ namespace Core
             var visual = Selections.Instance.Selection as PlayerCardVisual;
             var cell = Selections.Instance.selections[1] as Cell;
             cell.SummonMonster(visual);
-            
-            MonsterMoveEvent action = new MonsterMoveEvent(monster, visual.cell, cell);
-            cardEventListeners?.Invoke(action);
+
+
+            CardEventBroadCast(new MonsterMoveEvent(monster, visual.cell, cell));
+        }
+        public static void EnemyAttack(EnemyCard enemy,int damage)
+        {
+
         }
 
 
-        
+
+
+
+
         public static void ApplyDamage(AbstractCard source, EnemyCard enemy, int damage)
         {
             enemy.hp -= damage;
             if (enemy.hp < 0)
             {
                 enemy.battleState = BattleState.Dead;
-                cardEventListeners?.Invoke(new DeathEvent(enemy, source));
+                CardEventBroadCast(new DeathEvent(enemy, source));
             }
+        }
+        public static void CardEventBroadCast(object e)
+        {
+            cardEventListeners?.Invoke(e);
         }
 
         public static void Buff(AbstractCard source, MonsterCard monster, int atkModifier, int hpModifier)

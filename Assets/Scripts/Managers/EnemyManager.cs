@@ -58,7 +58,8 @@ namespace Core
 
         public void Refresh()
         {
-            foreach (var enemy in enemies)
+            var tmpEnemies = GetEnemiesTmpList();
+            foreach (var enemy in tmpEnemies)
             {
                 if (enemy.battleState == BattleState.Dead)
                 {
@@ -80,7 +81,15 @@ namespace Core
             LayoutRebuilder.ForceRebuildLayoutImmediate(enemyBoardTrans);
             if (enemies.Count == 0) GameManager.Instance.GamePass();
         }
-
+        public List<EnemyCard> GetEnemiesTmpList()
+        {
+            var res=new List<EnemyCard>();
+            foreach(var enemy in enemies)
+            {
+                res.Add(enemy);
+            }
+            return res;
+        }
         private GameObject CreateEnemyObject(EnemyCard enemy)
         {
             GameObject gameObject = GameObject.Instantiate(enemyPrefab, enemyBoardTrans);

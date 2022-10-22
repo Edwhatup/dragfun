@@ -9,7 +9,6 @@ namespace Card.Monster
         {
 
         }
-
         public override string GetDesc()
         {
             return $"一条{name}";

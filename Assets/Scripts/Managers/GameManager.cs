@@ -10,7 +10,7 @@ namespace Core
 {
     public enum GamePhase
     {
-        GameStart, PlayerDraw, PlayerAction, EnemyAction
+        GameStart, PlayerAction, EnemyAction
     }
 
     public class GameManager : MonoSingleton<GameManager>, IManager
@@ -50,15 +50,6 @@ namespace Core
             foreach (var i in managers)
                 i.EnemyAction();
         }
-
-        public void PlayDraw()
-        {
-            SwicthGamePhase(GamePhase.PlayerDraw);
-            foreach (var i in managers)
-                i.PlayDraw();
-
-            PlayerAction();
-        }
         private void SwicthGamePhase(GamePhase nextPhase)
         {
             phaseChangeEvent?.Invoke(GamePhase, nextPhase);
@@ -76,7 +67,6 @@ namespace Core
         public void Click2EnemtAction()
         {
             EnemyAction();
-            PlayDraw();
         }
         public void Click2GameStart()
         { 

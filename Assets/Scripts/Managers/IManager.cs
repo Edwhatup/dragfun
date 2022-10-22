@@ -9,6 +9,5 @@ namespace Core
         void GameStart();
         void PlayerAction();
         void EnemyAction();
-        void PlayDraw();
     }
 }

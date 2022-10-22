@@ -100,6 +100,8 @@ namespace Seletion
                     }
                 }
                 Clear(); 
+                
+                
                 GameManager.Instance.Refresh();
             }
 

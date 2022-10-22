@@ -21,9 +21,6 @@ namespace Visual {
                 case GamePhase.GameStart:
                     phaseText.text = "当前回合:" + "游戏开始";
                     break;
-                case GamePhase.PlayerDraw:
-                    phaseText.text = "当前回合:" + "玩家抽牌";
-                    break;
                 case GamePhase.PlayerAction:
                     phaseText.text = "当前回合:" + "玩家行动";
                     break;
