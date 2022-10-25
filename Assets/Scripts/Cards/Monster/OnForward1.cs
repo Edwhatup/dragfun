@@ -23,7 +23,7 @@ namespace Card.Monster
         {
             MonsterMoveEvent moveEvent = o as MonsterMoveEvent;
             PlayerCard card = this as MonsterCard;
-            if(moveEvent != null && moveEvent.IsForward(this)==true && card.state==PlayerCardState.OnBoard)
+            if(moveEvent != null && moveEvent.IsForward(this)==true && this.state==PlayerCardState.OnBoard)
             {
                 Debug.Log("OnForward");
                 BattleManager.Buff(this, this, hpModifierOnForward, atkModifierOnForward);
