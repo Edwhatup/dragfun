@@ -2,9 +2,10 @@
 monster,NormalMonster,咸水鱼人,1,4,
 monster,NormalMonster,淡水鱼人,1,6,
 monster,OnAttack1,洛卡拉,2,2,3,3
-monster,OnForward1,战士,1,4,3,0
+monster,OnForward1,战士,1,4,2,0
 monster,RangeUp1,弓手,2,1,1
-monster,OnMove1,狂战士,2,1,2,0
+monster,OnMove1,狂战士,2,1,1,0
 monster,MoveCannon1,地精炮手,1,1,5,10
+monster,ExtremeGeneral,极限将军,1,1,2,2
 #,id,name,params
 spell,SingleDamage,打击,7
