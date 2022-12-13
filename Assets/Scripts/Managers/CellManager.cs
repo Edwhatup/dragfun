@@ -1,132 +1,156 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using Visual;
+using UnityEngine.UI;
 
-namespace Core
+public class CellManager : MonoBehaviour,IManager
 {
-    public class CellManager : MonoSingleton<CellManager>
+    public static CellManager Instance { get; private set; }
+
+
+    List<Cell> cells = new List<Cell>();
+    [SerializeField]
+    GameObject cellPrefab;
+    [SerializeField]
+    int row = 4;
+    [SerializeField]
+    int col = 4;
+    [SerializeField]
+    bool autoCreate=true;
+    void Awake()
     {
-        public List<List<Cell>> cells = new List<List<Cell>>();
-        new void Awake()
+        if (Instance == null)
         {
-            base.Awake();
-            GetCellLi();
+            Instance = this;
         }
+        else Destroy(gameObject);
+    }
 
 
-        // Update is called once per frame
-        void Update()
+
+    void InitCellList()
+    {
+        if(autoCreate)
         {
-
-        }
-        void GetCellLi()
-        {
-            int cnt = 0;
-            foreach (Transform trans in transform)
+            cells.Clear();
+            var grid = GetComponent<GridLayoutGroup>();
+            var width = grid.cellSize.x * row + grid.spacing.x * (row - 1);
+            var height = grid.cellSize.y * col + grid.spacing.y * (col - 1);
+            var rect = GetComponent<RectTransform>();
+            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+            for (int i = 0; i < row; i++)
             {
-                if (cnt % 4 == 0) cells.Add(new List<Cell>());
-                cells[cnt / 4].Add(trans.GetComponent<Cell>());
-                cnt++;
-            }
-        }
-        public List<GameObject> GetCellList()
-        {
-            List<GameObject> cellList = new List<GameObject>();
-            foreach (var cellrow in cells)
-            {
-                foreach (var cell in cellrow)
+                for (int j = 0; j < col; j++)
                 {
-                    //cellList.Add(cell);
+                    var go=GameObject.Instantiate(cellPrefab,transform);
+                    var cell = go.GetComponent<Cell>();
+                    cell.row = i;
+                    cell.col = j;
+                    cells.Add(cell);
                 }
             }
-
-            return cellList;
         }
-
-        public List<GameObject> GetAdjCells(GameObject _cell)
+        else
         {
-            int row = 0;
-            int col = 0;
-            List<GameObject> adjCells = new List<GameObject>();
-            for (int i = 0; i < 4; i++)
+            int rowCnt = 0;
+            int colCnt = 0;
+            foreach(Transform trans in transform)
             {
-                for (int j = 0; j < 3; j++)
-                {
-                    if (cells[i][j] == _cell)
-                    {
-                        row = i;
-                        col = j;
-                        //Debug.Log("卡牌所在格： i："+i.ToString()+"j："+j.ToString());
-                        break;
-                    }
-                }
+                trans.GetComponent<Cell>().row = rowCnt;
+                trans.GetComponent<Cell>().col = colCnt;
+                colCnt++;
+                rowCnt += colCnt / col;
+                colCnt = colCnt % col;
             }
+        }
+    }
 
-            //if(row-1>=0) adjCells.Add(cells[row-1][col]);
-            //if(row+1<=3) adjCells.Add(cells[row+1][col]);
-            //if(col-1>=0) adjCells.Add(cells[row][col-1]);
-            //if(col+1<=2) adjCells.Add(cells[row][col+1]);
+    #region 获取状态的方法 
+    /// <summary>
+    /// 获取符合条件的第一个Cell,没有符合条件的Cell时返回null
+    /// </summary>
+    /// <param name="condition"></param>
+    public Cell GetSpecifyCell(Func<Cell, bool> condition)
+    {
+        return cells.Find((c) => condition(c));
+    }
+    /// <summary>
+    /// 随机获取满足条件的所有Cell
+    /// </summary>
+    /// <param name="condition">条件</param>
+    public List<Cell> GetAllSpecifyCells(Func<Cell, bool> condition)
+    {
+        return cells.FindAll((c) => condition(c));
+    }
+    /// <summary>
+    /// 随机获取满足条件的n个Cell,现有Cell数目不够n时返回所有满足条件的Cell 
+    /// </summary>
+    /// <param name="condition">条件</param>
+    public List<Cell> GetRandomSpecifyCells(Func<Cell, bool> condition, int n)
+    {
+        return cells.FindAll(c => condition(c))
+                    .GetRandomItems(n);
+    }
+    /// <summary>
+    /// 随机获取满足条件的1个Cell,没有满足条件Cell时返回null
+    /// </summary>
+    /// <param name="condition">条件</param>
+    public Cell GetRandomSpecifyEnemy(Func<Cell, bool> condition)
+    {
+        return cells.FindAll(c => condition(c))
+                    .GetRandomItem();
+    }
+    /// <summary>
+    /// 获取符合比较条件的最大Cell
+    /// </summary>
+    /// <param name="comparer">比较条件</param>
+    public Cell GetMaxCell(Func<Cell, Cell, int> comparer)
+    {
+        return cells.GetMaxItem(comparer);
+    }
+    /// <summary>
+    /// 获取符合比较条件的最小Cell
+    /// </summary>
+    /// <param name="comparer">比较条件</param>
+    public Cell GetMinCell(Func<Cell, Cell, int> comparer)
+    {
+        return cells.GetMinItem(comparer);
+    }
+    #endregion
+    public int GetChessDistance(Cell cell1, Cell cell2)
+    {
+        if (cell1 == null || cell2 == null) return -1;
+        return Mathf.Max(Mathf.Abs(cell1.row - cell2.row), Mathf.Abs(cell1.col - cell2.col));
+    }
+    public int GetStreetDistance(Cell cell1, Cell cell2)
+    {
+        if (cell1 == null || cell2 == null) return -1;
+        return Mathf.Abs(cell1.row - cell2.row) + Mathf.Abs(cell1.col - cell2.col);
+    }
+    public int GetRowDistance(Cell cell1, Cell cell2)
+    {
+        if (cell1 == null || cell2 == null) return -1;
+        return Mathf.Abs(cell1.row - cell2.row);
+    }
+    public int GetColDistance(Cell cell1, Cell cell2)
+    {
+        if (cell1 == null || cell2 == null) return -1;
+        return Mathf.Abs(cell1.col - cell2.col);
+    }
 
-            return adjCells;
+    public void Refresh()
+    {
+    }
 
-        }
-        //获取两个cell之间的街道距离
-        public int CellDistance(Cell cell1, Cell cell2)
-        {
-            if(cell1 == null || cell2 == null) return -1;
-            var pos1 = GetCellPos(cell1);
-            var pos2 = GetCellPos(cell2);
-            return Mathf.Abs(pos1.Item1 - pos2.Item1) + Mathf.Abs(pos1.Item2 - pos2.Item2);
-        }
-        (int, int) GetCellPos(Cell cell)
-        {
-            for (int i = 0; i < cells.Count; i++)
-            {
-                for (int j = 0; j < cells[i].Count; j++)
-                {
-                    if (ReferenceEquals(cells[i][j], cell)) return (i, j);
-                }
-            }
-            throw new Exception("未被管理的cell");
-        }
-        public int GetCellRowDistance(Cell cell1,Cell cell2)
-        {
-            return GetCellRow(cell1)-GetCellRow(cell2); ;
-        }
-        public int GetCellRow(Cell cell)
-        {
-            for (int i = 0; i < cells.Count; i++)
-            {
-                for (int j = 0; j < cells[i].Count; j++)
-                {
-                    if (ReferenceEquals(cells[i][j], cell)) return i;
-                }
-            }
-            throw new Exception("未被管理的cell");
-        }
-        public int getRange(GameObject _cell)
-        {
-            int row = 0;
-            int col = 0;
-            List<GameObject> adjCells = new List<GameObject>();
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    if (cells[i][j] == _cell)
-                    {
-                        row = i;
-                        col = j;
-                        //Debug.Log("卡牌所在格： i："+i.ToString()+"j："+j.ToString());
-                        break;
-                    }
-                }
-            }
-            return row + 1;
-        }
+    public void GameStart()
+    {
+        InitCellList();
+    }
 
-        
+    public void BroadcastCardEvent(AbstractCardEvent cardEvent)
+    {
+
     }
 }

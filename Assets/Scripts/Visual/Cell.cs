@@ -1,54 +1,83 @@
-﻿using Card;
-using Card.Monster;
-using Core;
-using Seletion;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-namespace Visual
+public class Cell : MonoBehaviour, IPointerDownHandler, ISeletableTarget
 {
-    public class Cell : MonoBehaviour, IPointerDownHandler, ISeletable
+    public Card card;
+    [SerializeField]
+    GameObject selectableEdge;
+    public int row;
+    public int col;
+    public void Summon(Card card)
     {
-        public bool movable=true;
-        public PlayerCardVisual cardVisual = null;
-        [SerializeField]
-        GameObject SummonCell;
-      
-        public void SummonMonster(PlayerCardVisual cardVisual)
+        var field = card.field;
+        if(field != null)
         {
-            if (cardVisual.cell != null) cardVisual.cell.cardVisual = null;
-            cardVisual.cell = this;
-            this.cardVisual = cardVisual;
-            cardVisual.transform.SetParent(this.transform);
-            cardVisual.transform.localPosition = Vector3.zero;
+            if(field.cell!=null) field.cell.card = null;
+            field.cell = this;
+            this.card = card;
+            card.visual.transform.SetParent(transform,false);
+            card.visual.transform.localPosition= Vector3.zero;
         }
-        #region IPointerDownHandler实现区域
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            if (Selections.Instance.CanSelect(this))
-                Selections.Instance.AddSelection(this);
-        }
-        #endregion
-        #region ISeletable实现区域
-        public void UpdateSelectableVisual()
-        {
-            if (Selections.Instance.CanSelect(this))
-                SummonCell.SetActive(true);
-            else SummonCell.SetActive(false);
-        }
-
-        public void Start()
-        {
-            Selections.Instance.AddCanSelection(this);
-            if (cardVisual != null) SummonMonster(cardVisual);
-        }
-        public void OnDestroy()
-        {
-            Selections.Instance?.RemoveCanSelection(this);
-        }
-        #endregion
-
     }
+    public void CancleSummon()
+    {
+        if(card!=null)
+        {
+            card.field.cell = null;
+
+        }
+    }
+    public bool CanMove()
+    {
+        return true;
+    }
+    public bool CanSwaped()
+    {
+
+        return false;
+    }
+
+    #region IPointerDownHandler实现区域
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        Selections.Instance.TryAddSelectTarget(this);
+    }
+    public bool CanSummon()
+    {
+        return card == null;
+    }
+    public bool CanCastSpell()
+    {
+        return card == null;
+    }
+    #endregion
+    #region ISeletable实现区域
+
+    public void Start()
+    {
+        Selections.Instance.AddCanSelection(this);
+    }
+    public void OnDestroy()
+    {
+        Selections.Instance?.RemoveCanSelection(this);
+    }
+
+    public void UpdateSelectableVisual(bool canSelect)
+    {
+        selectableEdge.SetActive(canSelect);
+    }
+
+    public void PreShowCard(Card card)
+    {
+        card.state = CardState.PreUse;
+        card.visual.transform.SetParent(transform,false);
+        card.visual.transform.localPosition = Vector3.zero;
+    }
+    public void RemoveCard()
+    {
+        this.card = null;
+    }
+    #endregion
 
 }

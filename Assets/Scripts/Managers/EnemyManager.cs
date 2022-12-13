@@ -1,178 +1,142 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Card;
-using Card.Enemy;
-using Visual;
 
-namespace Core
+//控制对敌人的可视化和敌人的回合管理
+public class EnemyManager : MonoBehaviour, IManager
 {
-    //控制对敌人的可视化和敌人的回合管理
-    public class EnemyManager : MonoSingleton<EnemyManager>, IManager
+    public static EnemyManager Instance { get; private set; }
+    public List<Card> enemies = new List<Card>();
+    List<Card> tombs = new List<Card>();
+    [SerializeField]
+    TextAsset enemyData;
+    [SerializeField]
+    RectTransform enemyBoardTrans;
+    Dictionary<Card, GameObject> enemyObjects = new Dictionary<Card, GameObject>();
+
+    void Awake()
     {
-        public List<EnemyCard> enemies = new List<EnemyCard>();
-        List<EnemyCard> tombs = new List<EnemyCard>();
-        [SerializeField]
-        TextAsset enemyData;
-        [SerializeField]
-        RectTransform enemyBoardTrans;
-        [SerializeField]
-        GameObject enemyPrefab;
-        Dictionary<EnemyCard, GameObject> enemyObjects = new Dictionary<EnemyCard, GameObject>();
-
-        public List<EnemyAction> enemyActions = new List<EnemyAction>();
-
-        new void Awake()
+        if (Instance == null)
         {
-            base.Awake();
-            LoadEnemyData();
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        public void LoadEnemyData()
-        {
-            string[] dataRow = enemyData.text.Split('\n');
-            var types = GetAllEnemyTypes();
-            foreach (var row in dataRow)
-            {
-                string[] rowArray = row.Split(',');
-                if (rowArray.Length < 3 || rowArray[0] == "id")
-                {
-                    continue;
-                }
-                string id = rowArray[0];
-                string name = rowArray[1];
-                int hp = int.Parse(rowArray[2]);
-                string[] paras = rowArray.Skip(2).ToArray();
-                var ctor = types[id].GetConstructor(new Type[] { typeof(string), typeof(int), typeof(string[]) });
-                var enemy = ctor.Invoke(new object[] { name, hp, paras }) as EnemyCard;
-                if (enemy == null)
-                {
-                    Debug.LogError($"创建id={id}，name={name}的敌人失败");
-                    continue;
-                }
-                enemies.Add(enemy);
-            }
-        }
-
-        public void Refresh()
-        {
-            var tmpEnemies = GetEnemiesTmpList();
-            foreach (var enemy in tmpEnemies)
-            {
-                if (enemy.battleState == BattleState.Dead)
-                {
-                    if (enemyObjects.ContainsKey(enemy))
-                    {
-                        Destroy(enemyObjects[enemy]);
-                        enemyObjects.Remove(enemy);
-                        enemies.Remove(enemy);
-                        tombs.Add(enemy);
-                    }
-                }
-                else
-                {
-                    if (!enemyObjects.ContainsKey(enemy))
-                        enemyObjects[enemy] = CreateEnemyObject(enemy);
-                    enemyObjects[enemy].GetComponent<EnemyVisual>().UpdateVisual();
-                }
-            }
-            LayoutRebuilder.ForceRebuildLayoutImmediate(enemyBoardTrans);
-            if (enemies.Count == 0) GameManager.Instance.GamePass();
-        }
-        public List<EnemyCard> GetEnemiesTmpList()
-        {
-            var res=new List<EnemyCard>();
-            foreach(var enemy in enemies)
-            {
-                res.Add(enemy);
-            }
-            return res;
-        }
-        private GameObject CreateEnemyObject(EnemyCard enemy)
-        {
-            GameObject gameObject = GameObject.Instantiate(enemyPrefab, enemyBoardTrans);
-            var enemyDisplay = gameObject.GetComponent<EnemyVisual>();
-            enemyDisplay.enemy = enemy;
-            return gameObject;
-        }
-
-        private static Dictionary<string, Type> GetAllEnemyTypes()
-        {
-            var res = new Dictionary<string, Type>();
-            var type = typeof(EnemyCard);
-            var assembly = type.Assembly;
-            var assemblyAllTypes = assembly.GetTypes();
-            foreach (var t in assemblyAllTypes)
-            {
-                if (!t.IsAbstract && t.IsSubclassOf(type))
-                {
-                    res.Add(t.Name, t);
-                }
-            }
-            return res;
-        }
-        #region IGameTurn 实现部分
-        public void GameStart()
-        {
-            Refresh();
-            foreach (var enemy in enemies)
-            {
-                enemyActions.AddRange(enemy.actions);
-            }
-        }
-
-        public void PlayerAction()
-        {
-
-        }
-
-        public void EnemyAction()
-        {
-            UpdateActions();
-            ExcuteActions();
-        }
-        void UpdateActions()
-        {
-            List<EnemyAction> actions = GetTempActionsCopy();
-            foreach (var action in actions)
-            {
-                if (action.enemy.battleState == BattleState.Dead)
-                {
-                    enemyActions.Remove(action);
-                }
-            }
-        }
-
-        private List<EnemyAction> GetTempActionsCopy()
-        {
-            List<EnemyAction> actions = new List<EnemyAction>();
-            foreach (var action in enemyActions)
-                actions.Add(action);
-            return actions;
-        }
-
-        void ExcuteActions()
-        {
-            var actions = GetTempActionsCopy();
-            foreach (var action in actions)
-            {
-                action.timer -= 1;
-                if (action.timer <= 0)
-                {
-                    action.action.Invoke();
-                    if (action.type == EnemyActionType.Once)
-                        enemyActions.Remove(action);
-                    else action.ResetTimer();
-                }
-            }
-        }
-
-        public void PlayDraw()
-        {
-
-        }
-        #endregion
+        else Destroy(gameObject);
     }
+    #region 获取敌人信息的方法
+    /// <summary>
+    /// 获取满足条件的所有敌人
+    /// </summary>
+    /// <param name="condition">条件</param>
+    public List<Card> GetAllSpecifyEnemies(Func<Card, bool> condition)
+    {
+        return enemies.FindAll((e) => condition.Invoke(e));
+    }
+    /// <summary>
+    /// 随机获取满足条件的n名敌人,现有敌人数目不够n时返回所有满足条件的敌人 
+    /// </summary>
+    /// <param name="condition">条件</param>
+    public List<Card> GetRandomSpecifyEnemies(Func<Card, bool> condition, int n)
+    {
+        return enemies.FindAll(e => condition.Invoke(e))
+                      .GetRandomItems(n);
+    }
+    /// <summary>
+    /// 随机获取满足条件的1名敌人,没有敌人时返回null
+    /// </summary>
+    /// <param name="condition">条件</param>
+    public Card GetRandomSpecifyEnemy(Func<Card, bool> condition)
+    {
+        return enemies.FindAll(e => condition.Invoke(e))
+                      .GetRandomItem();
+    }
+    /// <summary>
+    /// 获取符合比较条件的最大存活敌人,没有敌人时返回null
+    /// </summary>
+    /// <param name="comparer">比较条件</param>
+    public Card GetMaxEnemy(Func<Card, Card, int> comparer)
+    {
+        return enemies.GetMaxItem(comparer);
+    }
+    /// <summary>
+    /// 获取符合比较条件的最小存活敌人,没有敌人时返回null
+    /// </summary>
+    /// <param name="comparer">比较条件</param>
+    public Card GetMinEnemy(Func<Card, Card, int> comparer)
+    {
+        return enemies.GetMinItem(comparer);
+    }
+    /// <summary>
+    /// 获取所有存活的敌人
+    /// </summary>
+    public List<Card> GetAllEnemies()
+    {
+        return enemies.ToList();
+    }
+    /// <summary>
+    /// 随机获取1个存活的敌人
+    /// </summary>
+    public Card GetRandomEnemy()
+    {
+        return enemies.GetRandomItem();
+    }
+    /// <summary>
+    /// 随机获取n个存活的敌人,现有敌人数目不够n时返回现有所有敌人 
+    /// </summary>
+    public List<Card> GetRandomEnemies(int n)
+    {
+        return enemies.GetRandomItems(n);
+    }
+    #endregion
+    void LoadEnemyData()
+    {
+        string[] dataRow = enemyData.text.Split('\n');
+        foreach (var row in dataRow)
+        {
+            string[] rowArray = row.Split(',');
+            if (rowArray.Length < 2 || rowArray[0] == "name")
+                continue;
+            var enemyGo = CardStore.Instance.CreateCard(rowArray[0],null);
+            var enemy = enemyGo.GetComponent<CardVisual>().card;
+            enemy.camp = CardCamp.Enemy;
+            enemies.Add(enemy);
+            enemyGo.transform.SetParent(enemyBoardTrans);
+        }
+    }
+    #region IGameTurn 实现部分
+    public void Refresh()
+    {
+        var tmpEnemies = enemies.ToList();
+        foreach (var enemy in tmpEnemies)
+        {
+            if (enemy.field.state == BattleState.Dead)
+            {
+                if (enemyObjects.ContainsKey(enemy))
+                {
+                    Destroy(enemyObjects[enemy]);
+                    enemyObjects.Remove(enemy);
+                    enemies.Remove(enemy);
+                    tombs.Add(enemy);
+                }
+            }
+            else
+            {
+                enemy.visual.UpdateVisual();
+            }
+        }
+        LayoutRebuilder.ForceRebuildLayoutImmediate(enemyBoardTrans);
+        if (enemies.Count == 0) GameManager.Instance.GamePass();
+    }
+    public void GameStart()
+    {
+        LoadEnemyData();
+        Refresh();
+    }
+    public void BroadcastCardEvent(AbstractCardEvent cardEvent)
+    {
+
+    }
+    #endregion
 }

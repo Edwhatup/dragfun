@@ -1,5 +1,0 @@
-#,number,id,att,hp,eff
-monster,10001,test,1,4,
-monster,10002,test2,1,6,
-#,number,id,eff
-spell,20001,testSpell,aFireBallBurst

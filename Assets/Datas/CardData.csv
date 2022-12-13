@@ -6,3 +6,7 @@ monster,OnMove1,战士,1,4,3,0
 monster,RangeUp1,弓手,2,1,1
 #,id,name,params
 spell,SingleDamage,打击,5
+spell,Swap,设身处地,
+spell,GroupDamage,炸弹,2
+spell,Strengthen,祝福,2,2
+spell,AddDead,易燃,3

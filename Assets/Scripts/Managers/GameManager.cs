@@ -1,88 +1,74 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
 using System;
-using Seletion;
 
-namespace Core
+public class GameManager : MonoBehaviour, IManager
 {
     public enum GamePhase
     {
-        GameStart, PlayerAction, EnemyAction
+        ReadyStart,
+        InMap,
+        Battle
+    }
+    GamePhase phase=GamePhase.ReadyStart;
+    public static GameManager Instance { get; private set; }
+    public int pp=1000000;
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else Destroy(Instance);
+    }
+    List<IManager> managers = new List<IManager>();
+    // Start is called before the first frame update
+    void Start()
+    {
+        managers.Add(CardManager.Instance);
+        managers.Add(CellManager.Instance);
+        managers.Add(EnemyManager.Instance);
     }
 
-    public class GameManager : MonoSingleton<GameManager>, IManager
+    #region IGameTurn 实现
+    public void GameStart()
     {
-        List<IManager> managers = new List<IManager>();
-        //初始化阶段
-        public GamePhase GamePhase = GamePhase.GameStart;
-        public event Action<GamePhase, GamePhase> phaseChangeEvent;
-        // Start is called before the first frame update
-        void Start()
-        {
-            managers.Add(EnemyManager.Instance);
-            managers.Add(CardManager.Instance);
-        }
+        foreach (var i in managers)
+            i.GameStart();
+    }
+    public void Refresh()
+    {
+        foreach (var i in managers)
+            i.Refresh();
+    }
 
+    #endregion
 
-
-        #region IGameTurn 实现
-        public void GameStart()
+    #region 回合管理相关
+    public void Click2GameStart()
+    {
+        if(phase==GamePhase.ReadyStart)
         {
-            SwicthGamePhase(GamePhase.GameStart);
-            foreach (var i in managers)
-                i.GameStart();
-            PlayerAction();
-        }
-
-        public void PlayerAction()
-        {
-            SwicthGamePhase(GamePhase.PlayerAction);
-            foreach (var i in managers)
-                i.PlayerAction();
-        }
-
-        public void EnemyAction()
-        {
-            SwicthGamePhase(GamePhase.EnemyAction);
-            foreach (var i in managers)
-                i.EnemyAction();
-        }
-        private void SwicthGamePhase(GamePhase nextPhase)
-        {
-            phaseChangeEvent?.Invoke(GamePhase, nextPhase);
-            GamePhase = nextPhase;
-        }
-
-        public void Refresh()
-        {
-            foreach (var i in managers)
-                i.Refresh();
-        }
-        #endregion
-
-        #region 回合管理相关
-        public void Click2EnemtAction()
-        {
-            EnemyAction();
-        }
-        public void Click2GameStart()
-        { 
+            phase = GamePhase.Battle;
             GameStart();
         }
-        public void GameFalse()
-        {
-            Console.WriteLine("游戏失败");
-        }
-
-        public void GamePass()
-        {
-            Console.WriteLine("游戏通关");
-        }
-
-
-        #endregion
     }
+    public void GameFalse()
+    {
+        Console.WriteLine("游戏失败");
+    }
+
+    public void GamePass()
+    {
+        Console.WriteLine("游戏通关");
+    }
+
+    public void BroadcastCardEvent(AbstractCardEvent e)
+    {
+        foreach (var i in managers)
+            i.BroadcastCardEvent(e);
+    }
+
+    #endregion
 }
