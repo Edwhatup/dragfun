@@ -2,6 +2,7 @@
 using UnityEngine;
 using System;
 using System.IO;
+using System.Reflection;
 public class CardStore : MonoBehaviour
 {
     public static CardStore Instance { get; private set; }
@@ -20,7 +21,8 @@ public class CardStore : MonoBehaviour
     private Dictionary<string, SpellCardInfo> spellCardInfos = new Dictionary<string, SpellCardInfo>();
     private Dictionary<string, EnemyCardInfo> CardInfos = new Dictionary<string, EnemyCardInfo>();
 
-
+    private Dictionary<string, Card> cardBox;
+    private Dictionary<string, ConstructorInfo> cardCtors;
     void Awake()
     {
         if (Instance != null)
@@ -35,118 +37,119 @@ public class CardStore : MonoBehaviour
             //LoadCardData();
         }
     }
-    public void LoadCardData()
+    private void ReadCard()
     {
-        var monsterFiles = Directory.GetFiles(MonsterDataPath);
-        foreach (var file in monsterFiles)
+        cardBox = new Dictionary<string, Card>();
+        cardCtors= new Dictionary<string, ConstructorInfo>();   
+        var ct = typeof(Card);
+        var ass =ct.Assembly;
+        var types=ass.GetTypes();
+        foreach(var type in types)
         {
-            var text = File.ReadAllText(file);
-            var info = JsonUtility.FromJson<MonsterCardInfo>(text);
-            monsterCardInfos.Add(info.name, info);
-        }
-        var spellFiles = Directory.GetFiles(SpellDataPath);
-        foreach (var file in spellFiles)
-        {
-            var text = File.ReadAllText(file);
-            var info = JsonUtility.FromJson<SpellCardInfo>(text);
-            spellCardInfos.Add(info.name, info);
-        }
-        var enemyFiles = Directory.GetFiles(EnemyDataPath);
-        foreach (var file in enemyFiles)
-        {
-            var text = File.ReadAllText(file);
-            var info = JsonUtility.FromJson<EnemyCardInfo>(text);
-            CardInfos.Add(info.name, info);
+            if(type.IsSubclassOf(ct))
+            {
+                var ctor = type.GetConstructor(new Type[] { });
+                if(ctor!= null)
+                {
+                    Card card = (Card)ctor.Invoke(null);
+                    cardBox[card.name] = card;
+                    cardCtors[card.name] = ctor;
+                }
+            }
         }
     }
-
-    private Card CreateCard(MonsterCardInfo info)
+    public CardVisual CreateCardVisual(Card card)
     {
-        Card card = new Card(info.name);
-        card.AddComponnet(new AttackComponent(info.atk, info.atkRange, info.atkTimes, info.canAtk, info.atkCost, info.atkFree));
-        card.AddComponnet(new AttackedComponent(info.hp, info.bless));
-
-        return card;
-    }
-    private Card CreateCard(SpellCardInfo info)
-    {
-        Card card = new Card(info.name);
-        return card;
-    }
-    private Card CreateCard(EnemyCardInfo info)
-    {
-        Card card = new Card(info.name);
-        return card;
-    }
-
-    public Card CopyCard(string name)
-    {
-        if (monsterCardInfos.ContainsKey(name))
-            return CreateCard(monsterCardInfos[name]);
-        else if (monsterCardInfos.ContainsKey(name))
-            return CreateCard(spellCardInfos[name]);
-        else if (CardInfos.ContainsKey(name))
-            return CreateCard(CardInfos[name]);
-        throw new Exception($"未定义{name}卡牌");
-    }
-
-    public GameObject CreateCard(string key, string[] args)
-    {
-        Card card = new Card(key);
-        GameObject go = null;
-        switch (key)
+        GameObject visual;
+        switch (card.type)
         {
-            #region 随从
-            case "狂战士":
-                card.AddComponnet(new AttackComponent(2));
-                card.AddComponnet(new AttackedComponent(3));
-                card.AddComponnet(new OnMove1Listener(2, 2));
-                card.AddComponnet(new FieldComponnet());
-                card.AddComponnet(new SummonComponent(1));
-                card.type = CardType.Monster;
-                go = GameObject.Instantiate(monsterPrefab);
+            case CardType.Enemy:
+            case CardType.EnemyDerive:
+                visual = GameObject.Instantiate(enemyPrefab);
                 break;
-            case "八里湾":
-                card.AddComponnet(new AttackComponent(3));
-                card.AddComponnet(new AttackedComponent(3));
-                card.AddComponnet(new FieldComponnet());
-                card.AddComponnet(new SummonComponent(1));
-                card.type = CardType.Monster;
-                go = GameObject.Instantiate(monsterPrefab);
+            case CardType.Monster:
+            case CardType.FriendlyDerive:
+                visual = GameObject.Instantiate(monsterPrefab);
                 break;
-            #endregion
-            #region 衍生物
-            case "法术残骸":
-                card.AddComponnet(new FieldComponnet());
-                card.AddComponnet(new WreckComponent(args));
-                card.type = CardType.Derive;
-                go = GameObject.Instantiate(monsterPrefab);
+            case CardType.Spell:
+                visual = GameObject.Instantiate(spellPrefab);
                 break;
-            #endregion
-            #region 法术
-            case "打击":
-                card.AddComponnet(new SpellCastComponent(1, 4, new SingleDamage2SpecifyEnemy(6)));
-                card.type = CardType.Spell;
-                go = GameObject.Instantiate(spellPrefab);
-                break;
-            case "交换":
-                card.AddComponnet(new SpellCastComponent(1, 3, new SwapMonster()));
-                card.type = CardType.Spell;
-                go = GameObject.Instantiate(spellPrefab);
-                break;
-            #endregion
-            #region 怪物
-            case "地精大块头":
-                card.AddComponnet(new AttackedComponent(50));
-                card.AddComponnet(new FieldComponnet());
-                card.type = CardType.Enemy;
-                go = GameObject.Instantiate(enemyPrefab);
-                break;
-            #endregion
+            default: throw new Exception($"错误的卡牌类型{card.type}");
         }
+        var v = visual.GetComponent<CardVisual>();
         card.Init();
-        go.GetComponent<CardVisual>().SetCard(card);
-
-        return go;
+        v.SetCard(card);
+        return v;
     }
+    public Card CreateCard(string name)
+    {
+        if (cardBox == null) ReadCard();
+        if (cardBox.ContainsKey(name))
+        {
+            var card = cardCtors[name].Invoke(null) as Card;
+            CreateCardVisual(card);
+            return card;
+        }
+        throw new Exception($"不存在{name}卡牌");
+    }
+    //public void LoadCardData()
+    //{
+    //    var monsterFiles = Directory.GetFiles(MonsterDataPath);
+    //    foreach (var file in monsterFiles)
+    //    {
+    //        var text = File.ReadAllText(file);
+    //        var info = JsonUtility.FromJson<MonsterCardInfo>(text);
+    //        monsterCardInfos.Add(info.name, info);
+    //    }
+    //    var spellFiles = Directory.GetFiles(SpellDataPath);
+    //    foreach (var file in spellFiles)
+    //    {
+    //        var text = File.ReadAllText(file);
+    //        var info = JsonUtility.FromJson<SpellCardInfo>(text);
+    //        spellCardInfos.Add(info.name, info);
+    //    }
+    //    var enemyFiles = Directory.GetFiles(EnemyDataPath);
+    //    foreach (var file in enemyFiles)
+    //    {
+    //        var text = File.ReadAllText(file);
+    //        var info = JsonUtility.FromJson<EnemyCardInfo>(text);
+    //        CardInfos.Add(info.name, info);
+    //    }
+    //}
+
+    //public Card CopyCard(string name)
+    //{
+    //    if (monsterCardInfos.ContainsKey(name))
+    //        return CreateCard(monsterCardInfos[name]);
+    //    else if (monsterCardInfos.ContainsKey(name))
+    //        return CreateCard(spellCardInfos[name]);
+    //    else if (CardInfos.ContainsKey(name))
+    //        return CreateCard(CardInfos[name]);
+    //    throw new Exception($"未定义{name}卡牌");
+    //}
+
+    //public GameObject CreateCard(string key, string[] args)
+    //{
+    //    Card card = new Card(key);
+    //    GameObject go = null;
+    //    switch (key)
+    //    {
+    //        #region 法术
+    //        case "打击":
+    //            card.AddComponnet(new SpellCastComponent(1, 4, new SingleDamage2SpecifyEnemy(6)));
+    //            card.type = CardType.Spell;
+    //            go = GameObject.Instantiate(spellPrefab);
+    //            break;
+    //        case "交换":
+    //            card.AddComponnet(new SpellCastComponent(1, 3, new SwapMonster()));
+    //            card.type = CardType.Spell;
+    //            go = GameObject.Instantiate(spellPrefab);
+    //            break;
+    //        #endregion
+    //    }
+    //    card.Init();
+    //    go.GetComponent<CardVisual>().SetCard(card);
+
+    //    return go;
+    //}
 }

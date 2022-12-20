@@ -1,30 +1,30 @@
-﻿public class OnMove1Listener : EventListenerComponent
+﻿public class OnMoveBuffListener : EventListenerComponent
 {
     int hpModifierOnAttack;
     int atkModifierOnAttack;
-    public OnMove1Listener(string[] args)
+    public OnMoveBuffListener(string[] args)
     {
         int.TryParse(args[0], out hpModifierOnAttack);
         int.TryParse(args[1], out atkModifierOnAttack);
     }
-    public OnMove1Listener(int hpModifierOnAttack, int atkModifierOnAttack)
+    public OnMoveBuffListener(int hpModifierOnAttack, int atkModifierOnAttack)
     {
         this.hpModifierOnAttack = hpModifierOnAttack;
         this.atkModifierOnAttack = atkModifierOnAttack;
     }
 
-    protected override void EventListen(AbstractCardEvent e)
+    public override void EventListen(AbstractCardEvent e)
     {
-        if (e.type==AbstractCardEvent.CardEventType.After && e is MoveEvent)
+        if (e is AfterMoveEvent)
         {
-            var move = e as MoveEvent;
+            var move = e as AfterMoveEvent;
             if (e.source == card)
             {
                 card.Buff(card,atkModifierOnAttack,hpModifierOnAttack);
             }
         }
     }
-    public override string Desc()
+    public override string ToString()
     {
         if (hpModifierOnAttack == 0 && atkModifierOnAttack == 0)
             return "";

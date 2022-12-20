@@ -19,7 +19,7 @@ public class EnemyVisual : CardVisual, ISeletableTarget
     public override void UpdateVisual()
     {
         if (nameText) nameText.text = card.name;
-        if (healthText && card.attacked!=null) healthText.text = card.attacked.Desc();
-        if (descText) descText.text = card.Desc();
+        if (healthText && card.attacked!=null) healthText.text = card.attacked.ToString();
+        if (descText) descText.text = card.GetDesc.Invoke();
     }
 }

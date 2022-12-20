@@ -3,6 +3,7 @@
     Monster,
     Spell,
     Enemy,
-    Derive,
+    FriendlyDerive,
+    EnemyDerive,
     Player,
 }

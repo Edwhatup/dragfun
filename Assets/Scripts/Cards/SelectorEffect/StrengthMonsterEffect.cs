@@ -20,7 +20,7 @@ public class StrengthMonsterEffect : CardEffect
     public override void InitTarget()
     {
         TargetCount = 1;
-        CardTargets = new List<CardTarget>() { CardTarget.MonsterOnBoard };
+        CardTargets = new List<CardTarget>() { CardTarget.Monster };
     }
 
     public override void Excute()
@@ -36,7 +36,7 @@ public class StrengthMonsterEffect : CardEffect
         Selections.Instance.CreateArrow(card.visual.transform);
     }
 
-    public override string Desc()
+    public override string ToString()
     {
         return "";
     }

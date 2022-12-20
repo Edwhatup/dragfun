@@ -24,7 +24,7 @@ public class MonsterCardVisual : CardVisual, ISeletableTarget
             if (card.attacked != null)
             {
                 hpText.gameObject.SetActive(true);
-                hpText.text = card.attacked.Desc();
+                hpText.text = card.attacked.ToString();
             }
             else
                 hpText.gameObject.SetActive(false);
@@ -34,11 +34,11 @@ public class MonsterCardVisual : CardVisual, ISeletableTarget
             if (card.attack != null)
             {
                 atkText.gameObject.SetActive(true);
-                atkText.text = card.attack.Desc();
+                atkText.text = card.attack.ToString();
             }
             else atkText.gameObject.SetActive(false);
         }
-        if (descText) descText.text = card.Desc();
+        if (descText) descText.text = card.GetDesc();
     }
     public void UpdateSelectableVisual(bool canSelect)
     {

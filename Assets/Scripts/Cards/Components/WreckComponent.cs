@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[CanRepeat(false)]
 public class WreckComponent : EventListenerComponent
 {
     int pp;
@@ -18,27 +18,22 @@ public class WreckComponent : EventListenerComponent
         this.timer = pp;
     }
     bool protect = false;
-    protected override void EventListen(AbstractCardEvent e)
+    public override void EventListen(AbstractCardEvent e)
     {    
         //忽略使用时的事件
-        if(e is UseEvent use)
+        if(e is BeforeUseEvent use)
         {
             if (use.source == card.source) return;
         }
-        if (e.type == AbstractCardEvent.CardEventType.After) 
+        timer -= e.ppCost;
+        if (timer == 0 && !protect)
         {
-            Debug.Log(e.ppCost);
-            timer -= e.ppCost;
-            if (timer == 0 && !protect)
-            {
-                protect = true;
-                CardManager.Instance.DestoryCardOnBoard(card,card);
-                protect = false;
-            }
+            protect = true;
+            card.field.state = BattleState.HalfDead;
+            protect = false;
         }
     }
-
-    public override string Desc()
+    public override string ToString()
     {
         return $"残留：{timer}";
     }

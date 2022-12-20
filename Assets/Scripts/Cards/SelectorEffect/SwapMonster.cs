@@ -11,7 +11,7 @@ public class SwapMonster : CardEffect
 
     public override bool CanUse()
     {
-        return CardManager.Instance.GetAllCardsOnBoard().Count >= 2;
+        return CardManager.Instance.board.Count >= 2;
     }
 
     public override void Excute()
@@ -29,7 +29,7 @@ public class SwapMonster : CardEffect
         Selections.Instance.CreateArrow(card.visual.transform);
     }
 
-    public override string Desc()
+    public override string ToString()
     {
         return "交换两个随从的位置";
     }
@@ -37,6 +37,6 @@ public class SwapMonster : CardEffect
     public override void InitTarget()
     {
         TargetCount = 2;
-        CardTargets = new List<CardTarget>() { CardTarget.MonsterOnBoard, CardTarget.MonsterOnBoard };
+        CardTargets = new List<CardTarget>() { CardTarget.Monster, CardTarget.Monster };
     }
 }

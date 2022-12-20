@@ -21,7 +21,7 @@ public class SpellCardVisual : CardVisual, ISeletableTarget
     public override void UpdateVisual()
     {
         if (nameText) nameText.text = card.name;
-        if (descText) descText.text = card.Desc();
+        if (descText) descText.text = card.GetDesc();
     }
 
 }

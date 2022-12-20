@@ -5,5 +5,5 @@
 	"maxHandCnt": 10,
 	"initDrawCardCnt": 3,
 	"drawCardCntTurn": 4,
-	"cards": [ "狂战士", "2", "八里湾","1" ,"打击","2"]
+	"cards": [ "狂战士", "2" ,"打击","2"]
 }

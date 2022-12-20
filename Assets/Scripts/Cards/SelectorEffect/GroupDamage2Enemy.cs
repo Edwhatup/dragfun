@@ -5,25 +5,26 @@ using System.Collections.Generic;
 public class GroupDamage2Enemy : CardEffect
 {
     int damage;
-    public GroupDamage2Enemy(string[] paras):base()
+    public GroupDamage2Enemy(string[] paras) : base()
     {
         int.TryParse(paras[0], out damage);
     }
-    public GroupDamage2Enemy(int damage):base()
+    public GroupDamage2Enemy(int damage) : base()
     {
         this.damage = damage;
     }
 
-    public override string Desc()
+    public override string ToString()
     {
         return $"对所有敌人造成{damage}点伤害";
     }
 
     public override void Excute()
     {
-        var enemies = EnemyManager.Instance.GetAllEnemies();
+        var enemies = CardManager.Instance.enemies;
         foreach (var enemy in enemies)
-            enemy.attacked.ApplyDamage(card, damage);
+            if (enemy.field.state != BattleState.Dead)
+                enemy.attacked.ApplyDamage(card, damage);
     }
 
     public override void InitTarget()

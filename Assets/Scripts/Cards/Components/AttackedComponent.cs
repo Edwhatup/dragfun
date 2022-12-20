@@ -1,72 +1,95 @@
-﻿
+﻿using System;
+
+[CanRepeat(false)]
 public class AttackedComponent : CardComponent
 {
-    public int Hp => hp.value;
-    public Ref<int> hp;
-    public int InitMaxHp => initMaxHp.value;
-    public Ref<int> initMaxHp;
-    public int MaxHp => maxHp.value;
-    public Ref<int> maxHp;
-    public int Bless => bless.value;
-    public Ref<int> bless;
+    public int hp;
+    public int initMaxHp;
+    public int maxHp;
+    public int bless=0;
+    public int block = 0;
+    public int taunt;
+    public bool Taunt => taunt > 0;
+    public bool Bless => bless > 0;
+    public int GetAttackedPriority(Card card)
+    {
+
+        return 0;
+
+    }
     public AttackedComponent(int maxHp)
     {
-        this.hp = new Ref<int>(maxHp);
-        this.initMaxHp = new Ref<int>(maxHp);
-        this.maxHp = new Ref<int>(maxHp);
+        this.hp = maxHp;
+        this.initMaxHp = maxHp;
+        this.maxHp = maxHp;
     }
-    public AttackedComponent(int maxHp, int bless) : this(maxHp)
+    //public void Heal(Card source, int delta)
+    //{
+    //    var e=new HealEvent(source,card,delta);
+    //    EventManager.Instance.PassEvent(e);
+    //    this.hp.value += delta;
+    //    if(Hp>MaxHp) hp.value = MaxHp;
+    //    EventManager.Instance.PassEvent(e);
+    //}
+    public DamageInfo ApplyDamage(Card source, int damage)
     {
-        if (bless >= 0)
-            this.bless = new Ref<int>(bless);
-    }
-    public void Heal(Card source, int delta)
-    {
-        var e=new HealEvent(source,card,delta);
-        EventManager.Instance.PassEvent(e);
-        this.hp.value += delta;
-        if(Hp>MaxHp) hp.value = MaxHp;
-        EventManager.Instance.PassEvent(e);
-    }
-    public BattleState ApplyDamage(Card source, int damage)
-    {
-        var e = new DamageEvent(source, card, damage);
-        EventManager.Instance.PassEvent(e);
-        if (bless != null)
+        DamageInfo info = new DamageInfo() 
         {
-            damage = bless.value < damage ? bless.value : damage;
-            bless = null;
-        }
-        this.hp.value -= damage;
-        if (this.Hp <= 0)
-            CardManager.Instance.DestoryCardOnBoard(source,card);
-        EventManager.Instance.PassEvent(e.EventAfter());
-        return card.field.state;
-    }
-    public BattleState TryApplyDamage(Card source, int damage)
-    {
-        if (bless != null && damage > bless.value)
+            initDamage = damage ,
+            beforeState=card.field.state,
+        };
+        var e = new BeforeDamageEvent(source, card, damage);
+        EventManager.Instance.PassEvent(e);
+        if (Bless)
         {
-            damage = bless.value;
+            bless = 0;
+            info.actualDamage = 0;
+            info.isResist = true;
         }
-        if (this.Hp - damage <= 0)
-            return BattleState.Dead;
-        return BattleState.Survive;
+        else
+        {
+            if (block > 0 && block >= damage)
+            {
+                block -= damage;
+                info.actualDamage = 0;
+                info.isResist = true;
+            }
+            else
+            {
+                damage -= block;
+                block = 0;
+                info.actualDamage = damage;
+                info.isResist = true;
+                this.hp -= damage;                
+            }
+        }
+        if (this.hp <= 0)
+        {
+            card.field.state = BattleState.HalfDead;
+        }
+        var ae = new AfterDamageEvent(source, card, info);
+        EventManager.Instance.PassEvent(ae);
+        return info;
     }
 
-    public override void Add(CardComponent component)
+    internal int GetAttackDistance(Card card)
     {
-        throw new System.Exception("不能添加两个受击组件");
+        throw new NotImplementedException();
     }
 
-    public override string Desc()
+    public override string ToString()
     {
-        if(this.Hp==this.MaxHp)
+        string str = this.hp.ToString();
+        if (block == 0)
+            str += $"({block})";
+        if(Bless)
+            str='('+str+")";
+        if(this.hp==this.maxHp)
         {
-            if (this.MaxHp > this.InitMaxHp)
-                return $"<color=green>{this.Hp}</color>";
-            else return $"<color=white>{this.Hp}</color>";
+            if (this.maxHp > this.initMaxHp)
+                return $"<color=green>{str}</color>";
+            else return $"<color=white>{str}</color>";
         }
-        return $"<color=red>{this.Hp}</color>";
+        return $"<color=red>{str}</color>";
     }
 }

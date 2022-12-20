@@ -1,14 +1,14 @@
 ﻿public abstract class AbstractCardEvent
 {
-    public enum CardEventType
+    public bool handled=false;
+    public bool isCounter = false;
+    public void Reset()
     {
-        Before,
-        After,
+        handled = true;
     }
     public Card source = null;
     public Card target = null;
     public int ppCost = 0;
-    public CardEventType type = CardEventType.Before;
     protected AbstractCardEvent(Card source, Card target, int ppCost)
     {
         this.source = source;
@@ -30,10 +30,5 @@
     protected AbstractCardEvent(Card source, Card target) : this(source)
     {
         this.target = target;
-    }
-    public AbstractCardEvent EventAfter()
-    {
-        type = CardEventType.After;
-        return this;
     }
 }

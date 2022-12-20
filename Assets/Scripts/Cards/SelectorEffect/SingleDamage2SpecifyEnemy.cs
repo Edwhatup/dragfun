@@ -12,7 +12,7 @@ public class SingleDamage2SpecifyEnemy : CardEffect
     }
     public override bool CanUse()
     {
-        return EnemyManager.Instance.enemies.Has(e=>e.field.state==BattleState.Survive);    
+        return CardManager.Instance.enemies.Has(e=>e.field.state==BattleState.Survive);    
     }
     public SingleDamage2SpecifyEnemy(int damage)
     {
@@ -35,7 +35,7 @@ public class SingleDamage2SpecifyEnemy : CardEffect
         Selections.Instance.CreateArrow(card.visual.transform);
     }
 
-    public override string Desc()
+    public override string ToString()
     {
         return $"对一名敌人造成{damage}点伤害";
     }

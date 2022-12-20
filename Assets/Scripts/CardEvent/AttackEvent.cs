@@ -1,7 +1,16 @@
-﻿public class AttackEvent : AbstractCardEvent
+﻿public class BeforeAttackEvent : AbstractCardEvent
 {
-    public AttackEvent(Card source, Card target, int ppCost) : base(source, target, ppCost)
+    public BeforeAttackEvent(Card source, Card target) : base(source, target, 0)
     {
 
+    }
+}
+public class AfterAttackEvent : AbstractCardEvent
+{
+
+    public DamageInfo damageInfo;
+    public AfterAttackEvent(Card source, Card target, int ppCost,DamageInfo info) : base(source, target, ppCost)
+    {
+        this.damageInfo = info;
     }
 }

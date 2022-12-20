@@ -13,7 +13,7 @@ public class AddDeadEffect : CardEffect
     public override void InitTarget()
     {
         TargetCount = 1;
-        CardTargets = new List<CardTarget>() { CardTarget.MonsterOnBoard };
+        CardTargets = new List<CardTarget>() { CardTarget.Monster };
     }
     public AddDeadEffect(CardEffect effect) : base()
     {
@@ -22,9 +22,7 @@ public class AddDeadEffect : CardEffect
     public override void Excute()
     {
         var monster = (Targets[0] as CardVisual).card;
-        if (card.dead != null)
-            card.dead.AddDeadEffect(deadEffect);
-        else monster.AddComponnet(new DeadComponent(deadEffect));
+        monster.AddComponnet(new DeadComponent(deadEffect));
     }
 
     public override void OnSelected()
@@ -32,8 +30,8 @@ public class AddDeadEffect : CardEffect
         Selections.Instance.CreateArrow(card.visual.transform);
     }
 
-    public override string Desc()
+    public override string ToString()
     {
-        return $"为一个随从添加死亡效果：{deadEffect.Desc()}";
+        return $"为一个随从添加死亡效果：{deadEffect.ToString()}";
     }
 }

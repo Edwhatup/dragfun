@@ -18,6 +18,7 @@ public class Selections : MonoBehaviour
     public Transform selectEleParent;
 
     GameObject arrow;
+    [HideInInspector]
     public GameObject mouseFollowObject;
 
 
@@ -120,7 +121,6 @@ public class Selections : MonoBehaviour
             }
         }
         UpdateAllSelectableVisual();
-        GameManager.Instance.Refresh();
     }
     //判断当前目标是否可以使target
     private bool CanSelect(ISeletableTarget target)

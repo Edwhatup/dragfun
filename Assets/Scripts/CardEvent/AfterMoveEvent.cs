@@ -1,5 +1,5 @@
 ﻿//随从移动事件
-public class MoveEvent : AbstractCardEvent
+public class AfterMoveEvent : AbstractCardEvent
 {
     //初始cell
     public Cell sourceCell;
@@ -25,7 +25,7 @@ public class MoveEvent : AbstractCardEvent
     {
         return 1 + (target == null ? 0 : 1);
     }
-    public MoveEvent(Card monster, Cell oldCell, Cell newCell, int ppCost) : base(monster, ppCost)
+    public AfterMoveEvent(Card monster, Cell oldCell, Cell newCell, int ppCost) : base(monster, ppCost)
     {
         this.sourceCell = oldCell;
         this.targetCell = newCell;
@@ -33,7 +33,7 @@ public class MoveEvent : AbstractCardEvent
 
 
 
-    public MoveEvent(Card sourceMonster, Card targetMonster, Cell oldCell, Cell newCell, int ppCost) : base(sourceMonster, targetMonster, ppCost)
+    public AfterMoveEvent(Card sourceMonster, Card targetMonster, Cell oldCell, Cell newCell, int ppCost) : base(sourceMonster, targetMonster, ppCost)
     {
         this.sourceCell = oldCell;
         this.targetCell = newCell;

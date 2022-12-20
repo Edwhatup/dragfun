@@ -8,7 +8,7 @@
     /// <summary>
     /// 入场的随从
     /// </summary>
-    MonsterOnBoard = 2,
+    Monster = 2,
     /// <summary>
     /// 格子
     /// </summary>
@@ -31,11 +31,11 @@
     /// <summary>
     /// 入场的所有角色
     /// </summary>
-    CardOnBoard = Enemy | MonsterOnBoard | EnemyDerive | FriendlyDerive,
+    CardOnBoard = Enemy | Monster | EnemyDerive | FriendlyDerive,
     /// <summary>
     /// 所有友方角色
     /// </summary>
-    FriendlyCardOnBoard = MonsterOnBoard | FriendlyDerive,
+    FriendlyCardOnBoard = Monster | FriendlyDerive,
     /// <summary>
     /// 所有敌方角色
     /// </summary>

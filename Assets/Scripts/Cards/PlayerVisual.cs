@@ -17,6 +17,6 @@ public class PlayerVisual : CardVisual
     }
     public override void UpdateVisual()
     {
-        if (healthText) healthText.text = card.attacked.Hp + "/" + card.attacked.MaxHp;
+        if (healthText) healthText.text = card.attacked.hp + "/" + card.attacked.maxHp;
     }
 }

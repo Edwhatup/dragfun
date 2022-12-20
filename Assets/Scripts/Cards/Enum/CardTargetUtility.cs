@@ -12,11 +12,11 @@ public static class CardTargetUtility
         if (card != null)
         {
             if (card.field != null && card.field.state != BattleState.Survive) return false;
-            return (IsTarget(CardTarget.MonsterOnBoard) && card.type == CardType.Monster && card.state == CardState.OnBoard) ||
+            return (IsTarget(CardTarget.Monster) && card.type == CardType.Monster && card.field.cell!=null) ||
                     (IsTarget(CardTarget.Enemy) && card.type == CardType.Enemy) ||
                     (IsTarget(CardTarget.Player) && card.type == CardType.Player) ||
-                    (IsTarget(CardTarget.FriendlyDerive) && card.type == CardType.Derive && card.camp == CardCamp.Friendly) ||
-                    (IsTarget(CardTarget.EnemyDerive) || card.type == CardType.Derive && card.camp == CardCamp.Enemy);
+                    (IsTarget(CardTarget.FriendlyDerive) && card.type == CardType.FriendlyDerive) ||
+                    (IsTarget(CardTarget.EnemyDerive) || card.type == CardType.EnemyDerive);
         }
         else if (IsTarget(CardTarget.Cell))
             return target is Cell;

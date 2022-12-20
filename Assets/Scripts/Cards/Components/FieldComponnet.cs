@@ -1,44 +1,32 @@
-﻿using System.Collections.Generic;
-
+﻿using System;
+using System.Collections.Generic;
+[CanRepeat(false)]
 public class FieldComponnet : CardComponent
 {
     public Cell cell;
     public BattleState state;
-    Ref<int> moveRange;
-    Ref<int> canMove;
-    Ref<int> canSwap;
-    Ref<int> moveCost;
-    Ref<int> moveFree;
+    public int? row;
+    public int? col;
+    public int moveRange;
+    public int canMove;
+    public int canSwap;
+    public bool CanMove => canMove > 0;
+    public bool CanSwap => canSwap > 0;
     public FieldComponnet()
     {
-        this.canMove = new Ref<int>(1);
-        this.canSwap = new Ref<int>(1);
-        this.moveCost = new Ref<int>(1);
-        this.moveRange = new Ref<int>(1);
-        this.moveFree = new Ref<int>(0);
+        this.canMove =1;
+        this.canSwap = 1;
+        this.moveRange = 1;
+        row =null;
+        col = null;
     }
-    public int MoveCost => moveFree.value <= 0 && moveCost.value > 0 ? 1 : 0;
-    public bool CanMove => canMove.value > 0;
-    public int MoveRange => moveRange.value > 0 ? moveRange.value : 0;
-    public bool CanSwap => canSwap.value > 0;
-
-    public override void Add(CardComponent component)
+    public void Summon(Cell targetCell)
     {
-        throw new System.Exception("不能重复添加场地组件");
-    }
-
-    public override string Desc()
-    {
-        switch (state)
-        {
-            case BattleState.Survive:
-                return "存活";
-            case BattleState.Dead:
-                return "死亡";
-            case BattleState.HalfDead:
-                return "濒死";
-            default: throw new System.NotImplementedException();
-        }
+        if (!targetCell.CanSummon()) throw new Exception("无法召唤");
+        AfterSummonEvent afe = new AfterSummonEvent(card, targetCell);
+        targetCell.Summon(card);
+        CardManager.Instance.SummonCard(card);
+        GameManager.Instance.BroadcastCardEvent(afe);
     }
 
     /// <summary>
@@ -46,20 +34,17 @@ public class FieldComponnet : CardComponent
     /// </summary>
     /// <param name="targetCell">目标场地</param>
     /// <param name="active">是否主动发起移动</param>
-    public void Move(Cell targetCell, bool active)
+    public void Move(Cell targetCell, bool active,int cost=0)
     {
         if (!targetCell.CanMove()) return;
-        int cost = active ? MoveCost : 0;
-
-        var e = new MoveEvent(card, targetCell.card, cell, targetCell, cost);
-        GameManager.Instance.BroadcastCardEvent(e);
-
+        int ppcost = active ? cost : 0;
         if (targetCell.card != null)
         {
             var monster = targetCell.card;
             cell.Summon(monster);
         }
         targetCell.Summon(card);
-        GameManager.Instance.BroadcastCardEvent(e.EventAfter());
+        var e = new AfterMoveEvent(card, targetCell.card, cell, targetCell, ppcost);
+        GameManager.Instance.BroadcastCardEvent(e);
     }
 }

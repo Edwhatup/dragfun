@@ -1270,10 +1270,10 @@ GameObject:
   m_Component:
   - component: {fileID: 991594432}
   - component: {fileID: 991594431}
-  - component: {fileID: 991594433}
   - component: {fileID: 991594434}
   - component: {fileID: 991594437}
   - component: {fileID: 991594435}
+  - component: {fileID: 991594433}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1296,8 +1296,7 @@ MonoBehaviour:
   drawDeckTrans: {fileID: 927028173}
   discardDeckTrans: {fileID: 609141988}
   handTrans: {fileID: 1541340195}
-  tombs: []
-  used: []
+  enemyBoardTrans: {fileID: 1703041057}
 --- !u!4 &991594432
 Transform:
   m_ObjectHideFlags: 0
@@ -1321,11 +1320,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 991594430}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1648676118b07b43959bfd2adb5f386, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e6607911984a054aae8fa9dbc3ebafc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 4900000, guid: f0a08c25d7e44be45a7843141d381ba6, type: 3}
-  enemyBoardTrans: {fileID: 1703041057}
 --- !u!114 &991594434
 MonoBehaviour:
   m_ObjectHideFlags: 0

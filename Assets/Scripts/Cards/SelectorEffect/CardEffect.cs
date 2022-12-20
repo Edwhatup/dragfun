@@ -58,9 +58,5 @@ public abstract class CardEffect : CardComponent, ISelector
     {
         return;
     }
-    public override void Add(CardComponent component)
-    {
-        throw new Exception("不支持的操作");
-    }
     public abstract void OnSelected();
 }

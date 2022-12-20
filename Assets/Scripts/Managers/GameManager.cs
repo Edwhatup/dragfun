@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour, IManager
     {
         managers.Add(CardManager.Instance);
         managers.Add(CellManager.Instance);
-        managers.Add(EnemyManager.Instance);
     }
 
     #region IGameTurn 实现

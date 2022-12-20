@@ -1,13 +1,24 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-public class Cell : MonoBehaviour, IPointerDownHandler, ISeletableTarget
+public class Cell : MonoBehaviour, IPointerDownHandler, ISeletableTarget,IPointerEnterHandler,IPointerExitHandler
 {
     public Card card;
     [SerializeField]
     GameObject selectableEdge;
     public int row;
     public int col;
+    bool mouseEnter=false;
+    void Update()
+    {
+        if (mouseEnter)
+        {
+            if (Input.GetMouseButtonDown(0)|| Input.GetMouseButtonUp(0))
+            {
+                Selections.Instance.TryAddSelectTarget(this);
+            }
+        }
+    }
     public void Summon(Card card)
     {
         var field = card.field;
@@ -16,6 +27,8 @@ public class Cell : MonoBehaviour, IPointerDownHandler, ISeletableTarget
             if(field.cell!=null) field.cell.card = null;
             field.cell = this;
             this.card = card;
+            card.field.row = row;
+            card.field.col = col;
             card.visual.transform.SetParent(transform,false);
             card.visual.transform.localPosition= Vector3.zero;
         }
@@ -30,18 +43,24 @@ public class Cell : MonoBehaviour, IPointerDownHandler, ISeletableTarget
     }
     public bool CanMove()
     {
-        return true;
+        return card==null;
     }
     public bool CanSwaped()
     {
-
-        return false;
+        return card.field.CanSwap;
     }
 
     #region IPointerDownHandler实现区域
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        Debug.Log(eventData.pointerId);
+        if (eventData.pointerId == -1)
+            Selections.Instance.TryAddSelectTarget(this);
+    }
     public void OnPointerDown(PointerEventData eventData)
     {
-        Selections.Instance.TryAddSelectTarget(this);
+        if (eventData.pointerId == -1)
+            Selections.Instance.TryAddSelectTarget(this);
     }
     public bool CanSummon()
     {
@@ -70,7 +89,6 @@ public class Cell : MonoBehaviour, IPointerDownHandler, ISeletableTarget
 
     public void PreShowCard(Card card)
     {
-        card.state = CardState.PreUse;
         card.visual.transform.SetParent(transform,false);
         card.visual.transform.localPosition = Vector3.zero;
     }
@@ -78,6 +96,23 @@ public class Cell : MonoBehaviour, IPointerDownHandler, ISeletableTarget
     {
         this.card = null;
     }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log(eventData.pointerId);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        mouseEnter = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        mouseEnter=false;   
+    }
+
+
     #endregion
 
 }

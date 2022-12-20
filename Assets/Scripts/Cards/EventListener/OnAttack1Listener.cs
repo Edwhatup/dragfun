@@ -13,7 +13,7 @@
         this.atkModifierOnAttack = atkModifierOnAttack;
     }
 
-    public override string Desc()
+    public override string ToString()
     {
         if (hpModifierOnAttack == 0 && atkModifierOnAttack == 0) return "";
         if (hpModifierOnAttack == 0) return $"移动时，获得+{hpModifierOnAttack}攻击力";
@@ -21,11 +21,11 @@
         return $"移动时获得+{atkModifierOnAttack}+{hpModifierOnAttack}";
     }
 
-    protected override void EventListen(AbstractCardEvent e)
+    public override void EventListen(AbstractCardEvent e)
     {
-        if (e is AttackEvent)
+        if (e is BeforeAttackEvent)
         {
-            var attack = e as AttackEvent;
+            var attack = e as BeforeAttackEvent;
             if (attack.source == card)
             {
                 card.Buff(card,atkModifierOnAttack, hpModifierOnAttack); 

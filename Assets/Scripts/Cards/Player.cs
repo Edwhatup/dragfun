@@ -17,7 +17,7 @@ public class Player:Card
     public Dictionary<string, int> deck;
     public List<string> cards = new List<string>();
 
-    public Player(string name) : base(name)
+    public Player(string name)
     {
 
     }

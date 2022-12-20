@@ -4,7 +4,7 @@ using System.Linq;
 using System;
 using System.Text;
 
-public class Card
+public abstract class Card
 {
     public string name;
     public CardRarity rarity;
@@ -13,61 +13,13 @@ public class Card
     public CardVisual visual;
     public CardCamp camp;
     public Card source;
-    public CardState state;
+    public Func<string> GetDesc;
     List<CardComponent> components;
-    public string Desc()
-    {
-        StringBuilder sb = new StringBuilder();
-        if (summon != null)
-        {
-            sb.Append(summon.Desc());
-            sb.Append("\n");
-        }
-        if (cast != null)
-        {
-            sb.Append(cast.Desc());
-            sb.Append("\n");
-        }
-        if (listener != null)
-        {
-            sb.Append(listener.GetDesc());
-            sb.Append("\n");
-        }
-        if (dead != null)
-        {
-            sb.Append(dead.Desc());
-            sb.Append("\n");
-        }
-        return sb.ToString();
-    }
-    public DeadComponent dead => GetComponent<DeadComponent>();
+    public ResonanceComponent resonance => GetComponent<ResonanceComponent>();
     public AttackComponent attack => GetComponent<AttackComponent>();
     public AttackedComponent attacked => GetComponent<AttackedComponent>();
-    public EventListenerComponent listener => GetComponent<EventListenerComponent>();
     public FieldComponnet field => GetComponent<FieldComponnet>();
-    public SummonComponent summon => GetComponent<SummonComponent>();
-
-    public SpellCastComponent cast => GetComponent<SpellCastComponent>();
-
-
-    public Card(string name)
-    {
-        this.name = name;
-    }
-
-    public ISelector GetSelector()
-    {
-        if (state == CardState.InHand)
-        {
-            if (summon != null) return summon;
-            if (cast != null) return cast;
-        }
-        else if (state == CardState.OnBoard)
-        {
-            return new MonsterFieldSelector(this);
-        }
-        return null;
-    }
+    public UseComponent use => GetComponent<UseComponent>();
     public T GetComponent<T>() where T : CardComponent
     {
         return components.Find((c) => c.GetType() == typeof(T) || c.GetType().IsSubclassOf(typeof(T))) as T;
@@ -75,13 +27,21 @@ public class Card
     public void AddComponnet(CardComponent component)
     {
         if (components == null) components = new List<CardComponent>();
-        var c = components.Find(i => i.GetType() == component.GetType());
-        if (c == null)
+        if (CanRepeatAttribute.CanRepeat(component))
         {
             components.Add(component);
             component.card = this;
         }
-        else c.Add(component);
+        else
+        {
+            var c = components.Find(i => i.GetType() == component.GetType());
+            if (c == null)
+            {
+                components.Add(component);
+                component.card = this;
+            }
+            else throw new Exception($"重复添加不可重复组件{component.GetType().Name}");
+        }
     }
 
     public void RemoveComponnent<T>() where T : CardComponent
@@ -90,16 +50,14 @@ public class Card
     }
     public void Buff(Card source, int atk, int hp)
     {
-        BuffEvent buff = new BuffEvent(source, this);
-        EventManager.Instance.PassEvent(buff);
         if (hp != 0)
         {
-            this.attacked.hp.value += hp;
-            this.attacked.maxHp.value += hp;
+            this.attacked.hp += hp;
+            this.attacked.maxHp += hp;
         }
-        if (atk != 0) this.attack.atk.value += atk;
-        EventManager.Instance.PassEvent(buff.EventAfter());
-
+        if (atk != 0) this.attack.atk += atk;
+        AfterBuffEvent buff = new AfterBuffEvent(source, this);
+        EventManager.Instance.PassEvent(buff);
     }
     public List<T> GetComponnets<T>() where T : CardComponent
     {
@@ -107,16 +65,44 @@ public class Card
                 .Select(c => c as T)
                 .ToList();
     }
-    public override string ToString()
-    {
-        return name;
-    }
-
     public void Init()
     {
-        foreach(var component in components)
+        foreach (var component in components)
         {
             component.Init();
         }
     }
+    public void AddTag(string name, int times)
+    {
+        if (tags.ContainsKey(name))
+        {
+            tags[name] += times;
+            if (tags[name] < 0) tags[name] = 0;
+        }
+        else tags[name] = times;
+    }
+    public bool ContainsTag(string tag)
+    {
+        return tags.ContainsKey(tag) && tags[tag] > 0;
+    }
+    public void ClearTag(string tag)
+    {
+        if (tags.ContainsKey(tag))
+            tags[tag] = 0;
+    }
+    public Dictionary<string, int> tags = new Dictionary<string, int>();
+    //public class CardTag
+    //{
+    //    string name;
+    //    bool canRepeat;
+    //    int times;
+
+    //    public CardTag(string name, bool canRepeat, int times)
+    //    {
+    //        this.name = name;
+    //        this.canRepeat = canRepeat;
+    //        this.times = times;
+    //    }
+    //}
+    //public List<CardTag> tags = new List<CardTag>();
 }

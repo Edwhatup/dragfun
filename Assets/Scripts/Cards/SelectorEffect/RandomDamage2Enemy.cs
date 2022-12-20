@@ -12,14 +12,14 @@ public class RandomDamage2Enemy : CardEffect
         this.damage = damage;
     }
 
-    public override string Desc()
+    public override string ToString()
     {
         return $"随机对一名敌人造成{damage}点伤害";
     }
 
     public override void Excute()
     {
-        var enemy = EnemyManager.Instance.GetRandomEnemy();
+        var enemy = CardManager.Instance.enemies.GetRandomItem();
         enemy.attacked.ApplyDamage(card, damage);
     }
 
