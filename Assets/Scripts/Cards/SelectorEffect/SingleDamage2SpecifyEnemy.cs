@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 /// <summary>
 /// 对指定敌人造成单次伤害
 /// </summary>
@@ -12,6 +13,7 @@ public class SingleDamage2SpecifyEnemy : CardEffect
     }
     public override bool CanUse()
     {
+        Debug.Log(CardManager.Instance.enemies.Count);  
         return CardManager.Instance.enemies.Has(e=>e.field.state==BattleState.Survive);    
     }
     public SingleDamage2SpecifyEnemy(int damage)

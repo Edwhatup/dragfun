@@ -139,14 +139,14 @@ public class CardManager : MonoBehaviour, IManager
             enemy.field.col = enemies.Count;
             enemies.Add(enemy);
             cards.Add(enemy);
-            enemy.visual.transform.SetParent(enemyBoardTrans);
+            enemy.visual.transform.SetParent(enemyBoardTrans,false);
         }
     }
 
 
     public void SummonCard(Card card)
     {
-        board.Add(card);
+        hand.Transfer(board, card);
         if (!cards.Contains(card)) cards.Add(card);
         used.Add(card);
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 [CanRepeat(false)]
+[RequireCardComponent(typeof(FieldComponnet))]
 public class ResonanceComponent : EventListenerComponent
 {
     List<CardEffect> effects;
@@ -21,6 +22,7 @@ public class ResonanceComponent : EventListenerComponent
             var se=e as AfterSummonEvent;
             if(se.source.resonance!=null)
             {
+
                 Excute();
             }            
         }

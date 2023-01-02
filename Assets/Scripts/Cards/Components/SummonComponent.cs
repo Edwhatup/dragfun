@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
+
 [CanRepeat(false)]
 public class SummonComponent : CardComponent, ISelector
 {
@@ -8,13 +10,15 @@ public class SummonComponent : CardComponent, ISelector
 
     public List<ISeletableTarget> Targets => targets;
     List<ISeletableTarget> targets = new List<ISeletableTarget>();
-    public SummonComponent(CardEffect effect = null)
+    public SummonComponent(Card card, CardEffect effect = null)
     {
+        this.card = card;
+        if(effect!=null) effect.card = card;
         this.effect = effect;
+
     }
     public void Summon(Cell targetCell, bool active)
     {
-        var se = new AfterSummonEvent(card, targetCell);
         card.field.Summon(targetCell);
     }
 

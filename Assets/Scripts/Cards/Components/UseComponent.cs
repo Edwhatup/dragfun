@@ -45,7 +45,7 @@ public class UseComponent : CardComponent,ISelector
 
     public bool CanUse()
     {
-        return cost > GameManager.Instance.pp && selector.CanUse();
+        return cost <= GameManager.Instance.pp && selector.CanUse();
     }
 
     public void Excute()
@@ -63,7 +63,7 @@ public class UseComponent : CardComponent,ISelector
 
     public ISelector GetNextSelector()
     {
-        return selector;
+        return selector.GetNextSelector();
     }
 
     public void CancleSelect()

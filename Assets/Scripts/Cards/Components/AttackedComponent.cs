@@ -1,6 +1,7 @@
 ﻿using System;
 
 [CanRepeat(false)]
+[RequireCardComponent(typeof(FieldComponnet))]
 public class AttackedComponent : CardComponent
 {
     public int hp;
@@ -13,8 +14,35 @@ public class AttackedComponent : CardComponent
     public bool Bless => bless > 0;
     public int GetAttackedPriority(Card card)
     {
+        //敌人对我方单位的优先性计算
+        if(this.card.camp==CardCamp.Friendly && card.camp==CardCamp.Enemy)
+        {
+            int res = 0;
+            //我方单位有嘲讽
+            if (Taunt) res += 1000;
+            switch (card.type)
+            {
+                //敌人攻击最近的敌人，从上到下 从左到右
+                case CardType.Enemy:
+                    res += this.card.field.row.Value * 10 + this.card.field.col.Value;
+                    break;
+                //敌人衍生物攻击距离最近的敌人
+                case CardType.EnemyDerive:
+                    res+= Math.Max(Math.Abs(card.field.row.Value - this.card.field.row.Value), Math.Abs(card.field.col.Value - this.card.field.col.Value));
+                    break;
 
-        return 0;
+            }
+            return res;
+        }
+        //我方单位对敌方的优先性计算
+        else if(this.card.camp == CardCamp.Enemy && card.camp == CardCamp.Friendly)
+        {
+            //优先攻击有嘲讽的随从
+            if (Taunt)
+                return 1000;
+            else return 1;
+        }
+        throw new Exception("错误的目标");
 
     }
     public AttackedComponent(int maxHp)
@@ -72,9 +100,34 @@ public class AttackedComponent : CardComponent
         return info;
     }
 
-    internal int GetAttackDistance(Card card)
+    public int GetAttackDistance(Card card)
     {
-        throw new NotImplementedException();
+        if(this.card.camp==CardCamp.Friendly)
+        {
+            switch(card.type)
+            {
+                case CardType.Enemy:
+                    return card.field.row.Value+1;
+                case CardType.EnemyDerive:
+                    return Math.Max(Math.Abs(card.field.row.Value - this.card.field.row.Value), Math.Abs(card.field.col.Value - this.card.field.col.Value));
+                default:
+                    throw new Exception("错误的目标");
+            }
+        }
+        else if (this.card.camp == CardCamp.Enemy)
+        {
+            switch(this.card.type)
+            {
+                case CardType.Enemy:
+                    return card.field.row.Value+1;
+                case CardType.EnemyDerive:
+                    return Math.Max(Math.Abs(card.field.row.Value - this.card.field.row.Value), Math.Abs(card.field.col.Value - this.card.field.col.Value));
+                default:
+                    throw new Exception("错误的目标");
+            }
+        }
+        throw new Exception("错误的目标");
+
     }
 
     public override string ToString()

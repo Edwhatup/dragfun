@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[CanRepeat(false)]
 public class ActionComponent : CardComponent, ISelector
 {
     List<ISeletableTarget> targets = new List<ISeletableTarget>();

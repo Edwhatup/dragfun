@@ -11,8 +11,8 @@ public class Spike:Card
         type = CardType.Monster;
         AddComponnet(new AttackComponent(3) { pierce=1});
         AddComponnet(new AttackedComponent(2));
-        AddComponnet(new FieldComponnet());
-        AddComponnet(new UseComponent(new SummonComponent(), 1));
+        AddComponnet(new ActionComponent());
+        AddComponnet(new UseComponent(new SummonComponent(this), 1));
         GetDesc=() => "纵贯。";
     }
 }

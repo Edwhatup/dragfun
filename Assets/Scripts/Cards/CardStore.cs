@@ -48,7 +48,7 @@ public class CardStore : MonoBehaviour
         {
             if(type.IsSubclassOf(ct))
             {
-                var ctor = type.GetConstructor(new Type[] { });
+                var ctor = type.GetConstructor(Type.EmptyTypes);
                 if(ctor!= null)
                 {
                     Card card = (Card)ctor.Invoke(null);

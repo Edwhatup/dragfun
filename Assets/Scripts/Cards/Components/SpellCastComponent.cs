@@ -11,11 +11,13 @@ public class SpellCastComponent : CardComponent, ISelector
 
     public List<ISeletableTarget> Targets => targets;
     List<ISeletableTarget> targets = new List<ISeletableTarget>();
-    public SpellCastComponent(int wreckAge, CardEffect effect, bool consume = false)
+    public SpellCastComponent(Card card, int wreckAge, CardEffect effect, bool consume = false)
     {
+        this.card = card;
         this.wreckAge = wreckAge;
         this.consume = consume ? 1 : 0;
         this.effect = effect;
+        effect.card = card;
     }
     public void Cast(Cell targetCell, bool active)
     {

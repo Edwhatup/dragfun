@@ -11,8 +11,8 @@ public class PalaDin:Card
         type = CardType.Monster; 
         AddComponnet(new AttackComponent(1));
         AddComponnet(new AttackedComponent(4) { bless=1,block=4});
-        AddComponnet(new FieldComponnet());
-        AddComponnet(new UseComponent(new SummonComponent(), 1));
+        AddComponnet(new ActionComponent());
+        AddComponnet(new UseComponent(new SummonComponent(this), 1));
         GetDesc = () => "";
     }
 }

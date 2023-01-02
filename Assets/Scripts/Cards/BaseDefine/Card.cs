@@ -20,30 +20,44 @@ public abstract class Card
     public AttackedComponent attacked => GetComponent<AttackedComponent>();
     public FieldComponnet field => GetComponent<FieldComponnet>();
     public UseComponent use => GetComponent<UseComponent>();
+    public ActionComponent action => GetComponent<ActionComponent>();
     public T GetComponent<T>() where T : CardComponent
     {
         return components.Find((c) => c.GetType() == typeof(T) || c.GetType().IsSubclassOf(typeof(T))) as T;
     }
     public void AddComponnet(CardComponent component)
     {
+
+
         if (components == null) components = new List<CardComponent>();
         if (CanRepeatAttribute.CanRepeat(component))
         {
-            components.Add(component);
-            component.card = this;
+            AddComponentWithPreComponent(component);
         }
         else
         {
             var c = components.Find(i => i.GetType() == component.GetType());
             if (c == null)
             {
-                components.Add(component);
-                component.card = this;
+                AddComponentWithPreComponent(component);
             }
-            else throw new Exception($"重复添加不可重复组件{component.GetType().Name}");
+            else return;
+            //else throw new Exception($"重复添加不可重复组件{component.GetType().Name}");
         }
     }
-
+    private void AddComponentWithPreComponent(CardComponent component)
+    {
+        if(components.Find(i => i.GetType() == component.GetType()) == null)
+        {
+            var preCom = RequireCardComponentAttribute.GetPreComponents(component.GetType());
+            foreach(var c in preCom)
+            {
+                AddComponnet(c);
+            }
+        }
+        components.Add(component);
+        component.card = this;       
+    }
     public void RemoveComponnent<T>() where T : CardComponent
     {
         components.RemoveAll(c => c.GetType() == typeof(T));

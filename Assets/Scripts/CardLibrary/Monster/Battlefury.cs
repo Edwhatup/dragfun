@@ -11,8 +11,8 @@ public class Battlefury:Card
         type = CardType.Monster;
         AddComponnet(new AttackedComponent(2));
         AddComponnet(new AttackComponent(3) { sweep=1});
-        AddComponnet(new FieldComponnet());
-        AddComponnet(new UseComponent(new SummonComponent(), 1));
+        AddComponnet(new ActionComponent());
+        AddComponnet(new UseComponent(new SummonComponent(this), 1));
         GetDesc = () => "横扫。";
     }
 }

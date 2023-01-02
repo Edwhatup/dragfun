@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 [CanRepeat(true)]
+[RequireCardComponent(typeof(FieldComponnet))]
 public class DeadComponent : CardComponent
 {
     CardEffect deadEffect;

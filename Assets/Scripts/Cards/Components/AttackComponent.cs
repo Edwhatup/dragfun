@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 [CanRepeat(false)]
+[RequireCardComponent(typeof(FieldComponnet))]
 public class AttackComponent : CardComponent
 {
     public int atkRange=1;
