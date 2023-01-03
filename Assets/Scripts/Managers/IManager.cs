@@ -1,14 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-namespace Core
+﻿public interface IManager
 {
-    public interface IManager
-    {
-        void Refresh();
-        void GameStart();
-        void PlayerAction();
-        void EnemyAction();
-        void PlayDraw();
-    }
+    void Refresh();
+    void GameStart();
+    void BroadcastCardEvent(AbstractCardEvent cardEvent);
 }

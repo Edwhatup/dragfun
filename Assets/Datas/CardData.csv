@@ -8,4 +8,12 @@ monster,OnMove1,狂战士,2,1,1,0
 monster,MoveCannon1,地精炮手,1,1,5,10
 monster,ExtremeGeneral,极限将军,1,1,2,2
 #,id,name,params
+<<<<<<< HEAD
 spell,SingleDamage,打击,7
+=======
+spell,SingleDamage,打击,5
+spell,Swap,设身处地,
+spell,GroupDamage,炸弹,2
+spell,Strengthen,祝福,2,2
+spell,AddDead,易燃,3
+>>>>>>> dev0.4_zc

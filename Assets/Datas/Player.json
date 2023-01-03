@@ -1,0 +1,9 @@
+{
+	"name": " ",
+	"maxHp": 10,
+	"hp": 10,
+	"maxHandCnt": 10,
+	"initDrawCardCnt": 3,
+	"drawCardCntTurn": 4,
+	"cards": [ "狂战士", "2" ,"打击","2"]
+}

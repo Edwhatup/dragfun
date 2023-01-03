@@ -1,165 +1,187 @@
-﻿using CardEvent;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Card;
-using Card.Monster;
-using Card.Spell;
-using Visual;
 
-namespace Core
+public class CardManager : MonoBehaviour, IManager
 {
-    public class CardManager : MonoSingleton<CardManager>, IManager
+    public static CardManager Instance { get; private set; }
+
+
+    [SerializeField]
+    RectTransform drawDeckTrans;
+    [SerializeField]
+    RectTransform discardDeckTrans;
+    [SerializeField]
+    RectTransform handTrans;
+    [SerializeField]
+    RectTransform enemyBoardTrans;
+
+
+
+    public List<Card> cards = new List<Card>();
+    public List<Card> enemies = new List<Card>();
+
+    public List<Card> discardDeck = new List<Card>();
+    public List<Card> drawDeck = new List<Card>();
+    public List<Card> hand = new List<Card>();
+    public List<Card> board = new List<Card>();
+    public List<Card> consume = new List<Card>();
+    public List<Card> used = new List<Card>();
+
+    public List<Card> friendlyTombs = new List<Card>();
+    public List<Card> enemyTombs = new List<Card>();
+
+
+    void Awake()
     {
-        [SerializeField]
-        RectTransform deckTrans;
-        [SerializeField]
-        RectTransform handTrans;
-        [SerializeField]
-        GameObject cardPrefab;
-        public Dictionary<PlayerCard, PlayerCardVisual> cardObjects = new Dictionary<PlayerCard, PlayerCardVisual>();
-        public List<PlayerCard> deck = new List<PlayerCard>();
-
-        public void UseSpell(SpellCard spell)
+        if (Instance == null)
         {
-            if (hand.Contains(spell))
-            {
-                spell.state = PlayerCardState.Intomb;
-                hand.Remove(spell);
-                tombs.Add(spell);
-                Destroy(cardObjects[spell].gameObject);
-                cardObjects.Remove(spell);
-            }
-            Refresh();
+            Instance = this;
+            EventManager.Instance.eventListen += BroadcastCardEvent;
+            DontDestroyOnLoad(gameObject);
         }
+        else Destroy(gameObject);
+    }
 
-        public List<PlayerCard> hand = new List<PlayerCard>();
-        public List<PlayerCard> board = new List<PlayerCard>();
-        public List<PlayerCard> tombs = new List<PlayerCard>();
-        #region IGameTurn实现区域
-        public void EnemyAction()
-        {
+    public void AddNewCard2Board(Card wreckCard)
+    {
+        cards.Add(wreckCard);
+        board.Add(wreckCard);
+    }
 
-        }
+    void OnDestory()
+    {
+        EventManager.Instance.eventListen -= BroadcastCardEvent;
+    }
+    #region IGameTurn实现区域
 
-        public void GameStart()
-        {
-            ReadDeck();
-            ShuffletDeck();
-            DrawCard(Player.Instance.initDrawCardCnt);
-            Refresh();
-        }
+    public void GameStart()
+    {
+        ReadDeck();
+        ReadEnemy();
+        drawDeck.Shuffle();
+        DrawCard(Player.Instance.initDrawCardCnt);
+        Refresh();
+    }
 
-        public void PlayerAction()
+    public void UseCard(Card card)
+    {
+        if(card.type==CardType.Spell)
         {
-
-        }
-        public void PlayDraw()
-        {
-            DrawCard(Player.Instance.drawCardCntTurn);
-            Refresh();
-        }
-        public void DrawCard(int cnt)
-        {
-            for (int i = 0; i < cnt; i++)
-            {
-                if (deck.Count == 0) break;
-                if (hand.Count == Player.Instance.maxHandCnt) break;
-                var card = deck[0];
-                card.state = PlayerCardState.InHand;
-                hand.Add(card);
-                deck.RemoveAt(0);
-            }
-        }
-        //后续应该做成对卡牌情况变化的相应事件
-        public void Refresh()
-        {
-            foreach (var card in deck)
-            {
-                if (!cardObjects.ContainsKey(card))
-                {
-                    var visual = CreateCardObject(deckTrans, card);
-                    cardObjects.Add(card, visual);
-                }
-                cardObjects[card].UpdateVisual();
-            }
-            foreach (var card in hand)
-            {
-                if (!cardObjects.ContainsKey(card))
-                {
-                    var visual = CreateCardObject(handTrans, card);
-                    cardObjects.Add(card, visual);
-                }
-                cardObjects[card].UpdateVisual();
-            }
-            foreach (var card in board)
-            {
-                var monster = card as MonsterCard;
-                if (monster.battleState == BattleState.Dead)
-                {
-                    Destroy(cardObjects[monster].gameObject);
-                    cardObjects.Remove(card);
-                    board.Remove(monster);
-                    tombs.Add(monster);
-                    monster.state = PlayerCardState.Intomb;
-                }
-                else
-                    cardObjects[card].UpdateVisual();
-            }
-
-
-            LayoutRebuilder.ForceRebuildLayoutImmediate(handTrans);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(deckTrans);
-        }
-        #endregion
-        public void Summon(MonsterCard card)
-        {
-            if (hand.Contains(card))
-            {
-                hand.Remove(card);
-                board.Add(card);
-                card.state = PlayerCardState.OnBoard;
-            }
-        }
-
-        //根据玩家信息初始化卡组
-        private void ReadDeck()
-        {
-            deck.Clear();
-            foreach (var item in Player.Instance.deck)
-            {
-                for (int i = 0; i < item.Value; i++)
-                {
-                    var card = PlayerCardStore.Instance.CopyCard(item.Key) as PlayerCard;
-                    deck.Add(card);
-                    var listeners = EventListenerAttribute.GetListener(card);
-                    foreach (var listener in listeners)
-                    {
-                        BattleManager.cardEventListeners += listener;
-                    }
-                }
-            }
-        }
-        //牌库洗牌
-        private void ShuffletDeck()
-        {
-            for (int i = 0; i < deck.Count; i++)
-            {
-                int rad = Random.Range(0, deck.Count);
-                var temp = deck[i];
-                deck[i] = deck[rad];
-                deck[rad] = temp;
-            }
-        }
-
-        private PlayerCardVisual CreateCardObject(Transform parent, PlayerCard card)
-        {
-            var go = Instantiate(cardPrefab, parent);
-            PlayerCardVisual visual = go.GetComponent<PlayerCardVisual>();
-            visual.card = card;
-            return visual;
+            if (card.use.ConSume)
+                hand.Transfer(consume, card);
+            else hand.Transfer(discardDeck, card);
         }
     }
 
+    public void DrawCard(int cnt)
+    {
+        for (int i = 0; i < cnt; i++)
+        {
+            if (drawDeck.Count == 0)
+            {
+                if (discardDeck.Count == 0) return;
+                discardDeck.Shuffle();
+                discardDeck.TransferAll(drawDeck);
+            }
+            if (hand.Count == Player.Instance.maxHandCnt) break;
+            drawDeck.Transfer(hand, drawDeck[0]);
+            Refresh();
+        }
+    }
+    public void Refresh()
+    {
+
+        foreach (Card card in hand)
+            card.visual.transform.SetParent(handTrans.parent, false);
+        foreach (Card card in hand)
+            card.visual.transform.SetParent(handTrans, false);
+        foreach (Card card in discardDeck)
+            card.visual.transform.SetParent(discardDeckTrans, false);
+        foreach (Card card in drawDeck)
+            card.visual.transform.SetParent(drawDeckTrans, false);
+        foreach (var card in cards)
+            card.visual.UpdateVisual();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(handTrans);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(drawDeckTrans);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(discardDeckTrans);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(enemyBoardTrans);
+    }
+    #endregion
+    //根据玩家信息初始化卡组
+    private void ReadDeck()
+    {
+        drawDeck.Clear();
+        foreach (var item in Player.Instance.deck)
+        {
+            for (int i = 0; i < item.Value; i++)
+            {
+                var card = CardStore.Instance.CreateCard(item.Key);
+                card.camp = CardCamp.Friendly;
+                drawDeck.Add(card);
+                cards.Add(card);
+            }
+        }
+    }
+    private void ReadEnemy()
+    {
+        string[] dataRow = DataManager.Instance.CurrentEnemyData.Split('\n');
+        foreach (var row in dataRow)
+        {
+            string[] rowArray = row.Split(',');
+            if (rowArray.Length < 2 || rowArray[0] == "name")
+                continue;
+            var enemy = CardStore.Instance.CreateCard(rowArray[0]);
+            enemy.camp = CardCamp.Enemy;
+            enemy.field.row = -1;
+            enemy.field.col = enemies.Count;
+            enemies.Add(enemy);
+            cards.Add(enemy);
+            enemy.visual.transform.SetParent(enemyBoardTrans,false);
+        }
+    }
+
+
+    public void SummonCard(Card card)
+    {
+        hand.Transfer(board, card);
+        if (!cards.Contains(card)) cards.Add(card);
+        used.Add(card);
+    }
+
+    public void DestoryCardOnBoard(Card card)
+    {
+        card.field.cell.RemoveCard();
+        if (card.type == CardType.Monster)
+            board.Transfer(discardDeck, card);
+        if (card.camp == CardCamp.Friendly)
+            board.Transfer(friendlyTombs, card);
+        else
+            board.Transfer(enemyTombs, card);
+    }
+
+
+
+    public void BroadcastCardEvent(AbstractCardEvent cardEvent)
+    {
+        foreach (var card in drawDeck)
+            BroadcastCardEvent2Card(card, cardEvent);
+        foreach (var card in hand)
+            BroadcastCardEvent2Card(card, cardEvent);
+        foreach (var card in board)
+            BroadcastCardEvent2Card(card, cardEvent);
+        foreach (var card in enemies)
+            BroadcastCardEvent2Card(card, cardEvent);
+        foreach (var card in discardDeck)
+            BroadcastCardEvent2Card(card, cardEvent);
+    }
+    private void BroadcastCardEvent2Card(Card card, AbstractCardEvent cardEvent)
+    {
+        foreach(var l in card.GetComponnets<EventListenerComponent>())
+        {
+            l.EventListen(cardEvent);
+        }
+    }
 }

@@ -1,12 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-namespace Visual
+﻿public interface IUpdateVisual
 {
-
-    public interface IUpdateVisual
-    {
-        void UpdateVisual();
-    }
-
+    void UpdateVisual();
 }

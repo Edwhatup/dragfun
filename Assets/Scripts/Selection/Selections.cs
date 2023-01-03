@@ -1,131 +1,150 @@
-﻿using Card;
-using Card.Spell;
-using Core;
-using System.Collections;
+﻿using Core;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Visual;
 
-namespace Seletion
+public class Selections : MonoBehaviour
 {
-    public class Selections : MonoSingleton<Selections>
+    enum State
     {
-        [SerializeField]
-        GameObject arrowPrefab;
-        [SerializeField]
-        Transform arrowParentTrans;
-        GameObject arrow;
-        GameObject mouseFollowObject;
+        UseCard,
+        ControlMonster,
+    }
+    State state;
+    public static Selections Instance { get; private set; }
 
-        public List<ISeletable> selections = new List<ISeletable>();
-        List<ISeletable> allCanSelections = new List<ISeletable>();
-        public bool HasSelectObject => selections.Count > 0;
-        public ISeletableSource Selection => HasSelectObject ? selections[0] as ISeletableSource : null;
-        public PlayerCard SourceCard => HasSelectObject ? (selections[0] as PlayerCardVisual)?.card : null;
-        public int NextSelectIndex => selections.Count - 1;
-        public bool HasFinishSelect => Selection != null && NextSelectIndex >= Selection.TargetCount;
+    [SerializeField]
+    GameObject arrowPrefab;
+    public Transform selectEleParent;
+
+    GameObject arrow;
+    [HideInInspector]
+    public GameObject mouseFollowObject;
 
 
-        #region ISelectable 注册相关方法
-        public void AddCanSelection(ISeletable seletable)
-        {
-            if (!allCanSelections.Contains(seletable))
-            {
-                allCanSelections.Add(seletable);
-                seletable.UpdateSelectableVisual();
-            }
-        }
-        public void RemoveCanSelection(ISeletable seletable)
-        {
-            if (allCanSelections.Contains(seletable))
-                allCanSelections.Remove(seletable);
-        }
-        #endregion
+    List<ISeletableTarget> allTargets = new List<ISeletableTarget>();
+    public List<ISelector> selectors = new List<ISelector>();
+    public List<ISeletableTarget> Targets => Selector.Targets;
+    public bool FinishSelect => Selector != null && Selector.Targets.Count >= Selector.TargetCount;
 
-        void Update()
+    public Card source;
+    public ISelector Selector => selectors.Back();
+    #region ISelectable 注册相关方法
+    public void AddCanSelection(ISeletableTarget seletable)
+    {
+        if (seletable == null) return;
+        if (!allTargets.Contains(seletable))
         {
-            if (mouseFollowObject)
-            {
-                Vector2 vector2 = Input.mousePosition;
-                mouseFollowObject.transform.position = vector2;
-            }
-            if (Input.GetMouseButton(1))
-            {
-                Clear();
-            }
-        }
-        public void Clear()
-        {
-            DestoryArrow();
-            mouseFollowObject = null;
-            selections.Clear();
-            UpdateAllSelectableVisual();
-        }
-        public void AddSelectionSource(ISeletableSource source)
-        {
-            selections.Add(source);
-            if (source.TargetCount == 1)
-            {
-                var startTrans = (source as MonoBehaviour).transform;
-                CreateArrow(startTrans);                
-            }
-            else if (source.TargetCount == 0)
-                mouseFollowObject = (source as MonoBehaviour).gameObject;
-            UpdateAllSelectableVisual();
-        }
-
-        public void AddSelection(ISeletable item)
-        {
-            selections.Add(item);
-            if(HasFinishSelect)
-            {
-                if (SourceCard is SpellCard)
-                    BattleManager.CastSpell();
-                else
-                {
-                    switch (item.GetType().Name)
-                    {
-                        case nameof(PlayerCardVisual):
-                            BattleManager.SwapMonster();
-                            break;
-                        case nameof(Cell):
-                            if (SourceCard.state == PlayerCardState.OnBoard)
-                                BattleManager.MoveMonster();
-                            else
-                                BattleManager.SummonMonster();
-                            break;
-                        case nameof(EnemyVisual):
-                            BattleManager.MonsterAttack();
-                            break;
-                    }
-                }
-                Clear(); 
-                GameManager.Instance.Refresh();
-            }
-
-            UpdateAllSelectableVisual();
-        }
-        public bool CanSelect(ISeletable seletable)
-        {
-            if (!HasSelectObject && ((seletable as ISeletableSource)?.CanSelect()??false)) return true;
-            return HasSelectObject && Selection.JudgeCanSelect(seletable);
-        }
-
-        private void CreateArrow(Transform startTrans)
-        {
-            arrow = GameObject.Instantiate(arrowPrefab, startTrans.position, Quaternion.identity, arrowParentTrans);
-        }
-        private void DestoryArrow()
-        {
-            Destroy(arrow);
-        }
-        public void UpdateAllSelectableVisual()
-        {
-            foreach (var selection in allCanSelections)
-            {
-                selection.UpdateSelectableVisual();
-            }
+            allTargets.Add(seletable);
+            seletable.UpdateSelectableVisual(CanSelect(seletable));
         }
     }
 
+
+    public void RemoveCanSelection(ISeletableTarget seletable)
+    {
+        if (allTargets.Contains(seletable))
+            allTargets.Remove(seletable);
+    }
+    #endregion
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+            Destroy(gameObject);
+    }
+    void Update()
+    {
+        if (mouseFollowObject)
+        {
+            Vector2 vector2 = Input.mousePosition;
+            mouseFollowObject.transform.position = vector2;
+        }
+        if (Input.GetMouseButton(1))
+        {
+            Clear();
+        }
+    }
+    public void Clear(bool isCancled = true)
+    {
+        DestoryArrow();
+        mouseFollowObject = null;
+        if(isCancled)
+        {
+            foreach (var s in selectors)
+                s.CancleSelect();
+        }
+        selectors.Clear();
+        UpdateAllSelectableVisual();
+        GameManager.Instance.Refresh();
+    }
+
+    public bool TryAddSelector(ISelector selector)
+    {
+        if (selector == null) return false;
+        Debug.Log(selector.GetType().Name); 
+        if (selectors.Count == 0 && selector.CanUse())
+        {
+            selectors.Add(selector);
+            selector.OnSelected();
+            UpdateAllSelectableVisual();
+            GameManager.Instance.Refresh();
+            return true;
+        }
+        return false;
+    }
+    public void TryAddSelectTarget(ISeletableTarget target)
+    {
+        if (!CanSelect(target)) return;
+        Debug.Log(target.GetType().Name);
+        Targets.Add(target);
+        if (FinishSelect)
+        {
+            var s = Selector.GetNextSelector();
+            if (s != null && s.CanUse())
+            {
+                selectors.Add(s);
+                DestoryArrow();
+                mouseFollowObject = null;
+                s.OnSelected();
+            }
+            else
+            {
+                foreach (var item in selectors)
+                    item.Excute();
+                Clear(false);
+                GameManager.Instance.Refresh();
+            }
+        }
+        UpdateAllSelectableVisual();
+    }
+    //判断当前目标是否可以使target
+    private bool CanSelect(ISeletableTarget target)
+    {
+        if (target == null) return false;
+        if (Selector == null || Selector==target || Targets.Contains(target)) return false; 
+        int i = Targets.Count;
+        return i < Selector.TargetCount &&
+                CardTargetUtility.CardIsTarget(target, Selector.CardTargets[i]) &&
+                Selector.CanSelectTarget(target, i);
+    }
+    public void CreateArrow(Transform startTrans)
+    {
+        arrow = GameObject.Instantiate(arrowPrefab, startTrans.position, Quaternion.identity, selectEleParent);
+    }
+    public void DestoryArrow()
+    {
+        Destroy(arrow);
+    }
+    public void UpdateAllSelectableVisual()
+    {
+        foreach (var selection in allTargets)
+        {
+            selection.UpdateSelectableVisual(CanSelect(selection));
+        }
+    }
 }

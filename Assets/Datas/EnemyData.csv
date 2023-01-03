@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 id,name,hp,params
 PlainEnemy,地精1,7,
 PlainEnemy,地精2,18,
 PlainEnemy,地精3,9
+=======
+name,hp,params
+地精,50,5,2
+>>>>>>> dev0.4_zc
