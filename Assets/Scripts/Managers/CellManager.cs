@@ -140,6 +140,14 @@ public class CellManager : MonoBehaviour,IManager
         return Mathf.Abs(cell1.col - cell2.col);
     }
 
+    public int GetRowCount()
+    {
+        return row;
+    }
+    public int GetColCount()
+    {
+        return col;
+    }
     public void Refresh()
     {
     }

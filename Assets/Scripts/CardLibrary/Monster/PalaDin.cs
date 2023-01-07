@@ -12,7 +12,7 @@ public class PalaDin:Card
         AddComponnet(new AttackComponent(1){atkRange=3});
         AddComponnet(new AttackedComponent(4) { bless=1,block=4});
         AddComponnet(new ActionComponent());
-        AddComponnet(new UseComponent(new SummonComponent(this), 1));
+        AddComponnet(new UseComponent(new SummonComponent(this), 3));
         GetDesc = () => "";
     }
 }

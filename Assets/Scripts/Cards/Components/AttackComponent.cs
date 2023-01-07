@@ -22,7 +22,7 @@ public class AttackComponent : CardComponent
     public int AtkRange => atkRange > 0 ? atkRange : 0;
     public AttackComponent(int atk)
     {
-        this.atk = atk;
+        this.initAtk = atk;
     }
 
     //log里面输出atk

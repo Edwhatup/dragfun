@@ -13,7 +13,7 @@ public class RedEye : Card
         //this.GetComponent<AttackComponent>().DebugShowAtk(this);
         AddComponnet(new AttackedComponent(3));
         AddComponnet(new ActionComponent());
-        AddComponnet(new UseComponent(new SummonComponent(this), 1));
+        AddComponnet(new UseComponent(new SummonComponent(this), 2));
         var m = new OnMoveBuffListener(2,2);
         AddComponnet(m);
         GetDesc = () => m.ToString();
