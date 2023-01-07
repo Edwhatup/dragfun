@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PalaDin:Card
+public class JetBoy:Card
 {
-    public PalaDin()
+    public JetBoy()
     {
-        name = "圣骑士";
+        name = "喷气地精";
         camp = CardCamp.Friendly;
         type = CardType.Monster; 
-        AddComponnet(new AttackComponent(1){atkRange=3});
-        AddComponnet(new AttackedComponent(4) { bless=1,block=4});
+        AddComponnet(new AttackComponent(1){atkRange=2,buffAtkByRange=1});
+        AddComponnet(new AttackedComponent(3));
         AddComponnet(new ActionComponent());
         AddComponnet(new UseComponent(new SummonComponent(this), 1));
         GetDesc = () => "";
     }
 }
+

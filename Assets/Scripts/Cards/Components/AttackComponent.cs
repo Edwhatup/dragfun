@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using UnityEngine;
 [CanRepeat(false)]
 [RequireCardComponent(typeof(FieldComponnet))]
 public class AttackComponent : CardComponent
@@ -10,18 +11,34 @@ public class AttackComponent : CardComponent
     public int canAttack=1;
     public int sweep=0;
     public int pierce=0;
+    public int extraDamage=0;
+    public int extraDamageRate=0;
+    public int buffAtkByRange=0;
 
     bool Sweep => sweep > 0;
     bool Pierce=>pierce > 0;
+    bool BuffAtkByRange=> buffAtkByRange > 0;
     public bool CanAttack => canAttack>0;
     public int AtkRange => atkRange > 0 ? atkRange : 0;
     public AttackComponent(int atk)
     {
         this.atk = atk;
     }
+
+    //log里面输出atk
+    public void DebugShowAtk(Card card)
+    {
+        Debug.Log(card.name+card.GetComponent<AttackComponent>().atk);
+    }
     public override void Init()
     {        
         this.atk = initAtk;
+    }
+
+    public void RangeUp(Card target,int extraRange)
+    {
+        this.atkRange+=extraRange;
+        //Debug.Log(this.atkRange);
     }
 
     public void Attack(Card target, bool active=true,int cost=0)
@@ -30,6 +47,9 @@ public class AttackComponent : CardComponent
         int ppcost = active ? cost : 0; 
         var e = new BeforeAttackEvent(card, target);
         GameManager.Instance.BroadcastCardEvent(e);
+
+        if(!BuffAtkByRange) extraDamage+=AtkRange;
+
         var info= target.GetComponent<AttackedComponent>().ApplyDamage(card,atk);
         if(!info.isResist)
         {

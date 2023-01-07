@@ -35,6 +35,7 @@ public class MonsterCardVisual : CardVisual, ISeletableTarget
             {
                 atkText.gameObject.SetActive(true);
                 atkText.text = card.attack.ToString();
+                Debug.Log(card.name+card.attack);
             }
             else atkText.gameObject.SetActive(false);
         }

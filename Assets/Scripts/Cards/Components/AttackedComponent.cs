@@ -61,9 +61,10 @@ public class AttackedComponent : CardComponent
     //}
     public DamageInfo ApplyDamage(Card source, int damage)
     {
+        int finalDamage=(damage+source.attack.extraDamage)*source.attack.extraDamageRate;
         DamageInfo info = new DamageInfo() 
         {
-            initDamage = damage ,
+            initDamage = damage,
             beforeState=card.field.state,
         };
         var e = new BeforeDamageEvent(source, card, damage);
@@ -76,19 +77,19 @@ public class AttackedComponent : CardComponent
         }
         else
         {
-            if (block > 0 && block >= damage)
+            if (block > 0 && block >= finalDamage)
             {
-                block -= damage;
+                block -= finalDamage;
                 info.actualDamage = 0;
                 info.isResist = true;
             }
             else
             {
-                damage -= block;
+                finalDamage -= block;
                 block = 0;
-                info.actualDamage = damage;
-                info.isResist = true;
-                this.hp -= damage;                
+                info.actualDamage = finalDamage;
+                info.isResist = false;
+                this.hp -= finalDamage;                
             }
         }
         if (this.hp <= 0)
