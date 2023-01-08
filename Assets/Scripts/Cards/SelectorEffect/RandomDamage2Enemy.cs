@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
+
 
 public class RandomDamage2Enemy : CardEffect
 {
@@ -19,6 +21,7 @@ public class RandomDamage2Enemy : CardEffect
 
     public override void Excute()
     {
+        Debug.Log("excute start");
         var enemy = CardManager.Instance.enemies.GetRandomItem();
         enemy.attacked.ApplyDamage(card, damage);
     }

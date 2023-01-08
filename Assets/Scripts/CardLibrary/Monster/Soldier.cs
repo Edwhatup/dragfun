@@ -12,6 +12,7 @@ public class Soldier : Card
         AddComponnet(new AttackComponent(1){});
         AddComponnet(new AttackedComponent(1));
         AddComponnet(new ActionComponent());
+        GetDesc = () => "";
     }
 
 }

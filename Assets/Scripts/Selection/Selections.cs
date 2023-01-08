@@ -86,7 +86,7 @@ public class Selections : MonoBehaviour
     public bool TryAddSelector(ISelector selector)
     {
         if (selector == null) return false;
-        Debug.Log(selector.GetType().Name); 
+        //Debug.Log(selector.GetType().Name); 
         if (selectors.Count == 0 && selector.CanUse())
         {
             selectors.Add(selector);
@@ -100,7 +100,7 @@ public class Selections : MonoBehaviour
     public void TryAddSelectTarget(ISeletableTarget target)
     {
         if (!CanSelect(target)) return;
-        Debug.Log(target.GetType().Name);
+        //Debug.Log(target.GetType().Name);
         Targets.Add(target);
         if (FinishSelect)
         {

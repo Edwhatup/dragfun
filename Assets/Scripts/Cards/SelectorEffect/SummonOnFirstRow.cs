@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// 在第一排随机位置召唤两个士兵
+/// 在第一排指定位置召唤x个x
 /// </summary>
 public class SummonOnFirstRow : CardEffect
 {
@@ -44,7 +44,7 @@ public class SummonOnFirstRow : CardEffect
     }
     public override bool CanSelectTarget(ISeletableTarget target, int i)
     {
-        return(target as Cell).card==null&(target as Cell).row==1;
+        return(target as Cell).card==null&(target as Cell).row==0;
     }
     
 
@@ -55,6 +55,6 @@ public class SummonOnFirstRow : CardEffect
 
     public override string ToString()
     {
-        return $"在第一排随机位置召唤{summonCount}个{summonUnit}";
+        return $"入场时，在第一排召唤{summonCount}个{summonUnit}";
     }
 }

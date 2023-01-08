@@ -148,6 +148,11 @@ public class CellManager : MonoBehaviour,IManager
     {
         return col;
     }
+
+    public List<Cell> GetCells()
+    {
+        return cells;
+    }
     public void Refresh()
     {
     }

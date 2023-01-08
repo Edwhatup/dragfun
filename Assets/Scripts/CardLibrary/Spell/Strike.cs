@@ -9,7 +9,7 @@ public class Strike : Card
         name = "打击";
         camp = CardCamp.Friendly;
         type = CardType.Spell;
-        var e = new SingleDamage2SpecifyEnemy(6);
+        var e = new RandomDamage2Enemy(3);
         AddComponnet(new UseComponent(new SpellCastComponent(this,5, e), 1));
         GetDesc=()=>e.ToString();    
     }
