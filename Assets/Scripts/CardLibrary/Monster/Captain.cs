@@ -9,6 +9,7 @@ public class Captain : Card
         name = "士官长";
         camp = CardCamp.Friendly;
         type = CardType.Monster;
+        race = CardRace.Goblin;
         AddComponnet(new AttackComponent(4));
         AddComponnet(new AttackedComponent(4));
         AddComponnet(new ActionComponent());

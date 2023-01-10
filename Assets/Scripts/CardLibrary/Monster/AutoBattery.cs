@@ -9,10 +9,11 @@ public class AutoBattery : Card
         name = "自动炮台";
         camp = CardCamp.Friendly;
         type = CardType.Monster;
+        race = CardRace.Mech;
         AddComponnet(new AttackedComponent(1));
         AddComponnet(new ActionComponent());
         AddComponnet(new UseComponent(new SummonComponent(this), 2));
-        var e=new AttackRandom(1,RangeType.AllEnemiesOnBoard);
+        var e=new AttackRandom();
         var r=new ResonanceComponent(e);
         AddComponnet(r);
         GetDesc = () => e.ToString();

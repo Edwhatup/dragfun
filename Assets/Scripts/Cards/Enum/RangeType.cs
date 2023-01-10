@@ -3,5 +3,7 @@
     AllEnemies,
     AllEnemiesOnBoard,
     SameRow,
-    SameCol
+    SameCol,
+    SmallCross,
+    BigCross
 }

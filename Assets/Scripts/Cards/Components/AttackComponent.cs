@@ -71,6 +71,7 @@ public class AttackComponent : CardComponent
             }
         }
         var ae = new AfterAttackEvent(card, target, ppcost, info);
+        globalAtkCount+=1;
         GameManager.Instance.BroadcastCardEvent(ae);
     }
     public override string ToString()

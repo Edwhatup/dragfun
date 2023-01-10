@@ -8,18 +8,16 @@ public class AttackRandom : CardEffect
     RangeType rangeType;
     public AttackRandom(string[] paras) : base()
     {
-        int.TryParse(paras[0], out damage);
-        Enum.TryParse(paras[1],false,out RangeType rangeType);
+        return;
     }
-    public AttackRandom(int damage,RangeType rangeType) : base()
+    public AttackRandom() : base()
     {
-        this.damage = damage;
-        this.rangeType = rangeType;
+        return;
     }
 
     public override string ToString()
     {
-        return $"攻击一次随机敌方目标";
+        return $"随机攻击一次";
     }
 
     public override void Excute()
