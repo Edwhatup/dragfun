@@ -16,9 +16,9 @@
     public override string ToString()
     {
         if (hpModifierOnAttack == 0 && atkModifierOnAttack == 0) return "";
-        if (hpModifierOnAttack == 0) return $"移动时，获得+{hpModifierOnAttack}攻击力";
-        if (atkModifierOnAttack == 0) return $"移动时，获得+{hpModifierOnAttack}生命值";
-        return $"移动时获得+{atkModifierOnAttack}+{hpModifierOnAttack}";
+        if (hpModifierOnAttack == 0) return $"攻击时，获得+{hpModifierOnAttack}攻击力";
+        if (atkModifierOnAttack == 0) return $"攻击时，获得+{hpModifierOnAttack}生命值";
+        return $"攻击时获得+{atkModifierOnAttack}+{hpModifierOnAttack}";
     }
 
     public override void EventListen(AbstractCardEvent e)

@@ -22,6 +22,7 @@ public class CardManager : MonoBehaviour, IManager
 
     public List<Card> cards = new List<Card>();
     public List<Card> enemies = new List<Card>();
+    public List<Card> onBoardEnemies = new List<Card>();
 
     public List<Card> discardDeck = new List<Card>();
     public List<Card> drawDeck = new List<Card>();
@@ -139,6 +140,10 @@ public class CardManager : MonoBehaviour, IManager
             enemy.field.col = enemies.Count;
             enemies.Add(enemy);
             cards.Add(enemy);
+            if(enemy.field.row>=0)
+            {
+                onBoardEnemies.Add(enemy);
+            }
             enemy.visual.transform.SetParent(enemyBoardTrans,false);
         }
     }
@@ -183,5 +188,30 @@ public class CardManager : MonoBehaviour, IManager
         {
             l.EventListen(cardEvent);
         }
+    }
+
+    public List<Card> GetSameRowEnemyUnits(Card card,Card target)
+    {
+        var sameRowTarget = cards
+                            .FindAll(c => c.camp != card.camp && c.field.row != null && c.field.row == target.field.row)
+                                .ToList();
+        return sameRowTarget;
+    }
+
+    public List<Card> GetSameColEnemyUnits(Card card,Card target)
+    {
+        var sameColTarget = cards
+                                  .FindAll(c => c.camp != card.camp && c.field.row != null && c.field.col == target.field.col)
+                                   .ToList();
+        return sameColTarget;
+    }
+
+
+    public List<Card> GetRoundFriendUnits(Card target)
+    {
+        var roundFriendTargets = cards
+                                  .FindAll(c => c.camp == target.camp && (c.field.row == target.field.row+1||c.field.row == target.field.row-1||c.field.row == target.field.row) && (c.field.col == target.field.col+1||c.field.col == target.field.col-1||c.field.col == target.field.col)&&c!=target)
+                                   .ToList();
+        return roundFriendTargets;
     }
 }
