@@ -24,7 +24,7 @@ public class OldAssSelection : CardEffect
     {
         if(card.field.row==0)
         {
-            var e=new StrengthMonsterEffect(hpModifier,atkMofifier);
+            var e=new SelfBuffEffect(hpModifier,atkMofifier);
             //这个地方效果不对，应该是增加永久身材效果
             card.AddComponnet(e);
         }

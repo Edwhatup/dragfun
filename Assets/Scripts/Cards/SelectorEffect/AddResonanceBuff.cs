@@ -25,7 +25,7 @@ public class AddResonanceBuff : CardEffect
     public override void Excute()
     {
         var monster =(Targets[0] as CardVisual).card;
-        var e =new StrengthMonsterEffect(1,1);
+        var e =new SelfBuffEffect(1,1);
         var r =new ResonanceComponent(e);
         monster.AddComponnet(r);
     }

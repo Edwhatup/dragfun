@@ -210,8 +210,6 @@ public class CardManager : MonoBehaviour, IManager
                                    .ToList();
         return sameColTarget;
     }
-
-
     public List<Card> GetRoundFriendUnits(Card target)
     {
         var roundFriendTargets = cards
