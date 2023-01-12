@@ -17,20 +17,29 @@ public class ResonanceComponent : EventListenerComponent
 
     public override void EventListen(AbstractCardEvent e)
     {
-        if(e is AfterSummonEvent)
+        if (e is AfterSummonEvent)
         {
-            var se=e as AfterSummonEvent;
-            if(se.source.resonance!=null)
+            var se = e as AfterSummonEvent;
+            if (se.source == card)
             {
-
-                Excute();
-            }            
+                if (se.handled)
+                    Excute();
+            }
+            else
+            {
+                if (se.source.resonance != null)
+                {
+                    se.handled= true;   
+                    Excute();
+                }
+            }
+                
         }
     }
 
     public void Excute()
     {
-        foreach(CardEffect effect in effects)
+        foreach (CardEffect effect in effects)
         {
             if (effect.CanUse())
                 effect.Excute();

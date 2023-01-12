@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-public class Cell : MonoBehaviour, IPointerDownHandler, ISeletableTarget,IPointerEnterHandler,IPointerExitHandler
+public class Cell : MonoBehaviour,  ISeletableTarget,IPointerEnterHandler,IPointerExitHandler
 {
     public Card card;
     [SerializeField]
@@ -49,19 +49,6 @@ public class Cell : MonoBehaviour, IPointerDownHandler, ISeletableTarget,IPointe
     {
         return card.field.CanSwap;
     }
-
-    #region IPointerDownHandler实现区域
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        Debug.Log(eventData.pointerId);
-        if (eventData.pointerId == -1)
-            Selections.Instance.TryAddSelectTarget(this);
-    }
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        if (eventData.pointerId == -1)
-            Selections.Instance.TryAddSelectTarget(this);
-    }
     public bool CanSummon()
     {
         return card == null;
@@ -70,7 +57,6 @@ public class Cell : MonoBehaviour, IPointerDownHandler, ISeletableTarget,IPointe
     {
         return card == null;
     }
-    #endregion
     #region ISeletable实现区域
 
     public void Start()
@@ -95,11 +81,6 @@ public class Cell : MonoBehaviour, IPointerDownHandler, ISeletableTarget,IPointe
     public void RemoveCard()
     {
         this.card = null;
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Debug.Log(eventData.pointerId);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

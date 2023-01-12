@@ -1,5 +1,5 @@
 ﻿using System;
-
+using UnityEngine;
 [CanRepeat(false)]
 [RequireCardComponent(typeof(FieldComponnet))]
 public class AttackedComponent : CardComponent
@@ -103,34 +103,18 @@ public class AttackedComponent : CardComponent
 
     public int GetAttackDistance(Card card)
     {
-        if(this.card.camp==CardCamp.Friendly)
-        {
-            switch(card.type)
-            {
-                case CardType.Enemy:
-                    return card.field.row.Value+1;
-                case CardType.EnemyDerive:
-                    return Math.Max(Math.Abs(card.field.row.Value - this.card.field.row.Value), Math.Abs(card.field.col.Value - this.card.field.col.Value));
-                default:
-                    throw new Exception("错误的目标");
-            }
-        }
-        else if (this.card.camp == CardCamp.Enemy)
-        {
-            switch(this.card.type)
-            {
-                case CardType.Enemy:
-                    return card.field.row.Value+1;
-                case CardType.EnemyDerive:
-                    return Math.Max(Math.Abs(card.field.row.Value - this.card.field.row.Value), Math.Abs(card.field.col.Value - this.card.field.col.Value));
-                default:
-                    throw new Exception("错误的目标");
-            }
-        }
-        throw new Exception("错误的目标");
+        var res= MaxAbs(card.field.row - this.card.field.row, card.field.col - this.card.field.col);
+        Debug.Log(res);
+        return MaxAbs(card.field.row - this.card.field.row, card.field.col - this.card.field.col);
 
     }
-
+    int MaxAbs(int? l,int? r)
+    {
+        if (l == null && r == null) throw new Exception();
+        if (l == null) return Mathf.Abs(r.Value);
+        if (r == null) return Mathf.Abs(l.Value);
+        return Mathf.Max(Mathf.Abs(l.Value), Mathf.Abs(r.Value));
+    }
     public override string ToString()
     {
         string str = this.hp.ToString();

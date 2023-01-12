@@ -87,8 +87,13 @@ public class CardManager : MonoBehaviour, IManager
                 discardDeck.TransferAll(drawDeck);
             }
             if (hand.Count == Player.Instance.maxHandCnt) break;
-            drawDeck.Transfer(hand, drawDeck[0]);
+            var card = drawDeck[0];
+            drawDeck.Transfer(hand, card);
             Refresh();
+        }
+        foreach(Card card in board)
+        {
+            card.Reset();
         }
     }
     public void Refresh()
@@ -136,7 +141,7 @@ public class CardManager : MonoBehaviour, IManager
             var enemy = CardStore.Instance.CreateCard(rowArray[0]);
             enemy.camp = CardCamp.Enemy;
             enemy.field.row = -1;
-            enemy.field.col = enemies.Count;
+            enemy.field.col = null;
             enemies.Add(enemy);
             cards.Add(enemy);
             enemy.visual.transform.SetParent(enemyBoardTrans,false);

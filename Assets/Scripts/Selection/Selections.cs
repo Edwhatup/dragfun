@@ -32,6 +32,7 @@ public class Selections : MonoBehaviour
     #region ISelectable 注册相关方法
     public void AddCanSelection(ISeletableTarget seletable)
     {
+
         if (seletable == null) return;
         if (!allTargets.Contains(seletable))
         {
@@ -86,7 +87,7 @@ public class Selections : MonoBehaviour
     public bool TryAddSelector(ISelector selector)
     {
         if (selector == null) return false;
-        Debug.Log(selector.GetType().Name); 
+        Debug.Log(selector.GetType().Name);
         if (selectors.Count == 0 && selector.CanUse())
         {
             selectors.Add(selector);
@@ -115,7 +116,10 @@ public class Selections : MonoBehaviour
             else
             {
                 foreach (var item in selectors)
+                {
                     item.Excute();
+                    item.CancleSelect();
+                }
                 Clear(false);
                 GameManager.Instance.Refresh();
             }
@@ -144,6 +148,7 @@ public class Selections : MonoBehaviour
     {
         foreach (var selection in allTargets)
         {
+            Debug.Log(selection.GetType().Name);
             selection.UpdateSelectableVisual(CanSelect(selection));
         }
     }

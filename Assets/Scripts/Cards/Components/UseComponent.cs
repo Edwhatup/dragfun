@@ -74,6 +74,7 @@ public class UseComponent : CardComponent,ISelector
 
     public void OnSelected()
     {
+        Targets.Clear();
         Selections.Instance.mouseFollowObject = card.visual.gameObject;
         card.visual.SetRayCastTarget(false);
         card.visual.transform.SetParent(Selections.Instance.selectEleParent);

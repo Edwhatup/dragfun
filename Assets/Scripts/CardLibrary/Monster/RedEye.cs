@@ -14,7 +14,7 @@ public class RedEye : Card
         AddComponnet(new AttackedComponent(3));
         AddComponnet(new ActionComponent());
         AddComponnet(new UseComponent(new SummonComponent(this), 1));
-        var m = new OnMoveBuffListener(2,2);
+        var m = new AfterSelfAttackListener(new SelfBuffEffect(2,2));
         AddComponnet(m);
         GetDesc = () => m.ToString();
     }

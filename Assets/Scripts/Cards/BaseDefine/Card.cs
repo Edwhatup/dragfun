@@ -64,15 +64,24 @@ public abstract class Card
     }
     public void Buff(Card source, int atk, int hp)
     {
-        if (hp != 0)
+        if (attacked!=null && hp != 0)
         {
             this.attacked.hp += hp;
             this.attacked.maxHp += hp;
         }
-        if (atk != 0) this.attack.atk += atk;
+        if (attack!=null && atk != 0) this.attack.atk += atk;
         AfterBuffEvent buff = new AfterBuffEvent(source, this);
         EventManager.Instance.PassEvent(buff);
     }
+
+    public void Reset()
+    {
+        foreach(var component in components)
+        {
+            component.Reset();
+        }
+    }
+
     public List<T> GetComponnets<T>() where T : CardComponent
     {
         return components.FindAll((c) => c.GetType() == typeof(T) || c.GetType().IsSubclassOf(typeof(T)))

@@ -20,13 +20,17 @@ public abstract class CardVisual : MonoBehaviour, IPointerDownHandler
     public abstract void UpdateVisual();
     public void OnPointerDown(PointerEventData eventData)
     {
-        bool asSelector = false;
-        if(CardManager.Instance.hand.Contains(card))
-            asSelector = Selections.Instance.TryAddSelector(card.use);
-        else if(CardManager.Instance.board.Contains(card))
-            asSelector = Selections.Instance.TryAddSelector(card.action);
-        if (!asSelector)
-            Selections.Instance.TryAddSelectTarget(this as ISeletableTarget);
+        if (eventData.pointerId == -1 && eventData.used==false)
+        {
+            bool asSelector = false;
+            if (CardManager.Instance.hand.Contains(card))
+                asSelector = Selections.Instance.TryAddSelector(card.use);
+            else if (CardManager.Instance.board.Contains(card))
+                asSelector = Selections.Instance.TryAddSelector(card.action);
+            if (!asSelector)
+                Selections.Instance.TryAddSelectTarget(this as ISeletableTarget);
+            eventData.Use();
+        }
     }
 
     public void SetCard(Card card)

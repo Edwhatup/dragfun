@@ -9,22 +9,28 @@ public class ActionComponent : CardComponent, ISelector
     int cost => card.ContainsTag("迅捷") ? 0 : 1;
     public int TargetCount => 1;
     int actionTimes = 1;
-    List<CardTarget> cardTargets=new List<CardTarget>();
+    List<CardTarget> cardTargets = new List<CardTarget>() { CardTarget.None };
     public IReadOnlyList<CardTarget> CardTargets => cardTargets;
     public void CancleSelect()
     {
-        return;
+        targets.Clear();
+    }
+    public override void Reset()
+    {
+        actionTimes = 1;
     }
 
     public bool CanSelectTarget(ISeletableTarget target, int i)
     {
         if (CardTargetUtility.IsTargetsCompatible(CardTargets[0], CardTarget.Cell) && target is Cell cell)
         {
-            return CellManager.Instance.GetStreetDistance(card.field.cell, cell) <=card.field.moveRange;
+            var dis = CellManager.Instance.GetStreetDistance(card.field.cell, cell);
+            return dis <= card.field.moveRange && dis > 0;
         }
         if (CardTargetUtility.IsTargetsCompatible(CardTargets[0], CardTarget.Enemy) && target is EnemyVisual visual)
         {
-            var e=target as Card;
+            var e = visual.card;
+            var dis = e.attacked.GetAttackDistance(card);
             //通过优先级来计算
             return e.attacked.GetAttackDistance(card) <= card.attack.AtkRange && e.attacked.GetAttackedPriority(card) == targetPriority;
 
@@ -67,9 +73,9 @@ public class ActionComponent : CardComponent, ISelector
                 else
                 {
                     var enemies = CardManager.Instance.enemies.FindAll(e => e.attacked.GetAttackDistance(card) <= card.attack.AtkRange);
-                    if(enemies.Count>0)
+                    if (enemies.Count > 0)
                     {
-                        targetPriority = enemies[0].attacked.GetAttackedPriority(card) ;
+                        targetPriority = enemies[0].attacked.GetAttackedPriority(card);
                         return true;
                     }
                 }
@@ -79,7 +85,7 @@ public class ActionComponent : CardComponent, ISelector
     }
     public bool CanUse()
     {
-        if (actionTimes <= 0 && GameManager.Instance.pp < cost) return false;
+        if (actionTimes <= 0 || GameManager.Instance.pp < cost) return false;
         canAttack = CanAttack;
         canMove = CanMove;
         return canAttack || canMove;
@@ -89,10 +95,11 @@ public class ActionComponent : CardComponent, ISelector
     {
         var target = targets[0];
         if (target is EnemyVisual visual)
-            card.attack.Attack(visual.card,true, cost);
+            card.attack.Attack(visual.card, true, cost);
         else if (target is Cell cell)
-            card.field.Move(cell,true, cost);
+            card.field.Move(cell, true, cost);
         card.ClearTag("迅捷");
+        actionTimes -= 1;
     }
 
     public ISelector GetNextSelector()
@@ -103,9 +110,10 @@ public class ActionComponent : CardComponent, ISelector
     public void OnSelected()
     {
         Selections.Instance.CreateArrow(card.visual.transform);
-        cardTargets.Clear();
-        if(canMove) cardTargets.Add(CardTarget.Cell);
-        if(canAttack) cardTargets.Add(CardTarget.Enemy);
+        targets.Clear();
+        cardTargets[0] = CardTarget.None;
+        if (canMove) cardTargets[0] |= CardTarget.Cell;
+        if (canAttack) cardTargets[0] |= CardTarget.Enemy;
 
     }
 }
