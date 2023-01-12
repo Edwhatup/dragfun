@@ -14,6 +14,7 @@ public class AttackComponent : CardComponent
     public int extraDamage=0;
     public int extraDamageRate=0;
     public int buffAtkByRange=0;
+    public int globalAtkCount=0;
 
     bool Sweep => sweep > 0;
     bool Pierce=>pierce > 0;
@@ -56,16 +57,12 @@ public class AttackComponent : CardComponent
             List<Card> targets = new List<Card>();
             if (Sweep)
             {
-                var sameRowTarget = CardManager.Instance.cards
-                                  .FindAll(c => c.camp != card.camp && c.field.row != null && c.field.row == target.field.row)
-                                   .ToList();
+                var sameRowTarget = CardManager.Instance.GetSameRowEnemyUnits(card,target);
                 targets.AddRange(sameRowTarget);
             }
             if (Pierce)
             {
-                var sameColTarget = CardManager.Instance.cards
-                                  .FindAll(c => c.camp != card.camp && c.field.row != null && c.field.col == target.field.col)
-                                   .ToList();
+                var sameColTarget = CardManager.Instance.GetSameColEnemyUnits(card,target);
                 targets.AddRange(sameColTarget);
             }
             foreach (var t in targets)
@@ -74,6 +71,7 @@ public class AttackComponent : CardComponent
             }
         }
         var ae = new AfterAttackEvent(card, target, ppcost, info);
+        globalAtkCount+=1;
         GameManager.Instance.BroadcastCardEvent(ae);
     }
     public override string ToString()
@@ -81,4 +79,5 @@ public class AttackComponent : CardComponent
         if (atk > initAtk) return $"<color=green>{atk}</color>";
         else return $"<color=white>{atk}</color>";
     }
+
 }

@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Soldier : Card
 {
-    public Soldier(int age)
+    public Soldier()
     {
         name = "士兵";
         camp = CardCamp.Friendly;
-        type = CardType.FriendlyDerive;
+        type = CardType.Monster;
         AddComponnet(new AttackComponent(1){});
         AddComponnet(new AttackedComponent(1));
         AddComponnet(new ActionComponent());
-        GetDesc = () => GetComponent<WreckComponent>().ToString();
+        GetDesc = () => "";
     }
 
 }

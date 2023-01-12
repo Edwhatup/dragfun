@@ -101,7 +101,7 @@ public class Selections : MonoBehaviour
     public void TryAddSelectTarget(ISeletableTarget target)
     {
         if (!CanSelect(target)) return;
-        Debug.Log(target.GetType().Name);
+        //Debug.Log(target.GetType().Name);
         Targets.Add(target);
         if (FinishSelect)
         {

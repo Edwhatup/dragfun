@@ -116,4 +116,9 @@ public class ActionComponent : CardComponent, ISelector
         if (canAttack) cardTargets[0] |= CardTarget.Enemy;
 
     }
+
+    public bool GetCanAttack()
+    {
+        return canAttack;
+    }
 }

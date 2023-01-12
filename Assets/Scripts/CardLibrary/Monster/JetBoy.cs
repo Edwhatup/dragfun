@@ -12,7 +12,7 @@ public class JetBoy:Card
         AddComponnet(new AttackComponent(1){atkRange=2,buffAtkByRange=1});
         AddComponnet(new AttackedComponent(3));
         AddComponnet(new ActionComponent());
-        AddComponnet(new UseComponent(new SummonComponent(this), 1));
+        AddComponnet(new UseComponent(new SummonComponent(this), 4));
         GetDesc = () => "";
     }
 }

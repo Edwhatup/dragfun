@@ -13,6 +13,7 @@ public abstract class Card
     public CardVisual visual;
     public CardCamp camp;
     public Card source;
+    public CardRace race;
     public Func<string> GetDesc;
     List<CardComponent> components;
     public ResonanceComponent resonance => GetComponent<ResonanceComponent>();
