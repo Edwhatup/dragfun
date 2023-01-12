@@ -11,7 +11,7 @@ public class SoiderSummon : Card
         type = CardType.Spell;
         var e = new RandomSummonOnFirstRow(2,"士兵");
         AddComponnet(new UseComponent(new SpellCastComponent(this,3,e), 3));
-        GetDesc=()=>e.ToString();    
+        GetDesc=()=>e.ToString();
     }
 }
 
