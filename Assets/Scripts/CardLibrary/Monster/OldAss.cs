@@ -15,6 +15,7 @@ public class OldAss:Card
         AddComponnet(new AttackedComponent(4));
         AddComponnet(new ActionComponent());
         AddComponnet(new UseComponent(new SummonComponent(this), 3));
+        //没写完
         GetDesc = () => "";
     }
 }

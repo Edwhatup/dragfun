@@ -45,4 +45,14 @@ public class ResonanceComponent : EventListenerComponent
                 effect.Excute();
         }
     }
+
+    public override string ToString()
+    {
+        string des="响应：";
+        foreach(CardEffect effect in effects)
+        {
+            des=des+effect.ToString();
+        }
+        return des;
+    }
 }

@@ -62,9 +62,7 @@ public class AttackedComponent : CardComponent
     public DamageInfo ApplyDamage(Card source, int damage)
     {
 
-        int finalDamage=(damage+source.attack.extraDamage)*(1+source.attack.extraDamageRate);
-        Debug.Log("startAtk:"+damage);
-        Debug.Log("final:"+finalDamage);  
+        int finalDamage=(damage+source.attack.extraDamage)*(1+source.attack.extraDamageRate); 
         DamageInfo info = new DamageInfo() 
         {
             initDamage = damage,
