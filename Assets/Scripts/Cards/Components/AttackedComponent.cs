@@ -61,7 +61,10 @@ public class AttackedComponent : CardComponent
     //}
     public DamageInfo ApplyDamage(Card source, int damage)
     {
-        int finalDamage=(damage+source.attack.extraDamage)*source.attack.extraDamageRate;
+
+        int finalDamage=(damage+source.attack.extraDamage)*(1+source.attack.extraDamageRate);
+        Debug.Log("startAtk:"+damage);
+        Debug.Log("final:"+finalDamage);  
         DamageInfo info = new DamageInfo() 
         {
             initDamage = damage,
@@ -89,7 +92,7 @@ public class AttackedComponent : CardComponent
                 block = 0;
                 info.actualDamage = finalDamage;
                 info.isResist = false;
-                this.hp -= finalDamage;                
+                this.hp -= finalDamage;         
             }
         }
         if (this.hp <= 0)
@@ -104,7 +107,7 @@ public class AttackedComponent : CardComponent
     public int GetAttackDistance(Card card)
     {
         var res= MaxAbs(card.field.row - this.card.field.row, card.field.col - this.card.field.col);
-        Debug.Log(res);
+        //Debug.Log(res);
         return MaxAbs(card.field.row - this.card.field.row, card.field.col - this.card.field.col);
 
     }

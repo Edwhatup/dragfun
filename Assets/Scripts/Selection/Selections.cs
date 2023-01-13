@@ -148,7 +148,7 @@ public class Selections : MonoBehaviour
     {
         foreach (var selection in allTargets)
         {
-            Debug.Log(selection.GetType().Name);
+            //Debug.Log(selection.GetType().Name);
             selection.UpdateSelectableVisual(CanSelect(selection));
         }
     }

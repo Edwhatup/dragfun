@@ -49,7 +49,7 @@ public class AttackComponent : CardComponent
         var e = new BeforeAttackEvent(card, target);
         GameManager.Instance.BroadcastCardEvent(e);
 
-        if(!BuffAtkByRange) extraDamage+=AtkRange;
+        if(BuffAtkByRange) extraDamage+=AtkRange;
 
         var info= target.GetComponent<AttackedComponent>().ApplyDamage(card,atk);
         if(!info.isResist)
