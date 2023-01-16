@@ -265,4 +265,12 @@ public class CardManager : MonoBehaviour, IManager
                                    .ToList();
         return roundFriendTargets;
     }
+
+    public List<Card> GetXRowMonsterUnits(int x)
+    {
+        var sameRowTarget = cards
+                            .FindAll(c => c.type == CardType.Monster && c.field.row == x)
+                                .ToList();
+        return sameRowTarget;
+    }
 }

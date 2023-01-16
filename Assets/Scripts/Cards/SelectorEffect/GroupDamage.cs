@@ -19,7 +19,18 @@ public class GroupDamage : NoTargetCardEffect
 
     public override string ToString()
     {
-        return $"对所有敌人造成{damage}点伤害";
+        if(rangeType==RangeType.AllEnemies)
+        {
+            return $"对所有敌人造成{damage}点伤害";
+        }
+        if(rangeType==RangeType.AllEnemiesOnBoard)
+        {
+            return $"对所有场上敌人造成{damage}点伤害";
+        }
+        else
+        {
+            return"";
+        }
     }
 
     public override void Excute()

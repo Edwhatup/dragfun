@@ -91,7 +91,7 @@ public class AttackedComponent : CardComponent
                 block = 0;
                 info.actualDamage = finalDamage;
                 info.isResist = false;
-                this.hp -= finalDamage;                
+                this.hp -= finalDamage;         
             }
         }
         if (this.hp <= 0)
