@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Strike : Card
 {
-    public Strike()
+    public Strike(CardInfo info) : base(info)
     {
         name = "打击";
         camp = CardCamp.Friendly;
         type = CardType.Spell;
-        var e = new RandomDamage2Enemy(3);
-        AddComponnet(new UseComponent(new SpellCastComponent(this,5, e), 1));
+        cost = 1;
+        var e = new SingleDamage2SpecifyEnemy(this,3);
+        AddComponnet(new SpellCastComponent(5, e));
         GetDesc=()=>e.ToString();    
     }
 }

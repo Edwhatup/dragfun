@@ -21,7 +21,7 @@ public class Selections : MonoBehaviour
     [HideInInspector]
     public GameObject mouseFollowObject;
 
-
+    public bool canCancleSelect = true;
     List<ISeletableTarget> allTargets = new List<ISeletableTarget>();
     public List<ISelector> selectors = new List<ISelector>();
     public List<ISeletableTarget> Targets => Selector.Targets;
@@ -65,16 +65,19 @@ public class Selections : MonoBehaviour
             Vector2 vector2 = Input.mousePosition;
             mouseFollowObject.transform.position = vector2;
         }
-        if (Input.GetMouseButton(1))
+    }
+    void FixedUpdate()
+    {
+        if (Input.GetMouseButton(1) && canCancleSelect)
         {
             Clear();
         }
+
     }
     public void Clear(bool isCancled = true)
     {
-        DestoryArrow();
-        mouseFollowObject = null;
-        if(isCancled)
+        ClearVisual();
+        if (isCancled)
         {
             foreach (var s in selectors)
                 s.CancleSelect();
@@ -84,16 +87,22 @@ public class Selections : MonoBehaviour
         GameManager.Instance.Refresh();
     }
 
+    public void ClearVisual()
+    {
+        DestoryArrow();
+        mouseFollowObject = null;
+    }
+
     public bool TryAddSelector(ISelector selector)
     {
         if (selector == null) return false;
         Debug.Log(selector.GetType().Name);
-        if (selectors.Count == 0 && selector.CanUse())
+        if ((selectors.Count == 0 || FinishSelect) && selector.CanUse())
         {
             selectors.Add(selector);
             selector.OnSelected();
             UpdateAllSelectableVisual();
-            GameManager.Instance.Refresh();
+            TryExcuteSelector();
             return true;
         }
         return false;
@@ -101,31 +110,31 @@ public class Selections : MonoBehaviour
     public void TryAddSelectTarget(ISeletableTarget target)
     {
         if (!CanSelect(target)) return;
-        //Debug.Log(target.GetType().Name);
+        Debug.Log(target.GetType().Name);
         Targets.Add(target);
+        TryExcuteSelector();
+        UpdateAllSelectableVisual();
+    }
+
+    private void TryExcuteSelector()
+    {
         if (FinishSelect)
         {
             var s = Selector.GetNextSelector();
-            if (s != null && s.CanUse())
-            {
-                selectors.Add(s);
-                DestoryArrow();
-                mouseFollowObject = null;
-                s.OnSelected();
-            }
-            else
+            ClearVisual();
+            if(!TryAddSelector(s))
             {
                 foreach (var item in selectors)
                 {
                     item.Excute();
                     item.CancleSelect();
                 }
-                Clear(false);
+                Clear(true);
                 GameManager.Instance.Refresh();
             }
         }
-        UpdateAllSelectableVisual();
     }
+
     //判断当前目标是否可以使target
     private bool CanSelect(ISeletableTarget target)
     {
@@ -148,7 +157,6 @@ public class Selections : MonoBehaviour
     {
         foreach (var selection in allTargets)
         {
-            Debug.Log(selection.GetType().Name);
             selection.UpdateSelectableVisual(CanSelect(selection));
         }
     }

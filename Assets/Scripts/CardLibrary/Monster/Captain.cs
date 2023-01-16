@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Captain : Card
 {
-    public Captain()
+    public Captain(CardInfo info) : base(info)
     {
         name = "士官长";
         camp = CardCamp.Friendly;
         type = CardType.Monster;
         race = CardRace.Goblin;
+        cost = 3;
         AddComponnet(new AttackComponent(4));
         AddComponnet(new AttackedComponent(4));
-        AddComponnet(new ActionComponent());
-        var e=new SummonOnFirstRow(2,"士兵");
-        AddComponnet(new UseComponent(new SummonComponent(this,e), 3));
+        var e=new SummonOnFirstRow(this,2,"士兵");
+        AddComponnet(new SummonComponent(e));
         GetDesc = () => e.ToString();
     }
 }

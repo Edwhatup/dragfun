@@ -7,7 +7,7 @@ public interface ISelector
 {
     List<ISeletableTarget> Targets { get; }
     int TargetCount { get; }
-    IReadOnlyList<CardTarget> CardTargets { get; }
+    List<CardTarget> CardTargets { get; }
     bool CanSelectTarget(ISeletableTarget target, int i);
     bool CanUse();
     void Excute();

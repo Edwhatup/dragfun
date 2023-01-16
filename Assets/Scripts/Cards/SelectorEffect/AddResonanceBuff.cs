@@ -5,29 +5,26 @@ using UnityEngine;
 /// </summary>
 public class AddResonanceBuff : CardEffect
 {
-    public AddResonanceBuff(string[] paras)
-    {
-        InitTarget();
-    }
+    public AddResonanceBuff(Card card, string[] paras):base(card)
+    {}
     public override bool CanUse()
     {
         return CardManager.Instance.board.FindAll(c=>c.camp==CardCamp.Friendly)!=null;
     }
-    public AddResonanceBuff()
-    {
-        InitTarget();
-    }
+    public AddResonanceBuff(Card card):base(card)
+    { }
     public override void InitTarget()
     {
         TargetCount = 1;
-        CardTargets = new List<CardTarget>() {CardTarget.Monster};
+        CardTargets.Add(CardTarget.Monster) ;
     }
     public override void Excute()
     {
         var monster =(Targets[0] as CardVisual).card;
-        var e =new SelfBuffEffect(1,1);
-        var r =new ResonanceComponent(e);
-        monster.AddComponnet(r);
+        var e =new SelfBuffEffect(monster,1,1);
+        monster.AddComponnet(new ResonanceComponent(e));
+        //var r =new ResonanceComponent(e);
+        //monster.AddComponnet(r);
     }
 
     public override void OnSelected()

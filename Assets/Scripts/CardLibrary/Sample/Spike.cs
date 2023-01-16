@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spike:Card
 {
-    public Spike()
+    public Spike(CardInfo info) : base(info)
     {
         name = "尖刺";
         camp = CardCamp.Friendly;
@@ -12,7 +12,8 @@ public class Spike:Card
         AddComponnet(new AttackComponent(3) { pierce=1});
         AddComponnet(new AttackedComponent(2));
         AddComponnet(new ActionComponent());
-        AddComponnet(new UseComponent(new SummonComponent(this), 1));
+        AddComponnet(new SummonComponent());
+        AddComponnet(new UseComponent(1));
         GetDesc=() => "纵贯。";
     }
 }

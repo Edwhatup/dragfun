@@ -48,10 +48,10 @@ public class CardStore : MonoBehaviour
         {
             if(type.IsSubclassOf(ct))
             {
-                var ctor = type.GetConstructor(Type.EmptyTypes);
-                if(ctor!= null)
+                var ctor = type.GetConstructor(new Type[] {typeof(CardInfo) });
+                if (ctor != null)
                 {
-                    Card card = (Card)ctor.Invoke(null);
+                    Card card = (Card)ctor.Invoke(new object[] { null});
                     cardBox[card.name] = card;
                     cardCtors[card.name] = ctor;
                 }
@@ -81,16 +81,16 @@ public class CardStore : MonoBehaviour
         v.SetCard(card);
         return v;
     }
-    public Card CreateCard(string name)
+    public Card CreateCard(CardInfo info)
     {
         if (cardBox == null) ReadCard();
-        if (cardBox.ContainsKey(name))
+        if (cardBox.ContainsKey(info.name))
         {
-            var card = cardCtors[name].Invoke(null) as Card;
+            var card = cardCtors[info.name].Invoke(new object[] { info}) as Card;
             CreateCardVisual(card);
             return card;
         }
-        throw new Exception($"不存在{name}卡牌");
+        throw new Exception($"不存在{info.name}卡牌");
     }
     //public void LoadCardData()
     //{

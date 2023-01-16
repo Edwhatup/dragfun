@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlainEnemy : Card
 {
-    public PlainEnemy()
+    public PlainEnemy(CardInfo info):base(info)
     {
         name = "地精";
         camp = CardCamp.Enemy;
         type = CardType.Enemy;
-        AddComponnet(new AttackedComponent(50));
+        AddComponnet(new AttackedComponent(50) { bless=1,block=10});
         GetDesc = () => "只是个地精。";
     }
 

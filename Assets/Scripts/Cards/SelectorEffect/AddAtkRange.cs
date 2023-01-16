@@ -6,24 +6,23 @@ using UnityEngine;
 public class AddAtkRange : CardEffect
 {
     int extraRange;
-    public AddAtkRange(string[] paras)
+    public AddAtkRange(Card card, string[] paras):base(card)
     {
         int.TryParse(paras[0], out extraRange);
-        InitTarget();
     }
     public override bool CanUse()
     {
-        return CardManager.Instance.board.FindAll(c=>c.camp==CardCamp.Friendly)!=null;
+        return CardManager.Instance.board.Has(c => c.camp == CardCamp.Friendly && c.field.state == BattleState.Survive);
+        //return CardManager.Instance.board.FindAll(c=>c.camp==CardCamp.Friendly)!=null;
     }
-    public AddAtkRange(int extraRange)
+    public AddAtkRange(Card card, int extraRange):base(card)
     {
         this.extraRange = extraRange;
-        InitTarget();
     }
     public override void InitTarget()
     {
         TargetCount = 1;
-        CardTargets = new List<CardTarget>() {CardTarget.Monster};
+        CardTargets.Add(CardTarget.Monster);
     }
     public override void Excute()
     {

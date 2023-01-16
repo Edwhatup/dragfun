@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
 public class SwapMonster : CardEffect
 {
-    public SwapMonster(string[] paras):base()
+    public SwapMonster(Card card, string[] paras):base(card)
     {
     }
-    public SwapMonster():base()
+    public SwapMonster(Card card):base(card)
     {
-        InitTarget();
     }
 
     public override bool CanUse()
     {
-        return CardManager.Instance.board.Count >= 2;
+        return CardManager.Instance.board.FindAll(c=>c.camp==CardCamp.Friendly).Count >= 2;
     }
 
     public override void Excute()
@@ -25,7 +24,6 @@ public class SwapMonster : CardEffect
 
     public override void OnSelected()
     {
-        UnityEngine.Debug.Log(card);
         Selections.Instance.CreateArrow(card.visual.transform);
     }
 
@@ -37,6 +35,7 @@ public class SwapMonster : CardEffect
     public override void InitTarget()
     {
         TargetCount = 2;
-        CardTargets = new List<CardTarget>() { CardTarget.Monster, CardTarget.Monster };
-    }
+        CardTargets.Add(CardTarget.Monster | CardTarget.FriendlyDerive);
+        CardTargets.Add(CardTarget.Monster | CardTarget.FriendlyDerive);
+    } 
 }

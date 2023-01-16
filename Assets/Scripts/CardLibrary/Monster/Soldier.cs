@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Soldier : Card
 {
-    public Soldier()
+    public Soldier(CardInfo info) : base(info)
     {
         name = "士兵";
         camp = CardCamp.Friendly;
@@ -12,6 +12,8 @@ public class Soldier : Card
         AddComponnet(new AttackComponent(1){});
         AddComponnet(new AttackedComponent(1));
         AddComponnet(new ActionComponent());
+        AddComponnet(new SummonComponent());
+        AddComponnet(new UseComponent(1));
         GetDesc = () => "";
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JetBoy:Card
 {
-    public JetBoy()
+    public JetBoy(CardInfo info) : base(info)
     {
         name = "喷气地精";
         camp = CardCamp.Friendly;
@@ -12,7 +12,8 @@ public class JetBoy:Card
         AddComponnet(new AttackComponent(1){atkRange=2,buffAtkByRange=1});
         AddComponnet(new AttackedComponent(3));
         AddComponnet(new ActionComponent());
-        AddComponnet(new UseComponent(new SummonComponent(this), 4));
+        AddComponnet(new SummonComponent());
+        AddComponnet(new UseComponent(4));
         GetDesc = () => "";
     }
 }

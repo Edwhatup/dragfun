@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class JetBuff : Card
 {
-    public JetBuff()
+    public JetBuff(CardInfo info) : base(info)
     {
         name = "喷气背包";
         camp = CardCamp.Friendly;
         type = CardType.Spell;
-        var e = new AddAtkRange(2);
-        AddComponnet(new UseComponent(new SpellCastComponent(this,5,e), 1));
+        cost = 1;
+        var e = new AddAtkRange(this,2);
+        AddComponnet(new SpellCastComponent(5,e));
         GetDesc=()=>e.ToString();    
     }
 }

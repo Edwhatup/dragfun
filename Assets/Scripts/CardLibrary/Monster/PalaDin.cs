@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PalaDin:Card
 {
-    public PalaDin()
+    public PalaDin(CardInfo info) : base(info)
     {
         name = "圣骑士";
         camp = CardCamp.Friendly;
@@ -12,7 +12,8 @@ public class PalaDin:Card
         AddComponnet(new AttackComponent(1){atkRange=3});
         AddComponnet(new AttackedComponent(4) { bless=1,block=4});
         AddComponnet(new ActionComponent());
-        AddComponnet(new UseComponent(new SummonComponent(this), 3));
+        AddComponnet(new SummonComponent());
+        AddComponnet(new UseComponent(3));
         GetDesc = () => "";
     }
 }

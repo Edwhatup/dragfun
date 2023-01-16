@@ -1,29 +1,27 @@
 ﻿using System.Collections.Generic;
 [CanRepeat(false)]
+[RequireCardComponent(typeof(UseComponent))]
 public class SpellCastComponent : CardComponent, ISelector
 {
-    int consume;
     int wreckAge;
     public int TargetCount => 1;
-    bool Consume => consume > 0;
     public CardEffect effect;
-    public IReadOnlyList<CardTarget> CardTargets => new List<CardTarget>() { CardTarget.Cell };
-
-    public List<ISeletableTarget> Targets => targets;
-    List<ISeletableTarget> targets = new List<ISeletableTarget>();
-    public SpellCastComponent(Card card, int wreckAge, CardEffect effect, bool consume = false)
+    public List<CardTarget> CardTargets => new List<CardTarget>() { CardTarget.Cell };
+    public List<ISeletableTarget> Targets { get; }=new List<ISeletableTarget>(){ };
+    public SpellCastComponent(int wreckAge, CardEffect effect)
     {
-        this.card = card;
         this.wreckAge = wreckAge;
-        this.consume = consume ? 1 : 0;
         this.effect = effect;
-        effect.card = card;
     }
     public void Cast(Cell targetCell, bool active)
     {
-        var wreck = new SpellWreck(wreckAge);
+        var info = new CardInfo()
+        {
+            name = "法术残骸",
+            paras = new string[] { wreckAge.ToString() }
+        };
+        var wreck = CardStore.Instance.CreateCard(info);
         CardStore.Instance.CreateCardVisual(wreck);
-        wreck.camp = CardCamp.Friendly;
         wreck.source = card;
         wreck.field.Summon(targetCell);
     }
@@ -35,7 +33,7 @@ public class SpellCastComponent : CardComponent, ISelector
     public virtual bool CanSelectTarget(ISeletableTarget target, int i)
     {
         if (target is Cell cell)
-            return cell.CanCastSpell();
+            return cell.CanSummon();
         return false;
     }
 
@@ -52,7 +50,7 @@ public class SpellCastComponent : CardComponent, ISelector
 
     public ISelector GetNextSelector()
     {
-        var cell = targets[0] as Cell;
+        var cell = Targets[0] as Cell;
         cell.PreShowCard(card);
         return effect;
     }

@@ -4,13 +4,13 @@
     int atkModifierOnAttack;
     int boardAttackCount=0;
     int requireCount;
-    public BuffByBoardAtkCountListener(string[] args)
+    public BuffByBoardAtkCountListener(string[] args):base(null)
     {
         int.TryParse(args[0], out hpModifierOnAttack);
         int.TryParse(args[1], out atkModifierOnAttack);
         int.TryParse(args[2], out requireCount);
     }
-    public BuffByBoardAtkCountListener(int hpModifierOnAttack, int atkModifierOnAttack,int requireCount)
+    public BuffByBoardAtkCountListener(int hpModifierOnAttack, int atkModifierOnAttack,int requireCount):base(null)
     {
         this.hpModifierOnAttack = hpModifierOnAttack;
         this.atkModifierOnAttack = atkModifierOnAttack;

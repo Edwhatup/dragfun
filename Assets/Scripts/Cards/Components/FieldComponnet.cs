@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 [CanRepeat(false)]
+[RequireCardComponent(typeof(ActionComponent))]
 public class FieldComponnet : CardComponent
 {
     public Cell cell;
@@ -21,8 +22,7 @@ public class FieldComponnet : CardComponent
         col = null;
     }
     public void Summon(Cell targetCell)
-    {
-        if (!targetCell.CanSummon()) throw new Exception("无法召唤");
+    {    
         AfterSummonEvent afe = new AfterSummonEvent(card, targetCell);
         targetCell.Summon(card);
         CardManager.Instance.SummonCard(card);
@@ -36,7 +36,7 @@ public class FieldComponnet : CardComponent
     /// <param name="active">是否主动发起移动</param>
     public void Move(Cell targetCell, bool active,int cost=0)
     {
-        if (!targetCell.CanMove()) return;
+        if (!(targetCell.CanMove() || targetCell.CanSwaped())) return;
         int ppcost = active ? cost : 0;
         if (targetCell.card != null)
         {

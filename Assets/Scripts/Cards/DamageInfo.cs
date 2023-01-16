@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DamageType
+{
+    Attack,
+    Other
+}
 public class DamageInfo
 {
     public bool isResist;

@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Waiver : Card
 {
-    public Waiver()
+    public Waiver(CardInfo info) : base(info)
     {
         name = "振荡器";
         camp = CardCamp.Friendly;
         type = CardType.Monster;
         AddComponnet(new AttackedComponent(1));
         AddComponnet(new ActionComponent());
-        AddComponnet(new UseComponent(new SummonComponent(this), 2));
-        var e=new GroupDamage(1,RangeType.AllEnemiesOnBoard);
+        AddComponnet(new SummonComponent());
+        AddComponnet(new UseComponent(2));
+        var e=new GroupDamage(this,1,RangeType.AllEnemiesOnBoard);
         var r=new ResonanceComponent(e);
         AddComponnet(r);
         GetDesc = () => e.ToString();

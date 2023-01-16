@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpellWreck : Card
 {
-    public SpellWreck(int age)
+    public SpellWreck(CardInfo info):base(info)
     {
         name = "法术残骸";
         camp = CardCamp.Friendly;
@@ -14,7 +14,8 @@ public class SpellWreck : Card
             canMove = 0,
             canSwap = 0,
         });
-        AddComponnet(new WreckComponent(age));
+        AddComponnet(new WreckComponent(5));
+        //AddComponnet(new WreckComponent(int.Parse(info.paras[0])));
         GetDesc = () => GetComponent<WreckComponent>().ToString();
     }
 

@@ -5,7 +5,7 @@ using System.Linq;
 public class AddDeadEffect : CardEffect
 {
     CardEffect deadEffect;
-    public AddDeadEffect(string[] paras):base()
+    public AddDeadEffect(Card card,string[] paras):base(card)
     {
         deadEffect = CardEffect.GetCardEffect(paras[0], paras.Skip(1).ToArray());
     }
@@ -13,9 +13,9 @@ public class AddDeadEffect : CardEffect
     public override void InitTarget()
     {
         TargetCount = 1;
-        CardTargets = new List<CardTarget>() { CardTarget.Monster };
+        CardTargets.Add(CardTarget.Monster );
     }
-    public AddDeadEffect(CardEffect effect) : base()
+    public AddDeadEffect(Card card,CardEffect effect) : base(card)
     {
         deadEffect = effect;
     }

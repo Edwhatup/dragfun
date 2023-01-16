@@ -7,17 +7,17 @@ public class SummonOnFirstRow : CardEffect
 {
     int summonCount;
     string summonUnit;
-    public SummonOnFirstRow(string[] paras)
+    public SummonOnFirstRow(Card card, string[] paras):base(card)
     {
         int.TryParse(paras[0], out summonCount);
         summonUnit=paras[1];
-        InitTarget();
     }
     public override bool CanUse()
     {
-        return CardManager.Instance.board.FindAll(c => c.field.row == 1).Count!=CellManager.Instance.GetColCount();
+        //return CardManager.Instance.board.FindAll(c => c.field.row == 1).Count!=CellManager.Instance.GetColCount();
+        return CellManager.Instance.GetCells().FindAll(c => c.row == 0 && c.CanSummon()).Count >= summonCount;
     }
-    public SummonOnFirstRow(int summonCount,string summonUnit)
+    public SummonOnFirstRow(Card card, int summonCount,string summonUnit):base(card)
     {
         this.summonCount = summonCount;
         this.summonUnit = summonUnit;
@@ -26,35 +26,32 @@ public class SummonOnFirstRow : CardEffect
     public override void InitTarget()
     {
         TargetCount = summonCount;
-        var targets = new List<CardTarget>();
         for(int i=0; i<summonCount; i++)
         {
-            targets.Add(CardTarget.Cell);
+            CardTargets.Add(CardTarget.Cell);
         }
-        CardTargets = targets;
     }
 
     public override void Excute()
     {
+        var info = new CardInfo() { name = summonUnit };
         foreach(Cell target in Targets)
         {
-            var card = CardStore.Instance.CreateCard(summonUnit);
+            var card = CardStore.Instance.CreateCard(info);
             card.field.Summon(target);
         }
     }
     public override bool CanSelectTarget(ISeletableTarget target, int i)
     {
-        return(target as Cell).card==null&(target as Cell).row==0;
+        return(target as Cell).CanSummon() &(target as Cell).row==0;
     }
-    
-
     public override void OnSelected()
     {
-        return;
+        Selections.Instance.CreateArrow(card.visual.transform);
     }
-
     public override string ToString()
     {
-        return $"入场时，在第一排召唤{summonCount}个{summonUnit}";
+        //return $"入场时，在第一排召唤{summonCount}个{summonUnit}";
+        return $"在第一排召唤{summonCount}个{summonUnit}";
     }
 }

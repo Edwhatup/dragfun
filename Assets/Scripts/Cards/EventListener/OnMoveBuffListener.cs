@@ -1,39 +1,29 @@
-﻿public class OnMoveBuffListener : EventListenerComponent
+﻿public class AfterSelfMoveListener : EventListenerComponent
 {
-    int hpModifierOnAttack;
-    int atkModifierOnAttack;
-    public OnMoveBuffListener(string[] args)
+    public AfterSelfMoveListener(CardEffect effect) : base(effect)
+    { }
+    public override string ToString()
     {
-        int.TryParse(args[0], out hpModifierOnAttack);
-        int.TryParse(args[1], out atkModifierOnAttack);
+        return $"移动时," + effect.ToString();
     }
-    public OnMoveBuffListener(int hpModifierOnAttack, int atkModifierOnAttack)
+    public override void EventListen(AbstractCardEvent e)
     {
-        this.hpModifierOnAttack = hpModifierOnAttack;
-        this.atkModifierOnAttack = atkModifierOnAttack;
+        if (e is AfterMoveEvent && e.source == card)
+            Excute();
     }
+}
+public class AfterMoveListener : EventListenerComponent
+{
+    public AfterMoveListener(CardEffect effect) : base(effect) { }
 
     public override void EventListen(AbstractCardEvent e)
     {
         if (e is AfterMoveEvent)
-        {
-            var move = e as AfterMoveEvent;
-            if (e.source == card)
-            {
-                card.Buff(card,atkModifierOnAttack,hpModifierOnAttack);
-            }
-        }
+            Excute();
     }
+
     public override string ToString()
     {
-        if (hpModifierOnAttack == 0 && atkModifierOnAttack == 0)
-            return "";
-        else if (atkModifierOnAttack == 0 && atkModifierOnAttack != 0)
-            return $"移动时，获得+{hpModifierOnAttack}生命值";
-
-        else if (atkModifierOnAttack != 0 && atkModifierOnAttack == 0)
-            return $"移动时，获得+{atkModifierOnAttack}攻击力";
-        else
-            return $"移动时，获得+{hpModifierOnAttack}+{atkModifierOnAttack}";
+        return $"在一名随从移动后," + effect.ToString();
     }
 }

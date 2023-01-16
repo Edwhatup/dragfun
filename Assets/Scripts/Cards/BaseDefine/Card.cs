@@ -6,6 +6,11 @@ using System.Text;
 
 public abstract class Card
 {
+    CardInfo info;
+    public Card(CardInfo Info)
+    {
+        this.info = Info;
+    }
     public string name;
     public CardRarity rarity;
     public string imageUrl;
@@ -15,6 +20,8 @@ public abstract class Card
     public Card source;
     public CardRace race;
     public Func<string> GetDesc;
+    public int cost;
+    public int consume = 0;
     List<CardComponent> components;
     public ResonanceComponent resonance => GetComponent<ResonanceComponent>();
     public AttackComponent attack => GetComponent<AttackComponent>();
@@ -79,7 +86,7 @@ public abstract class Card
     {
         foreach(var component in components)
         {
-            component.Reset();
+            component.ResetnTurnStart();
         }
     }
 

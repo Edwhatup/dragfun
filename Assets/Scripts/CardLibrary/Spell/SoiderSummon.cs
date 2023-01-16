@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class SoiderSummon : Card
 {
-    public SoiderSummon()
+    public SoiderSummon(CardInfo info) : base(info)
     {
         name = "列阵";
         camp = CardCamp.Friendly;
         type = CardType.Spell;
-        var e = new RandomSummonOnFirstRow(2,"士兵");
-        AddComponnet(new UseComponent(new SpellCastComponent(this,3,e), 3));
+        cost = 3;
+        var e = new RandomSummonOnFirstRow(this,2,"士兵");
+        AddComponnet(new SpellCastComponent(3, e));
         GetDesc=()=>e.ToString();
     }
 }

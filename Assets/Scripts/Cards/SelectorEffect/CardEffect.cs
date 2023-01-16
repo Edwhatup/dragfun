@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System;
-
-public abstract class CardEffect : CardComponent, ISelector
+public abstract class CardEffect :  ISelector
 {
+    public Card card;
     public static Dictionary<string, Type> CardEffects;
     static CardEffect()
     {
@@ -10,27 +10,19 @@ public abstract class CardEffect : CardComponent, ISelector
         var assembly = typeof(CardEffect).Assembly;
         foreach (var type in assembly.GetTypes())
         {
-            if (type.IsSubclassOf(typeof(CardEffect)))
+            if (!type.IsAbstract && type.IsSubclassOf(typeof(CardEffect)))
                 CardEffects.Add(type.Name, type);
         }
     }
-    public CardEffect()
+    public CardEffect(Card card)
     {
+        this.card = card;
         InitTarget();   
     }
     public abstract void InitTarget();
-    public void NoTarget()
-    {
-        TargetCount = 0;
-        CardTargets = new List<CardTarget>();
-    }
     public int TargetCount { get; protected set; }
-
-    public IReadOnlyList<CardTarget> CardTargets { get; protected set; }
-
-
-    List<ISeletableTarget> targets = new List<ISeletableTarget>();
-    public List<ISeletableTarget> Targets { get => targets; }
+    public List<CardTarget> CardTargets { get; }=new List<CardTarget>(){ };
+    public List<ISeletableTarget> Targets { get ; }= new List<ISeletableTarget>();
 
     public static CardEffect GetCardEffect(string effectName, string[] paras)
     {
@@ -56,7 +48,22 @@ public abstract class CardEffect : CardComponent, ISelector
     }
     public virtual void CancleSelect()
     {
+        Targets.Clear();
+    }
+    public virtual void OnSelected()
+    {
         return;
     }
-    public abstract void OnSelected();
+}
+
+
+public abstract class NoTargetCardEffect : CardEffect
+{
+    protected NoTargetCardEffect(Card card) : base(card)
+    {
+    }
+    public override void InitTarget()
+    {
+        TargetCount = 0;
+    }
 }

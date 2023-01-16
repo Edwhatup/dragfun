@@ -12,7 +12,7 @@ public class AttackComponent : CardComponent
     public int sweep=0;
     public int pierce=0;
     public int extraDamage=0;
-    public int extraDamageRate=0;
+    public int extraDamageRate=1;
     public int buffAtkByRange=0;
     public int globalAtkCount=0;
 
@@ -49,9 +49,9 @@ public class AttackComponent : CardComponent
         var e = new BeforeAttackEvent(card, target);
         GameManager.Instance.BroadcastCardEvent(e);
 
-        if(!BuffAtkByRange) extraDamage+=AtkRange;
+        if(BuffAtkByRange) extraDamage+=AtkRange;
 
-        var info= target.GetComponent<AttackedComponent>().ApplyDamage(card,atk);
+        var info= target.GetComponent<AttackedComponent>().ApplyDamage(card,atk,DamageType.Attack);
         if(!info.isResist)
         {
             List<Card> targets = new List<Card>();
@@ -65,9 +65,11 @@ public class AttackComponent : CardComponent
                 var sameColTarget = CardManager.Instance.GetSameColEnemyUnits(card,target);
                 targets.AddRange(sameColTarget);
             }
+            targets=targets.Distinct().ToList();
+            targets.Remove(target);
             foreach (var t in targets)
             {
-                t.GetComponent<AttackedComponent>().ApplyDamage(card, atk);
+                t.GetComponent<AttackedComponent>().ApplyDamage(card, atk,DamageType.Attack);
             }
         }
         var ae = new AfterAttackEvent(card, target, ppcost, info);

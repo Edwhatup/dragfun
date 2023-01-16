@@ -1,13 +1,14 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-public class Cell : MonoBehaviour,  ISeletableTarget,IPointerEnterHandler,IPointerExitHandler
+public class Cell : MonoBehaviour,  ISeletableTarget,IPointerEnterHandler,IPointerExitHandler, IPointerDownHandler
 {
     public Card card;
     [SerializeField]
     GameObject selectableEdge;
     public int row;
     public int col;
+    public Card preShowCard;
     bool mouseEnter=false;
     void Update()
     {
@@ -15,7 +16,7 @@ public class Cell : MonoBehaviour,  ISeletableTarget,IPointerEnterHandler,IPoint
         {
             if (Input.GetMouseButtonDown(0)|| Input.GetMouseButtonUp(0))
             {
-                Selections.Instance.TryAddSelectTarget(this);
+                //Selections.Instance.TryAddSelectTarget(this);
             }
         }
     }
@@ -47,11 +48,12 @@ public class Cell : MonoBehaviour,  ISeletableTarget,IPointerEnterHandler,IPoint
     }
     public bool CanSwaped()
     {
+        if (card == null) return true;
         return card.field.CanSwap;
     }
     public bool CanSummon()
     {
-        return card == null;
+        return card == null && preShowCard==null;
     }
     public bool CanCastSpell()
     {
@@ -75,6 +77,7 @@ public class Cell : MonoBehaviour,  ISeletableTarget,IPointerEnterHandler,IPoint
 
     public void PreShowCard(Card card)
     {
+        preShowCard = card;
         card.visual.transform.SetParent(transform,false);
         card.visual.transform.localPosition = Vector3.zero;
     }
@@ -92,7 +95,13 @@ public class Cell : MonoBehaviour,  ISeletableTarget,IPointerEnterHandler,IPoint
     {
         mouseEnter=false;   
     }
-
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (eventData.pointerId == -1 && eventData.used == false)
+        {
+            Selections.Instance.TryAddSelectTarget(this as ISeletableTarget);
+        }
+    }
 
     #endregion
 

@@ -2,21 +2,19 @@
 /// <summary>
 /// 强化随从
 /// </summary>
-public class SelfBuffEffect : CardEffect
+public class SelfBuffEffect : NoTargetCardEffect
 {
     int hpModifier;
     int atkMofifier;
-    public SelfBuffEffect(string[] paras) 
+    public SelfBuffEffect(Card card, string[] paras) :base(card)
     {
         int.TryParse(paras[0], out hpModifier);
         int.TryParse(paras[1], out atkMofifier);
-        InitTarget();
     }
-    public SelfBuffEffect(int hpModifier, int atkMofifier)
+    public SelfBuffEffect(Card card, int hpModifier, int atkMofifier):base(card)
     {
         this.hpModifier = hpModifier;
         this.atkMofifier = atkMofifier;
-        InitTarget();
     }
 
     public override string ToString()
@@ -29,15 +27,4 @@ public class SelfBuffEffect : CardEffect
     {
         card.Buff(card, atkMofifier, hpModifier);
     }
-    public override void InitTarget()
-    {
-        NoTarget();
-    }
-
-
-    public override void OnSelected()
-    {
-
-    }
-
 }

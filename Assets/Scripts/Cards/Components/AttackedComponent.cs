@@ -59,9 +59,11 @@ public class AttackedComponent : CardComponent
     //    if(Hp>MaxHp) hp.value = MaxHp;
     //    EventManager.Instance.PassEvent(e);
     //}
-    public DamageInfo ApplyDamage(Card source, int damage)
+    public DamageInfo ApplyDamage(Card source, int damage,DamageType type=DamageType.Other)
     {
-        int finalDamage=(damage+source.attack.extraDamage)*source.attack.extraDamageRate;
+        int finalDamage = damage;
+        if(type==DamageType.Attack)
+            finalDamage=(damage+source.attack.extraDamage)*(1+source.attack.extraDamageRate);
         DamageInfo info = new DamageInfo() 
         {
             initDamage = damage,
@@ -96,6 +98,7 @@ public class AttackedComponent : CardComponent
         {
             card.field.state = BattleState.HalfDead;
         }
+        card.visual.UpdateVisual();
         var ae = new AfterDamageEvent(source, card, info);
         EventManager.Instance.PassEvent(ae);
         return info;
@@ -104,8 +107,7 @@ public class AttackedComponent : CardComponent
     public int GetAttackDistance(Card card)
     {
         var res= MaxAbs(card.field.row - this.card.field.row, card.field.col - this.card.field.col);
-        Debug.Log(res);
-        return MaxAbs(card.field.row - this.card.field.row, card.field.col - this.card.field.col);
+        return res;
 
     }
     int MaxAbs(int? l,int? r)
@@ -118,7 +120,7 @@ public class AttackedComponent : CardComponent
     public override string ToString()
     {
         string str = this.hp.ToString();
-        if (block == 0)
+        if (block != 0)
             str += $"({block})";
         if(Bless)
             str='('+str+")";

@@ -17,12 +17,20 @@ public class CardManager : MonoBehaviour, IManager
     RectTransform handTrans;
     [SerializeField]
     RectTransform enemyBoardTrans;
-
+    [SerializeField]
+    RectTransform tombsTrans;
 
 
     public List<Card> cards = new List<Card>();
-    public List<Card> enemies = new List<Card>();
-    public List<Card> onBoardEnemies = new List<Card>();
+    public List<Card> Enemies => board.FindAll(c => c.camp == CardCamp.Enemy);
+
+    public List<Card> EnemyDeriveOnBoard => Enemies.FindAll(c => c.field.row >= 0);
+
+    public List<Card> FriendlyCardOnBoard => board.FindAll(c => c.camp == CardCamp.Friendly);
+
+    public List<Card> FriendlyMonsterOnBorad => board.FindAll(c => c.type == CardType.Monster);
+
+    public List<Card> FriendlyDeriveOnBorad => board.FindAll(c => c.type == CardType.FriendlyDerive);
 
     public List<Card> discardDeck = new List<Card>();
     public List<Card> drawDeck = new List<Card>();
@@ -46,12 +54,6 @@ public class CardManager : MonoBehaviour, IManager
         else Destroy(gameObject);
     }
 
-    public void AddNewCard2Board(Card wreckCard)
-    {
-        cards.Add(wreckCard);
-        board.Add(wreckCard);
-    }
-
     void OnDestory()
     {
         EventManager.Instance.eventListen -= BroadcastCardEvent;
@@ -69,7 +71,7 @@ public class CardManager : MonoBehaviour, IManager
 
     public void UseCard(Card card)
     {
-        if(card.type==CardType.Spell)
+        if (card.type == CardType.Spell)
         {
             if (card.use.ConSume)
                 hand.Transfer(consume, card);
@@ -79,6 +81,10 @@ public class CardManager : MonoBehaviour, IManager
 
     public void DrawCard(int cnt)
     {
+        foreach (Card card in board)
+        {
+            card.Reset();
+        }
         for (int i = 0; i < cnt; i++)
         {
             if (drawDeck.Count == 0)
@@ -92,14 +98,10 @@ public class CardManager : MonoBehaviour, IManager
             drawDeck.Transfer(hand, card);
             Refresh();
         }
-        foreach(Card card in board)
-        {
-            card.Reset();
-        }
     }
     public void Refresh()
     {
-
+        DeadSettlement();
         foreach (Card card in hand)
             card.visual.transform.SetParent(handTrans.parent, false);
         foreach (Card card in hand)
@@ -108,12 +110,42 @@ public class CardManager : MonoBehaviour, IManager
             card.visual.transform.SetParent(discardDeckTrans, false);
         foreach (Card card in drawDeck)
             card.visual.transform.SetParent(drawDeckTrans, false);
+        foreach(var card in enemyTombs)
+            card.visual.transform.SetParent(tombsTrans, false);
+        foreach (var card in friendlyTombs)
+            card.visual.transform.SetParent(tombsTrans, false);
         foreach (var card in cards)
             card.visual.UpdateVisual();
         LayoutRebuilder.ForceRebuildLayoutImmediate(handTrans);
         LayoutRebuilder.ForceRebuildLayoutImmediate(drawDeckTrans);
         LayoutRebuilder.ForceRebuildLayoutImmediate(discardDeckTrans);
         LayoutRebuilder.ForceRebuildLayoutImmediate(enemyBoardTrans);
+    }
+
+    private void DeadSettlement()
+    {
+        bool flag = false;
+        foreach (var card in board.ToList())
+        {
+            CheckCardState(card,ref flag);
+        }
+        if (flag)
+            DeadSettlement();
+    }
+
+    private void CheckCardState(Card card,ref bool flag)
+    {
+        if (card.field.state == BattleState.Dead || card.field.state == BattleState.HalfDead)
+        {
+            var deads = card.GetComponnets<DeadComponent>();
+            foreach (var dead in deads)
+            {
+                dead.Excute();
+            }
+            card.field.state = BattleState.Dead;
+            DestoryCardOnBoard(card);
+            flag = true;
+        }
     }
     #endregion
     //根据玩家信息初始化卡组
@@ -124,7 +156,11 @@ public class CardManager : MonoBehaviour, IManager
         {
             for (int i = 0; i < item.Value; i++)
             {
-                var card = CardStore.Instance.CreateCard(item.Key);
+                var info = new CardInfo()
+                {
+                    name = item.Key
+                };
+                var card = CardStore.Instance.CreateCard(info);
                 card.camp = CardCamp.Friendly;
                 drawDeck.Add(card);
                 cards.Add(card);
@@ -139,17 +175,21 @@ public class CardManager : MonoBehaviour, IManager
             string[] rowArray = row.Split(',');
             if (rowArray.Length < 2 || rowArray[0] == "name")
                 continue;
-            var enemy = CardStore.Instance.CreateCard(rowArray[0]);
+            var info = new CardInfo()
+            { name = rowArray[0] };
+
+            var enemy = CardStore.Instance.CreateCard(info);
             enemy.camp = CardCamp.Enemy;
             enemy.field.row = -1;
             enemy.field.col = null;
-            enemies.Add(enemy);
+            board.Add(enemy);
             cards.Add(enemy);
-            if(enemy.field.row>=0)
+            if (enemy.field.row >= 0)
             {
-                onBoardEnemies.Add(enemy);
+                EnemyDeriveOnBoard.Add(enemy);
             }
-            enemy.visual.transform.SetParent(enemyBoardTrans,false);
+            enemy.visual.transform.SetParent(enemyBoardTrans, false);
+
         }
     }
 
@@ -163,13 +203,21 @@ public class CardManager : MonoBehaviour, IManager
 
     public void DestoryCardOnBoard(Card card)
     {
-        card.field.cell.RemoveCard();
-        if (card.type == CardType.Monster)
-            board.Transfer(discardDeck, card);
-        if (card.camp == CardCamp.Friendly)
-            board.Transfer(friendlyTombs, card);
-        else
-            board.Transfer(enemyTombs, card);
+        card.field.cell?.RemoveCard();
+
+        switch (card.type)
+        {
+            case CardType.Enemy:
+            case CardType.EnemyDerive:
+                board.Transfer(enemyTombs, card);
+                break;
+            case CardType.Monster:
+                board.Transfer(discardDeck, card);
+                break;
+            case CardType.FriendlyDerive:
+                board.Transfer(friendlyTombs, card);
+                break;
+        }
     }
 
 
@@ -182,20 +230,20 @@ public class CardManager : MonoBehaviour, IManager
             BroadcastCardEvent2Card(card, cardEvent);
         foreach (var card in board)
             BroadcastCardEvent2Card(card, cardEvent);
-        foreach (var card in enemies)
+        foreach (var card in Enemies)
             BroadcastCardEvent2Card(card, cardEvent);
         foreach (var card in discardDeck)
             BroadcastCardEvent2Card(card, cardEvent);
     }
     private void BroadcastCardEvent2Card(Card card, AbstractCardEvent cardEvent)
     {
-        foreach(var l in card.GetComponnets<EventListenerComponent>())
+        foreach (var l in card.GetComponnets<EventListenerComponent>())
         {
             l.EventListen(cardEvent);
         }
     }
 
-    public List<Card> GetSameRowEnemyUnits(Card card,Card target)
+    public List<Card> GetSameRowEnemyUnits(Card card, Card target)
     {
         var sameRowTarget = cards
                             .FindAll(c => c.camp != card.camp && c.field.row != null && c.field.row == target.field.row)
@@ -203,7 +251,7 @@ public class CardManager : MonoBehaviour, IManager
         return sameRowTarget;
     }
 
-    public List<Card> GetSameColEnemyUnits(Card card,Card target)
+    public List<Card> GetSameColEnemyUnits(Card card, Card target)
     {
         var sameColTarget = cards
                                   .FindAll(c => c.camp != card.camp && c.field.row != null && c.field.col == target.field.col)
@@ -213,7 +261,7 @@ public class CardManager : MonoBehaviour, IManager
     public List<Card> GetRoundFriendUnits(Card target)
     {
         var roundFriendTargets = cards
-                                  .FindAll(c => c.camp == target.camp && (c.field.row == target.field.row+1||c.field.row == target.field.row-1||c.field.row == target.field.row) && (c.field.col == target.field.col+1||c.field.col == target.field.col-1||c.field.col == target.field.col)&&c!=target)
+                                  .FindAll(c => c.camp == target.camp && (c.field.row == target.field.row + 1 || c.field.row == target.field.row - 1 || c.field.row == target.field.row) && (c.field.col == target.field.col + 1 || c.field.col == target.field.col - 1 || c.field.col == target.field.col) && c != target)
                                    .ToList();
         return roundFriendTargets;
     }

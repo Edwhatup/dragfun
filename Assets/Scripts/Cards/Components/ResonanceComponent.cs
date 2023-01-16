@@ -1,20 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CanRepeat(false)]
+[CanRepeat(true)]
 [RequireCardComponent(typeof(FieldComponnet))]
 public class ResonanceComponent : EventListenerComponent
 {
-    List<CardEffect> effects;
-    public ResonanceComponent(CardEffect effect)
-    {
-        effects = new List<CardEffect>() { effect };
-    }
-    public ResonanceComponent(IEnumerable<CardEffect> effects)
-    {
-        effects = new List<CardEffect>(effects);
-    }
-
+    public ResonanceComponent(NoTargetCardEffect effect):base(effect){}
+    
     public override void EventListen(AbstractCardEvent e)
     {
         if (e is AfterSummonEvent)
@@ -27,22 +19,23 @@ public class ResonanceComponent : EventListenerComponent
             }
             else
             {
-                if (se.source.resonance != null)
+                if (se.source.resonance != null && se.source.field!=null)
                 {
-                    se.handled= true;   
-                    Excute();
+                    var field = se.source.field;
+                    if(field.row==card.field.row || field.col==card.field.col)
+                    {
+                        se.handled = true;
+                        Excute();
+                    }
                 }
             }
                 
         }
     }
 
-    public void Excute()
+    public override string ToString()
     {
-        foreach (CardEffect effect in effects)
-        {
-            if (effect.CanUse())
-                effect.Excute();
-        }
+        return "呼应," + effect.ToString();
+        throw new System.NotImplementedException();
     }
 }

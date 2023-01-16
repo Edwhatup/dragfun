@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class OldAss:Card
 {
-    public OldAss()
+    public OldAss(CardInfo info) : base(info)
     {
         name = "老佣兵";
         camp = CardCamp.Friendly;
@@ -14,7 +14,8 @@ public class OldAss:Card
         AddComponnet(new AttackComponent(1));
         AddComponnet(new AttackedComponent(4));
         AddComponnet(new ActionComponent());
-        AddComponnet(new UseComponent(new SummonComponent(this), 3));
+        AddComponnet(new SummonComponent());
+        AddComponnet(new UseComponent(3));
         GetDesc = () => "";
     }
 }

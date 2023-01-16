@@ -6,25 +6,22 @@ using UnityEngine;
 public class SingleDamage2SpecifyEnemy : CardEffect
 {
     int damage;
-    public SingleDamage2SpecifyEnemy(string[] paras)
+    public SingleDamage2SpecifyEnemy(Card card, string[] paras):base(card)
     {
         int.TryParse(paras[0], out damage);
-        InitTarget();
     }
     public override bool CanUse()
     {
-        Debug.Log(CardManager.Instance.enemies.Count);  
-        return CardManager.Instance.enemies.Has(e=>e.field.state==BattleState.Survive);    
+        return CardManager.Instance.Enemies.Has(e=>e.field.state==BattleState.Survive);    
     }
-    public SingleDamage2SpecifyEnemy(int damage)
+    public SingleDamage2SpecifyEnemy(Card card, int damage):base(card)
     {
         this.damage = damage;
-        InitTarget();
     }
     public override void InitTarget()
     {
         TargetCount = 1;
-        CardTargets = new List<CardTarget>() { CardTarget.Enemy };
+        CardTargets.Add(CardTarget.Enemy | CardTarget.Monster);
     }
     public override void Excute()
     {
@@ -39,6 +36,6 @@ public class SingleDamage2SpecifyEnemy : CardEffect
 
     public override string ToString()
     {
-        return $"对一名敌人造成{damage}点伤害";
+        return $"对一名造成单位{damage}点伤害";
     }
 }

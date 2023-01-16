@@ -8,7 +8,7 @@ public abstract class CardComponent
 
     }
 
-    public virtual void Reset()
+    public virtual void ResetnTurnStart()
     {
 
     }

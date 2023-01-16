@@ -6,11 +6,11 @@ public class OldAssSelection : CardEffect
 {
     int hpModifier;
     int atkMofifier;
-    public OldAssSelection(string[] paras) : base()
+    public OldAssSelection(Card card, string[] paras) : base(card)
     {
         //没写完，摸了
     }
-    public OldAssSelection(int hpModifier, int atkMofifier) : base()
+    public OldAssSelection(Card card, int hpModifier, int atkMofifier) : base(card)
     {
         //没写完，摸了
     }
@@ -24,9 +24,9 @@ public class OldAssSelection : CardEffect
     {
         if(card.field.row==0)
         {
-            var e=new SelfBuffEffect(hpModifier,atkMofifier);
-            //这个地方效果不对，应该是增加永久身材效果
-            card.AddComponnet(e);
+            //var e=new SelfBuffEffect(card, hpModifier,atkMofifier);
+            ////这个地方效果不对，应该是增加永久身材效果
+            //card.AddComponnet(e);
         }
         if(card.field.row>=0)
         {
@@ -37,7 +37,7 @@ public class OldAssSelection : CardEffect
 
     public override void InitTarget()
     {
-        NoTarget();
+        //NoTarget();
     }
 
     public override void OnSelected()

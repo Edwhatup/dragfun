@@ -4,18 +4,16 @@ using UnityEngine;
 [CanRepeat(false)]
 public class ActionComponent : CardComponent, ISelector
 {
-    List<ISeletableTarget> targets = new List<ISeletableTarget>();
-    public List<ISeletableTarget> Targets => targets;
+    public List<ISeletableTarget> Targets { get; } = new List<ISeletableTarget>();
     int cost => card.ContainsTag("迅捷") ? 0 : 1;
     public int TargetCount => 1;
     int actionTimes = 1;
-    List<CardTarget> cardTargets = new List<CardTarget>() { CardTarget.None };
-    public IReadOnlyList<CardTarget> CardTargets => cardTargets;
+    public List<CardTarget> CardTargets { get; } = new List<CardTarget>() { CardTarget.None };
     public void CancleSelect()
     {
-        targets.Clear();
+        Targets.Clear();
     }
-    public override void Reset()
+    public override void ResetnTurnStart()
     {
         actionTimes = 1;
     }
@@ -25,7 +23,7 @@ public class ActionComponent : CardComponent, ISelector
         if (CardTargetUtility.IsTargetsCompatible(CardTargets[0], CardTarget.Cell) && target is Cell cell)
         {
             var dis = CellManager.Instance.GetStreetDistance(card.field.cell, cell);
-            return dis <= card.field.moveRange && dis > 0;
+            return (cell.CanMove() || cell.CanSwaped()) && dis <= card.field.moveRange && dis > 0;
         }
         if (CardTargetUtility.IsTargetsCompatible(CardTargets[0], CardTarget.Enemy) && target is EnemyVisual visual)
         {
@@ -58,7 +56,7 @@ public class ActionComponent : CardComponent, ISelector
         {
             if (card.attack?.CanAttack ?? false)
             {
-                var tauntEnemies = CardManager.Instance.enemies.FindAll(e => e.attacked.Taunt);
+                var tauntEnemies = CardManager.Instance.Enemies.FindAll(e => e.field.state==BattleState.Survive && e.attacked.Taunt);
                 if (tauntEnemies.Count > 0)
                 {
                     foreach (var taunt in tauntEnemies)
@@ -72,7 +70,7 @@ public class ActionComponent : CardComponent, ISelector
                 }
                 else
                 {
-                    var enemies = CardManager.Instance.enemies.FindAll(e => e.attacked.GetAttackDistance(card) <= card.attack.AtkRange);
+                    var enemies = CardManager.Instance.Enemies.FindAll(e => e.field.state == BattleState.Survive && e.attacked.GetAttackDistance(card) <= card.attack.AtkRange);
                     if (enemies.Count > 0)
                     {
                         targetPriority = enemies[0].attacked.GetAttackedPriority(card);
@@ -85,6 +83,7 @@ public class ActionComponent : CardComponent, ISelector
     }
     public bool CanUse()
     {
+        if (card.camp == CardCamp.Enemy) return false;
         if (actionTimes <= 0 || GameManager.Instance.pp < cost) return false;
         canAttack = CanAttack;
         canMove = CanMove;
@@ -93,13 +92,12 @@ public class ActionComponent : CardComponent, ISelector
 
     public void Excute()
     {
-        var target = targets[0];
+        var target = Targets[0];
         if (target is EnemyVisual visual)
             card.attack.Attack(visual.card, true, cost);
         else if (target is Cell cell)
             card.field.Move(cell, true, cost);
         card.ClearTag("迅捷");
-        actionTimes -= 1;
     }
 
     public ISelector GetNextSelector()
@@ -110,15 +108,15 @@ public class ActionComponent : CardComponent, ISelector
     public void OnSelected()
     {
         Selections.Instance.CreateArrow(card.visual.transform);
-        targets.Clear();
-        cardTargets[0] = CardTarget.None;
-        if (canMove) cardTargets[0] |= CardTarget.Cell;
-        if (canAttack) cardTargets[0] |= CardTarget.Enemy;
+        Targets.Clear();
+        CardTargets[0] = CardTarget.None;
+        if (canMove) CardTargets[0] |= CardTarget.Cell;
+        if (canAttack) CardTargets[0] |= CardTarget.Enemy;
 
     }
 
     public bool GetCanAttack()
     {
-        return canAttack;
+        return CanAttack;
     }
 }
