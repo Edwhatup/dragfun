@@ -10,7 +10,7 @@ public class SoiderSummon : Card
         camp = CardCamp.Friendly;
         type = CardType.Spell;
         cost = 3;
-        var e = new RandomSummonOnFirstRow(this,2,"士兵");
+        var e = new RandomSummonOnSpecificRow(this,2,"士兵",0);
         AddComponnet(new SpellCastComponent(3, e));
         GetDesc=()=>e.ToString();
     }

@@ -63,7 +63,7 @@ public class AttackedComponent : CardComponent
     {
         int finalDamage = damage;
         if(type==DamageType.Attack)
-            finalDamage=(damage+source.attack.extraDamage)*(1+source.attack.extraDamageRate);
+            finalDamage= (int)((damage+source.attack.extraDamage)*(1+source.attack.extraDamageRate));
         DamageInfo info = new DamageInfo() 
         {
             initDamage = damage,

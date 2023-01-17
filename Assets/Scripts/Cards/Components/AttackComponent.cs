@@ -12,7 +12,7 @@ public class AttackComponent : CardComponent
     public int sweep=0;
     public int pierce=0;
     public int extraDamage=0;
-    public int extraDamageRate=0;
+    public double extraDamageRate=0;
     public int buffAtkByRange=0;
     public int globalAtkCount=0;
 
