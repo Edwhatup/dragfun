@@ -96,6 +96,7 @@ public class CardManager : MonoBehaviour, IManager
             if (hand.Count == Player.Instance.maxHandCnt) break;
             var card = drawDeck[0];
             drawDeck.Transfer(hand, card);
+            card.Init();
             Refresh();
         }
     }
@@ -110,7 +111,7 @@ public class CardManager : MonoBehaviour, IManager
             card.visual.transform.SetParent(discardDeckTrans, false);
         foreach (Card card in drawDeck)
             card.visual.transform.SetParent(drawDeckTrans, false);
-        foreach(var card in enemyTombs)
+        foreach (var card in enemyTombs)
             card.visual.transform.SetParent(tombsTrans, false);
         foreach (var card in friendlyTombs)
             card.visual.transform.SetParent(tombsTrans, false);
@@ -127,13 +128,18 @@ public class CardManager : MonoBehaviour, IManager
         bool flag = false;
         foreach (var card in board.ToList())
         {
-            CheckCardState(card,ref flag);
+            CheckCardState(card, ref flag);
+        }
+        if (Player.Instance.field.state != BattleState.Survive)
+        {
+            GameManager.Instance.GameFalse();
+            return;
         }
         if (flag)
             DeadSettlement();
     }
 
-    private void CheckCardState(Card card,ref bool flag)
+    private void CheckCardState(Card card, ref bool flag)
     {
         if (card.field.state == BattleState.Dead || card.field.state == BattleState.HalfDead)
         {
@@ -224,22 +230,25 @@ public class CardManager : MonoBehaviour, IManager
 
     public void BroadcastCardEvent(AbstractCardEvent cardEvent)
     {
-        foreach (var card in drawDeck)
+        foreach (var card in drawDeck.ToList())
             BroadcastCardEvent2Card(card, cardEvent);
-        foreach (var card in hand)
+        foreach (var card in hand.ToList())
             BroadcastCardEvent2Card(card, cardEvent);
-        foreach (var card in board)
+        foreach (var card in board.ToList())
             BroadcastCardEvent2Card(card, cardEvent);
-        foreach (var card in Enemies)
-            BroadcastCardEvent2Card(card, cardEvent);
-        foreach (var card in discardDeck)
+        foreach (var card in discardDeck.ToList())
             BroadcastCardEvent2Card(card, cardEvent);
     }
     private void BroadcastCardEvent2Card(Card card, AbstractCardEvent cardEvent)
     {
-        foreach (var l in card.GetComponnets<EventListenerComponent>())
+        if (card.camp == CardCamp.Friendly)
+            foreach (var l in card.GetComponnets<EventListenerComponent>())
+            {
+                l.EventListen(cardEvent);
+            }
+        else
         {
-            l.EventListen(cardEvent);
+            card.enemyAction.current.EventListen(cardEvent);
         }
     }
 

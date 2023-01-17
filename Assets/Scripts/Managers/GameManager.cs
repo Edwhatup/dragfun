@@ -27,8 +27,8 @@ public class GameManager : MonoBehaviour, IManager
     // Start is called before the first frame update
     void Start()
     {
-        managers.Add(CardManager.Instance);
         managers.Add(CellManager.Instance);
+        managers.Add(CardManager.Instance);
     }
 
     #region IGameTurn 实现
@@ -36,14 +36,15 @@ public class GameManager : MonoBehaviour, IManager
     {
         foreach (var i in managers)
             i.GameStart();
+        Refresh();  
     }
     public void Refresh()
     {
         foreach (var i in managers)
             i.Refresh();
         this.pp = CardManager.Instance.Enemies.GetMinItem((l, r) =>
-                        l.enemyAction.current.pp - r.enemyAction.current.pp)
-                        .enemyAction.current.pp;
+                        l.enemyAction.current.timer - r.enemyAction.current.timer)
+                        .enemyAction.current.timer;
     }
 
     #endregion

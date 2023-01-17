@@ -14,7 +14,7 @@ public class CanRepeatAttribute : Attribute
 
     public static bool CanRepeat<T>(T t) where T : CardComponent
     {
-        var type = typeof(T);
+        var type = t.GetType();
         if (RepeatDic == null)
             RepeatDic = new Dictionary<string, bool>();
         if (!RepeatDic.ContainsKey(type.Name))

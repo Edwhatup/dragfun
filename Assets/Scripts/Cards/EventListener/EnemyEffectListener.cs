@@ -13,6 +13,7 @@ public class EnemyEffectListener : EventListenerComponent
     public int pp;
     public int timer;
     public int priority = 0;
+    bool canUse = false;
     public Type type = Type.Loop;
     public bool CanUse()
     {
@@ -26,19 +27,23 @@ public class EnemyEffectListener : EventListenerComponent
     public void Reset()
     {
         timer = pp;
+        canUse = true;
     }
 
 
     public override string ToString()
     {
-        return $"倒计时：{timer}+{effect.ToString()}。";
+        return $"倒计时：{timer}  {effect.ToString()}。";
     }
-
+    bool protect=false;
     public override void EventListen(AbstractCardEvent e)
     {
+        if (!canUse) return;
         this.timer -= e.ppCost;
-        if (this.timer <= 0)
+        Debug.Log(e.GetType().Name + e.ppCost);
+        if (this.timer <= 0 && !protect)
         {
+            protect = true;
             Excute();
             switch (type)
             {
@@ -48,7 +53,9 @@ public class EnemyEffectListener : EventListenerComponent
                     card.RemoveComponnent(this);
                     break;
             }
+            canUse = false;
             card.enemyAction.GetNextAction();
+            protect = false;
         }
 
     }

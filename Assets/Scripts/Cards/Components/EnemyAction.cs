@@ -14,7 +14,7 @@ public class EnemyAction : CardComponent
         var listeners=new List<EnemyEffectListener>();
         for(int i=0;i<ls.Count;i++)
         {
-            if(ls[i].priority== maxP && ls[i].CanUse())
+            if(ls[i].priority== maxP)
                 listeners.Add(ls[i]);
         }
         current = listeners[Mathf.FloorToInt(GameManager.Instance.Random.value * listeners.Count)];

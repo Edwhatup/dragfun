@@ -9,10 +9,3 @@ public class BeforeUseEvent : AbstractCardEvent
 
     }
 }
-public class AfterUseEvent : AbstractCardEvent
-{
-    public AfterUseEvent(Card source, int cost) : base(source, cost)
-    {
-
-    }
-}
