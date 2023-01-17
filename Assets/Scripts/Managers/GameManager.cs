@@ -4,15 +4,16 @@ using System;
 
 public class GameManager : MonoBehaviour, IManager
 {
+    public SystemRandom Random = new SystemRandom();
     public enum GamePhase
     {
         ReadyStart,
         InMap,
         Battle
     }
-    GamePhase phase=GamePhase.ReadyStart;
+    GamePhase phase = GamePhase.ReadyStart;
     public static GameManager Instance { get; private set; }
-    public int pp=1000000;
+    public int pp = 1000000;
     void Awake()
     {
         if (Instance == null)
@@ -40,6 +41,9 @@ public class GameManager : MonoBehaviour, IManager
     {
         foreach (var i in managers)
             i.Refresh();
+        this.pp = CardManager.Instance.Enemies.GetMinItem((l, r) =>
+                        l.enemyAction.current.pp - r.enemyAction.current.pp)
+                        .enemyAction.current.pp;
     }
 
     #endregion
@@ -47,7 +51,7 @@ public class GameManager : MonoBehaviour, IManager
     #region 回合管理相关
     public void Click2GameStart()
     {
-        if(phase==GamePhase.ReadyStart)
+        if (phase == GamePhase.ReadyStart)
         {
             phase = GamePhase.Battle;
             GameStart();

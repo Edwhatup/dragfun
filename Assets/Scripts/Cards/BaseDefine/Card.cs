@@ -29,6 +29,7 @@ public abstract class Card
     public FieldComponnet field => GetComponent<FieldComponnet>();
     public UseComponent use => GetComponent<UseComponent>();
     public ActionComponent action => GetComponent<ActionComponent>();
+    public EnemyAction enemyAction => GetComponent<EnemyAction>();
     public T GetComponent<T>() where T : CardComponent
     {
         return components.Find((c) => c.GetType() == typeof(T) || c.GetType().IsSubclassOf(typeof(T))) as T;
@@ -69,6 +70,10 @@ public abstract class Card
     public void RemoveComponnent<T>() where T : CardComponent
     {
         components.RemoveAll(c => c.GetType() == typeof(T));
+    }
+    public void RemoveComponnent(CardComponent component) 
+    {
+        components.Remove(component);   
     }
     public void Buff(Card source, int atk, int hp)
     {
