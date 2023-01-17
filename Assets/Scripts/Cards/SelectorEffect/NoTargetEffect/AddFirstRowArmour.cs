@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AddFirstRowArmour : CardEffect
+public class AddFirstRowArmour : NoTargetCardEffect
 {
-     int armourValue;
-    public AddFirstRowArmour(string[] paras)
+    int armourValue;
+    public AddFirstRowArmour(Card card, string[] paras):base(card)
     {
         int.TryParse(paras[0], out armourValue);
         InitTarget();
@@ -14,14 +14,9 @@ public class AddFirstRowArmour : CardEffect
     {
         return true;
     }
-    public AddFirstRowArmour(int armourValue)
+    public AddFirstRowArmour(Card card, int armourValue):base(card)
     {
         this.armourValue = armourValue;
-        InitTarget();
-    }
-   public override void InitTarget()
-    {
-        NoTarget();
     }
 
     public override void OnSelected()

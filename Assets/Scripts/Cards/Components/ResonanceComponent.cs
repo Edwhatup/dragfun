@@ -39,13 +39,4 @@ public class ResonanceComponent : EventListenerComponent
         throw new System.NotImplementedException();
     }
 
-    public override string ToString()
-    {
-        string des="响应：";
-        foreach(CardEffect effect in effects)
-        {
-            des=des+effect.ToString();
-        }
-        return des;
-    }
 }
