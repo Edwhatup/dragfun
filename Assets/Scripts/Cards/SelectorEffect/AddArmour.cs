@@ -6,7 +6,7 @@ using UnityEngine;
 public class AddArmour : CardEffect
 {
     int armourValue;
-    public AddArmour(string[] paras)
+    public AddArmour(Card card, string[] paras):base(card)
     {
         int.TryParse(paras[0], out armourValue);
         InitTarget();
@@ -15,7 +15,7 @@ public class AddArmour : CardEffect
     {
         return CardManager.Instance.board.FindAll(c=>c.camp==CardCamp.Friendly)!=null;
     }
-    public AddArmour(int armourValue)
+    public AddArmour(Card card, int armourValue):base(card)
     {
         this.armourValue = armourValue;
         InitTarget();
@@ -23,7 +23,7 @@ public class AddArmour : CardEffect
     public override void InitTarget()
     {
         TargetCount = 1;
-        CardTargets = new List<CardTarget>() {CardTarget.Monster};
+        CardTargets.Add(CardTarget.Monster);
     }
     public override void Excute()
     {

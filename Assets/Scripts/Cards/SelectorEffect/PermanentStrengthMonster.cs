@@ -6,12 +6,12 @@ public class PermanentStrengthMonster : CardEffect
 {
     int hpModifier;
     int atkMofifier;
-    public PermanentStrengthMonster(string[] paras):base()
+    public PermanentStrengthMonster(Card card, string[] paras):base(card)
     {
         int.TryParse(paras[0], out hpModifier);
         int.TryParse(paras[1], out atkMofifier);
     }
-    public PermanentStrengthMonster(int hpModifier, int atkMofifier) : base()
+    public PermanentStrengthMonster(Card card, int hpModifier, int atkMofifier) : base(card)
     {
         this.hpModifier = hpModifier;
         this.atkMofifier = atkMofifier;
@@ -20,7 +20,7 @@ public class PermanentStrengthMonster : CardEffect
     public override void InitTarget()
     {
         TargetCount = 1;
-        CardTargets = new List<CardTarget>() { CardTarget.Monster };
+        CardTargets.Add(CardTarget.Monster);
     }
 
     public override void Excute()

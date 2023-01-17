@@ -98,6 +98,7 @@ public class ActionComponent : CardComponent, ISelector
         else if (target is Cell cell)
             card.field.Move(cell, true, cost);
         card.ClearTag("迅捷");
+        actionTimes-=1;
     }
 
     public ISelector GetNextSelector()

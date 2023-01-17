@@ -13,6 +13,10 @@ public abstract class EventListenerComponent : CardComponent
     {
         this.effect =  effect ;
     }
+    public EventListenerComponent()
+    {
+        
+    }
     public void Excute()
     {
         if (effect.CanUse())
