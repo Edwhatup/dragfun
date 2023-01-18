@@ -10,6 +10,7 @@ public class MonsterCardVisual : CardVisual, ISeletableTarget
     [SerializeField] Text descText;
     [SerializeField] Text atkText;
     [SerializeField] Text hpText;
+    [SerializeField] Text costText;
     public MonsterCardVisual(Card card)
     {
         this.card = card;
@@ -19,6 +20,7 @@ public class MonsterCardVisual : CardVisual, ISeletableTarget
     public override void UpdateVisual()
     {
         if (nameText) nameText.text = card.name;
+        if (costText) costText.text = card.cost.ToString();
         if (hpText)
         {
             if (card.attacked != null)

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// 在第n排随机位置召唤两个士兵
+/// 在第n排随机位置召唤两个随从单位
 /// </summary>
 public class RandomSummonOnSpecificRow : NoTargetCardEffect
 {

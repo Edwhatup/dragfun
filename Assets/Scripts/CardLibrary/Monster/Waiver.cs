@@ -9,7 +9,7 @@ public class Waiver : Card
         name = "振荡制造机";
         camp = CardCamp.Friendly;
         type = CardType.Monster;
-        cost=2;
+        cost = 2;
         AddComponnet(new AttackedComponent(1));
         AddComponnet(new ActionComponent());
         AddComponnet(new SummonComponent());

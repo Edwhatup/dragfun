@@ -21,7 +21,7 @@ public class FieldComponnet : CardComponent
         row =null;
         col = null;
     }
-    public void Summon(Cell targetCell)
+    public void Summon(Cell targetCell, bool isEffect=false)
     {    
         AfterSummonEvent afe = new AfterSummonEvent(card, targetCell);
         targetCell.Summon(card);
