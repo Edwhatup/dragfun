@@ -11,7 +11,7 @@ public class GroupDamage1 : NoTargetCardEffect
     }
     public override string ToString()
     {
-        return $"对周围四格的右方单位造成{damage}点伤害";
+        return $"对周围四格的敌方单位造成{damage}点伤害";
     }
     public override void Excute()
     {

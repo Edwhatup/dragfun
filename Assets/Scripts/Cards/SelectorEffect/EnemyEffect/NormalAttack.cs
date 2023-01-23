@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RandomDamage : NoTargetCardEffect
+public class NormalAttack : NoTargetCardEffect
 {
     int damage; 
-    public RandomDamage(Card card,int damage) : base(card)
+    public NormalAttack(Card card,int damage) : base(card)
     {
         this.damage = damage;
     }
     public override string ToString()
     {
-        return $"随机攻击一次，造成{damage}点伤害。";
+        return $"对最近的目标攻击一次，造成{damage}点伤害";
     }
     public override void Excute()
     {

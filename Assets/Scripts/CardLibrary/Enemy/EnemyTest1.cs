@@ -11,7 +11,7 @@ public class EnemyTest1 : Card
         AddComponnet(new AttackedComponent(40));
         AddComponnet(new EnemyAction());
         AddComponnet(new EnemyEffectListener(5, new RandomDamage(this, 5)) { priority = 0});
-        AddComponnet(new EnemyEffectListener(7, new RandomSummonDerive(this, "爆炸小鬼")) { priority = 1 });
+        AddComponnet(new EnemyEffectListener(7, new RandomSummonDerive(this, "爆炸小鬼",2)) { priority = 1 });
         var ls=GetComponnets<EnemyEffectListener>();
         enemyAction.GetNextAction();
         GetDesc =   ()=> enemyAction.current?.ToString()??"";
@@ -27,7 +27,7 @@ public class EnemyTest2 : Card
         camp = CardCamp.Enemy;
         AddComponnet(new AttackedComponent(5));
         AddComponnet(new EnemyAction());
-        AddComponnet(new EnemyEffectListener(5, new GroupDamage1(this, 5)) { priority = 1 });
+        AddComponnet(new EnemyEffectListener(5, new GroupDamage1(this, 3)) { priority = 1 });
         enemyAction.GetNextAction();
         GetDesc = () => enemyAction.current?.ToString() ?? "";
     }
