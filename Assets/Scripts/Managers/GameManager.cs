@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour, IManager
     GamePhase phase = GamePhase.ReadyStart;
     public static GameManager Instance { get; private set; }
     public int pp = 1000000;
+    public int RoundPP=10;
     void Awake()
     {
         if (Instance == null)
@@ -36,12 +37,14 @@ public class GameManager : MonoBehaviour, IManager
     {
         foreach (var i in managers)
             i.GameStart();
+        pp = RoundPP;
         Refresh();  
     }
     public void Refresh()
     {
         foreach (var i in managers)
             i.Refresh();
+        
         this.pp = CardManager.Instance.Enemies.GetMinItem((l, r) =>
                         l.enemyAction.current.timer - r.enemyAction.current.timer)
                         .enemyAction.current.timer;
