@@ -3,6 +3,7 @@
     Monster,
     Spell,
     Enemy,
+    Special,
     Construction,
     FriendlyDerive,
     EnemyDerive,

@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour, IManager
     {
         foreach (var i in managers)
             i.GameStart();
-        pp = RoundPP;
+        //pp = RoundPP;
         Refresh();  
     }
     public void Refresh()

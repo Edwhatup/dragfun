@@ -1,33 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class EnemyTest1 : Card
+public class Slime : Card
 {
-    public EnemyTest1(CardInfo Info) : base(Info)
+    public Slime(CardInfo Info) : base(Info)
     {
-        name = "投嗣育母";
+        name = "史莱姆";
         type=CardType.Enemy;
         camp = CardCamp.Enemy;
         AddComponnet(new AttackedComponent(40));
         AddComponnet(new EnemyAction());
         AddComponnet(new EnemyEffectListener(5, new EnemyNormalAttack(this, 3,3)) { priority = 0});
-        AddComponnet(new EnemyEffectListener(7, new RandomSummonDerive(this, "爆炸小鬼",2)) { priority = 1 });
+        AddComponnet(new EnemyEffectListener(7, new RandomSummonDerive(this, "小史莱姆",2)) { priority = 1 });
         var ls=GetComponnets<EnemyEffectListener>();
         enemyAction.GetNextAction();
         GetDesc =   ()=> enemyAction.current?.ToString()??"";
     }
 
 }
-public class EnemyTest2 : Card
+
+public class SlimeChild : Card
 {
-    public EnemyTest2(CardInfo Info) : base(Info)
+    public SlimeChild(CardInfo Info) : base(Info)
     {
-        name = "爆炸小鬼";
+        name = "小史莱姆";
         type = CardType.EnemyDerive;
         camp = CardCamp.Enemy;
         AddComponnet(new AttackedComponent(5));
         AddComponnet(new EnemyAction());
-        AddComponnet(new EnemyEffectListener(5, new GroupDamage1(this, 3)) { priority = 1 });
+        AddComponnet(new EnemyEffectListener(5, new EnemyNormalAttack(this, 3,3)) { priority = 0});
+        AddComponnet(new DeadComponent(new GroupDebuff(this,2,2)));
         enemyAction.GetNextAction();
         GetDesc = () => enemyAction.current?.ToString() ?? "";
     }
