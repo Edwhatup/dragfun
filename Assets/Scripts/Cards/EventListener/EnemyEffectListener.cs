@@ -11,7 +11,16 @@ public class EnemyEffectListener : EventListenerComponent
         Once
     }
     public int pp;
-    public int timer;
+    private int timer;
+    public int Timer
+    {
+        get => timer;
+        set
+        {
+            timer = value;
+            card.visual?.UpdateVisual();
+        }
+    }
     public int priority = 0;
     bool canUse = false;
     public Type type = Type.Loop;
@@ -26,22 +35,25 @@ public class EnemyEffectListener : EventListenerComponent
 
     public void Reset()
     {
-        timer = pp;
+        Timer = pp;
         canUse = true;
     }
 
 
     public override string ToString()
     {
-        return $"倒计时：{timer}  {effect.ToString()}。";
+        return $"倒计时：{Timer}  {effect.ToString()}。";
     }
-    bool protect=false;
+    bool protect = false;
+
+
+
     public override void EventListen(AbstractCardEvent e)
     {
         if (!canUse) return;
-        this.timer -= e.ppCost;
+        this.Timer -= e.ppCost;
         Debug.Log(e.GetType().Name + e.ppCost);
-        if (this.timer <= 0 && !protect)
+        if (this.Timer <= 0 && !protect)
         {
             protect = true;
             Excute();

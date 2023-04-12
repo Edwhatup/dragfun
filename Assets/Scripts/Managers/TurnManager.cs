@@ -34,7 +34,7 @@ public class TurnManager : MonoBehaviour, IManager
     public void NextTurn()
     {
         turn++;
-        var deltaPP = turnPP - GameManager.Instance.Pp;
+        var deltaPP = GameManager.Instance.Pp;
         GameManager.Instance.Pp = turnPP;
         CardManager.Instance.DrawCard(drawCnt);
 
