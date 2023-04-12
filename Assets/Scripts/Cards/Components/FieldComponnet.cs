@@ -15,14 +15,14 @@ public class FieldComponnet : CardComponent
     public bool CanSwap => canSwap > 0;
     public FieldComponnet()
     {
-        this.canMove =1;
+        this.canMove = 1;
         this.canSwap = 1;
         this.moveRange = 1;
-        row =null;
+        row = null;
         col = null;
     }
-    public void Summon(Cell targetCell, bool isEffect=false)
-    {    
+    public void Summon(Cell targetCell, bool isEffect = false)
+    {
         AfterSummonEvent afe = new AfterSummonEvent(card, targetCell);
         targetCell.Summon(card);
         CardManager.Instance.SummonCard(card);
@@ -34,10 +34,11 @@ public class FieldComponnet : CardComponent
     /// </summary>
     /// <param name="targetCell">目标场地</param>
     /// <param name="active">是否主动发起移动</param>
-    public void Move(Cell targetCell, bool active,int cost=0)
+    public void Move(Cell targetCell, bool active, int cost = 0)
     {
         if (!(targetCell.CanMove() || targetCell.CanSwaped())) return;
         int ppcost = active ? cost : 0;
+        if (!GameManager.Instance.TryCostPP(ppcost)) return;
         if (targetCell.card != null)
         {
             var monster = targetCell.card;

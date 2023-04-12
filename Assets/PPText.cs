@@ -5,15 +5,17 @@ using UnityEngine.UI;
 
 public class PPText : MonoBehaviour
 {
+    private Text text;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        text = GetComponent<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        GetComponent<Text>().text = "PP:"+GameManager.Instance.pp.ToString();
+        text.text = "PP:" + GameManager.Instance.Pp.ToString();
     }
 }

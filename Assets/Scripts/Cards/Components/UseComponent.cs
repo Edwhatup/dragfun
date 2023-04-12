@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UseComponent : CardComponent,ISelector
+public class UseComponent : CardComponent, ISelector
 {
     int consume;
     public bool ConSume => consume > 0;
@@ -13,7 +13,7 @@ public class UseComponent : CardComponent,ISelector
     public List<ISeletableTarget> Targets => selector.Targets;
     public int TargetCount => selector.TargetCount;
     public List<CardTarget> CardTargets => selector.CardTargets;
-    public UseComponent(int cost,bool consume=false, bool isFree = false)
+    public UseComponent(int cost, bool consume = false, bool isFree = false)
     {
         this.cost = cost;
         this.isFree = isFree ? 1 : 0;
@@ -40,19 +40,21 @@ public class UseComponent : CardComponent,ISelector
 
     public bool CanUse()
     {
-        return cost <= GameManager.Instance.pp && selector.CanUse();
+        return cost <= GameManager.Instance.Pp && selector.CanUse();
     }
 
     public void Excute()
     {
-        int ppCost = IsFree ? cost : 0;
+        int ppCost = !IsFree ? cost : 0;
+        if (!GameManager.Instance.TryCostPP(ppCost)) return;
+
         var bue = new BeforeUseEvent(card);
         EventManager.Instance.PassEvent(bue);
         if (bue.isCounter) return;
         selector.Excute();
         CardManager.Instance.UseCard(card);
-        GameManager.Instance.pp -= ppCost;
-        var aue = new AfterUseEvent(card,cost);
+        // GameManager.Instance.Pp -= ppCost;
+        var aue = new AfterUseEvent(card, cost);
         EventManager.Instance.PassEvent(aue);
     }
 
@@ -69,7 +71,7 @@ public class UseComponent : CardComponent,ISelector
             cell.preShowCard = null;
         }
         card.visual.SetRayCastTarget(true);
-        Targets.Clear(); 
+        Targets.Clear();
     }
 
     public void OnSelected()

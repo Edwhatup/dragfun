@@ -84,7 +84,7 @@ public class ActionComponent : CardComponent, ISelector
     public bool CanUse()
     {
         if (card.camp == CardCamp.Enemy) return false;
-        if (actionTimes <= 0 || GameManager.Instance.pp < cost) return false;
+        if (actionTimes <= 0 || GameManager.Instance.Pp < cost) return false;
         canAttack = CanAttack;
         canMove = CanMove;
         return canAttack || canMove;

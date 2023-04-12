@@ -7,7 +7,7 @@ public class AttackedComponent : CardComponent
     public int hp;
     public int initMaxHp;
     public int maxHp;
-    public int bless=0;
+    public int bless = 0;
     public int block = 0;
     public int taunt;
     public bool Taunt => taunt > 0;
@@ -15,7 +15,7 @@ public class AttackedComponent : CardComponent
     public int GetAttackedPriority(Card card)
     {
         //敌人对我方单位的优先性计算
-        if(this.card.camp==CardCamp.Friendly && card.camp==CardCamp.Enemy)
+        if (this.card.camp == CardCamp.Friendly && card.camp == CardCamp.Enemy)
         {
             int res = 0;
             //我方单位有嘲讽
@@ -28,14 +28,14 @@ public class AttackedComponent : CardComponent
                     break;
                 //敌人衍生物攻击距离最近的敌人
                 case CardType.EnemyDerive:
-                    res+= Math.Max(Math.Abs(card.field.row.Value - this.card.field.row.Value), Math.Abs(card.field.col.Value - this.card.field.col.Value));
+                    res += Math.Max(Math.Abs(card.field.row.Value - this.card.field.row.Value), Math.Abs(card.field.col.Value - this.card.field.col.Value));
                     break;
 
             }
             return res;
         }
         //我方单位对敌方的优先性计算
-        else if(this.card.camp == CardCamp.Enemy && card.camp == CardCamp.Friendly)
+        else if (this.card.camp == CardCamp.Enemy && card.camp == CardCamp.Friendly)
         {
             //优先攻击有嘲讽的随从
             if (Taunt)
@@ -51,6 +51,11 @@ public class AttackedComponent : CardComponent
         this.initMaxHp = maxHp;
         this.maxHp = maxHp;
     }
+
+    public override void ResetnTurnStart()
+    {
+        hp = maxHp;
+    }
     //public void Heal(Card source, int delta)
     //{
     //    var e=new HealEvent(source,card,delta);
@@ -59,15 +64,15 @@ public class AttackedComponent : CardComponent
     //    if(Hp>MaxHp) hp.value = MaxHp;
     //    EventManager.Instance.PassEvent(e);
     //}
-    public DamageInfo ApplyDamage(Card source, int damage,DamageType type=DamageType.Other)
+    public DamageInfo ApplyDamage(Card source, int damage, DamageType type = DamageType.Other)
     {
         int finalDamage = damage;
-        if(type==DamageType.Attack)
-            finalDamage= (int)((damage+source.attack.extraDamage)*(1+source.attack.extraDamageRate));
-        DamageInfo info = new DamageInfo() 
+        if (type == DamageType.Attack)
+            finalDamage = (int)((damage + source.attack.extraDamage) * (1 + source.attack.extraDamageRate));
+        DamageInfo info = new DamageInfo()
         {
             initDamage = damage,
-            beforeState=card.field.state,
+            beforeState = card.field.state,
         };
         var e = new BeforeDamageEvent(source, card, damage);
         EventManager.Instance.PassEvent(e);
@@ -91,7 +96,7 @@ public class AttackedComponent : CardComponent
                 block = 0;
                 info.actualDamage = finalDamage;
                 info.isResist = false;
-                this.hp -= finalDamage;         
+                this.hp -= finalDamage;
             }
         }
         if (this.hp <= 0)
@@ -106,11 +111,11 @@ public class AttackedComponent : CardComponent
 
     public int GetAttackDistance(Card card)
     {
-        var res= MaxAbs(card.field.row - this.card.field.row, card.field.col - this.card.field.col);
+        var res = MaxAbs(card.field.row - this.card.field.row, card.field.col - this.card.field.col);
         return res;
 
     }
-    int MaxAbs(int? l,int? r)
+    int MaxAbs(int? l, int? r)
     {
         if (l == null && r == null) throw new Exception();
         if (l == null) return Mathf.Abs(r.Value);
@@ -122,9 +127,9 @@ public class AttackedComponent : CardComponent
         string str = this.hp.ToString();
         if (block != 0)
             str += $"({block})";
-        if(Bless)
-            str='('+str+")";
-        if(this.hp==this.maxHp)
+        if (Bless)
+            str = '(' + str + ")";
+        if (this.hp == this.maxHp)
         {
             if (this.maxHp > this.initMaxHp)
                 return $"<color=green>{str}</color>";

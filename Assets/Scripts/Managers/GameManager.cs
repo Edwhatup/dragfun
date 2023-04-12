@@ -13,8 +13,13 @@ public class GameManager : MonoBehaviour, IManager
     }
     GamePhase phase = GamePhase.ReadyStart;
     public static GameManager Instance { get; private set; }
-    public int pp = 1000000;
-    public int RoundPP=10;
+    public int Pp
+    {
+        get => pp;
+        set => pp = value;
+    }
+
+    private int pp = 1000000;
     void Awake()
     {
         if (Instance == null)
@@ -30,6 +35,7 @@ public class GameManager : MonoBehaviour, IManager
     {
         managers.Add(CellManager.Instance);
         managers.Add(CardManager.Instance);
+        managers.Add(TurnManager.Instance);
     }
 
     #region IGameTurn 实现
@@ -38,16 +44,16 @@ public class GameManager : MonoBehaviour, IManager
         foreach (var i in managers)
             i.GameStart();
         //pp = RoundPP;
-        Refresh();  
+        Refresh();
     }
     public void Refresh()
     {
         foreach (var i in managers)
             i.Refresh();
-        
-        this.pp = CardManager.Instance.Enemies.GetMinItem((l, r) =>
-                        l.enemyAction.current.timer - r.enemyAction.current.timer)
-                        .enemyAction.current.timer;
+
+        // this.pp = CardManager.Instance.Enemies.GetMinItem((l, r) =>
+        //                 l.enemyAction.current.timer - r.enemyAction.current.timer)
+        //                 .enemyAction.current.timer;
     }
 
     #endregion
@@ -78,4 +84,15 @@ public class GameManager : MonoBehaviour, IManager
     }
 
     #endregion
+
+    public bool CheckPP(int amount) => Pp >= amount;
+    public bool TryCostPP(int amount)
+    {
+        if (CheckPP(amount))
+        {
+            Pp -= amount;
+            return true;
+        }
+        return false;
+    }
 }

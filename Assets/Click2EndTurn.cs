@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class Click2EndTurn : MonoBehaviour
 {
-    [SerializeField] int drawCnt;
     public void EndTurn()
     {
-        
+        TurnManager.Instance.NextTurn();
     }
 }

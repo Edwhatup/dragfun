@@ -8,7 +8,7 @@ public class Click2Draw : MonoBehaviour
     public void Click2DrawCard()
     {
         //测试方便我先改成1了
-        if(GameManager.Instance.pp>=1)
+        if(GameManager.Instance.Pp>=1)
         {
             CardManager.Instance.DrawCard(drawCnt);
             EventManager.Instance.PassEvent(new UsePPEvent(1));
