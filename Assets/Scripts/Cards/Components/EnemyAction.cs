@@ -8,13 +8,14 @@ public class EnemyAction : CardComponent
     public EnemyEffectListener current;
     public void GetNextAction()
     {
-        var ls=card.GetComponnets<EnemyEffectListener>();
+        var ls = card.GetComponnets<EnemyEffectListener>();
+        if (ls.Count == 0) return;
         ls.Sort((l, r) => r.priority - l.priority);
         int maxP = GetMaxPriority(ls);
-        var listeners=new List<EnemyEffectListener>();
-        for(int i=0;i<ls.Count;i++)
+        var listeners = new List<EnemyEffectListener>();
+        for (int i = 0; i < ls.Count; i++)
         {
-            if(ls[i].priority== maxP)
+            if (ls[i].priority == maxP)
                 listeners.Add(ls[i]);
         }
         current = listeners[Mathf.FloorToInt(GameManager.Instance.Random.value * listeners.Count)];
