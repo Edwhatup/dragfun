@@ -52,10 +52,10 @@ public class AttackedComponent : CardComponent
         this.maxHp = maxHp;
     }
 
-    public override void ResetnTurnStart()
-    {
-        hp = maxHp;
-    }
+    // public override void ResetnTurnStart()
+    // {
+    //     hp = maxHp;
+    // }
     //public void Heal(Card source, int delta)
     //{
     //    var e=new HealEvent(source,card,delta);

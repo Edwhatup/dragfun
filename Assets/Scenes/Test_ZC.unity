@@ -164,7 +164,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05499af6192fbdc418f4b6410d9ec385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawCnt: 1
 --- !u!114 &62538852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1580,6 +1579,7 @@ GameObject:
   m_Component:
   - component: {fileID: 991594432}
   - component: {fileID: 991594431}
+  - component: {fileID: 991594436}
   - component: {fileID: 991594434}
   - component: {fileID: 991594437}
   - component: {fileID: 991594435}
@@ -1647,8 +1647,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10d431c2e815ae43be06f1c9cbf2e58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pp: 100000
-  RoundPP: 10
 --- !u!114 &991594435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1667,6 +1665,20 @@ MonoBehaviour:
     type: 3}
   enemyPrefab: {fileID: 4225133135414152470, guid: 91c22e25bcab0c344a5fc70a2b4b7810,
     type: 3}
+--- !u!114 &991594436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991594430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc92fe4a3d89f53469b6d95d5f9741fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnPP: 10
+  drawCnt: 1
 --- !u!114 &991594437
 MonoBehaviour:
   m_ObjectHideFlags: 0
