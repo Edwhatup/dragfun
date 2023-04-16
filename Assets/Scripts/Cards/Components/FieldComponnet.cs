@@ -17,7 +17,7 @@ public class FieldComponnet : CardComponent
     {
         this.canMove = 1;
         this.canSwap = 1;
-        this.moveRange = 1;
+        this.moveRange = 2;
         row = null;
         col = null;
     }
