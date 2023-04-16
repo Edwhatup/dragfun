@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AddAtkHalo : HaloEffect
+public class AddAroundAtkHalo : HaloEffect
 {
     protected override List<Cell> Cells 
         => CellManager.Instance.GetCells().FindAll(c => CellManager.Instance.GetStreetDistance(c, this.card.field.cell) == 1);
     private int atkValue;
 
-    public AddAtkHalo(Card c, int atkValue) : base(c)
+    public AddAroundAtkHalo(Card c, int atkValue) : base(c)
     {
         this.atkValue = atkValue;
     }

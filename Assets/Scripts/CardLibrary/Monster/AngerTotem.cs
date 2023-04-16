@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IncrementMatrix : Card
+public class AngerTotem : Card
 {
-    public IncrementMatrix(CardInfo info) : base(info)
+    public AngerTotem(CardInfo info) : base(info)
     {
-        name = "增幅矩阵";
+        name = "愤怒图腾";
         camp = CardCamp.Friendly;
         type = CardType.Construction;
         cost = 1;

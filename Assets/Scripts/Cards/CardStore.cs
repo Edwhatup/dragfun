@@ -69,8 +69,9 @@ public class CardStore : MonoBehaviour
                 break;
             case CardType.Monster:
             case CardType.FriendlyDerive:
+            case CardType.Construction:
                 visual = GameObject.Instantiate(monsterPrefab);
-                break;
+                break;    
             case CardType.Spell:
                 visual = GameObject.Instantiate(spellPrefab);
                 break;
