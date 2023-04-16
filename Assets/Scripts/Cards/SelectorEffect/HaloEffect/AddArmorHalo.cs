@@ -6,19 +6,23 @@ public class AddArmorHalo : HaloEffect
 {
     private int amount;
 
+    public AddArmorHalo(Card card) : base(card)
+    {
+    }
+
     // 看情况而定，如果你只想让这个光环作用在绝对的坐标，那就重写这一个构造函数
     // 相对的坐标同理
     // 但如果两个都要，就两个都重写
-    public AddArmorHalo(Card card, List<Cell> cells, int amount) : base(card, cells)
-    {
-        this.amount = amount;
-    }
+    // public AddArmorHalo(Card card, List<Cell> cells, int amount) : base(card, cells)
+    // {
+    //     this.amount = amount;
+    // }
 
-    // 光环用相对坐标，则重写这个！
-    public AddArmorHalo(Card card, List<Vector2Int> positions, int amount) : base(card, positions)
-    {
-        this.amount = amount;
-    }
+    // // 光环用相对坐标，则重写这个！
+    // public AddArmorHalo(Card card, List<Vector2Int> positions, int amount) : base(card, positions)
+    // {
+    //     this.amount = amount;
+    // }
 
     public override void InitTarget()
     {

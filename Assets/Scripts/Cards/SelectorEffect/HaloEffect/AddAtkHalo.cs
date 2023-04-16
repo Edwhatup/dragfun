@@ -4,20 +4,11 @@ using UnityEngine;
 
 public class AddAtkHalo : HaloEffect
 {
+    protected override List<Cell> Cells 
+        => CellManager.Instance.GetCells().FindAll(c => CellManager.Instance.GetStreetDistance(c, this.card.field.cell) == 1);
     private int atkValue;
 
-
-    // 看情况而定，如果你只想让这个光环作用在绝对的坐标，那就重写这一个构造函数
-    // 相对的坐标同理
-    // 但如果两个都要，就两个都重写
-    public AddAtkHalo(Card card, List<Cell> cells, int atkValue) : base(card, cells)
-    {
-        this.cells=CellManager.Instance.GetCells().FindAll(c => CellManager.Instance.GetStreetDistance(c, this.card.field.cell)==1);
-        this.atkValue = atkValue;
-    }
-
-    // 光环用相对坐标，则重写这个！
-    public AddAtkHalo(Card card, List<Vector2Int> positions, int atkValue) : base(card, positions)
+    public AddAtkHalo(Card c, int atkValue) : base(c)
     {
         this.atkValue = atkValue;
     }
