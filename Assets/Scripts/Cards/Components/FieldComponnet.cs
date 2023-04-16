@@ -39,6 +39,7 @@ public class FieldComponnet : CardComponent
         if (!(targetCell.CanMove() || targetCell.CanSwaped())) return;
         int ppcost = active ? cost : 0;
         if (!GameManager.Instance.TryCostPP(ppcost)) return;
+        GameManager.Instance.BroadcastCardEvent(new BeforeMoveEvent(card, targetCell.card, cell, targetCell));
         if (targetCell.card != null)
         {
             var monster = targetCell.card;
