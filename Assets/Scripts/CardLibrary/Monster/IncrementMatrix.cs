@@ -13,8 +13,8 @@ public class IncrementMatrix : Card
         AddComponnet(new AttackedComponent(3));
         AddComponnet(new SummonComponent());
         AddComponnet(new FieldComponnet(){canMove=0,canSwap=0,moveRange=0});
-        var m = new MatrixListener();
-        AddComponnet(m);
+        var m = new AddAtkHalo(card,3);
+        AddComponnet(new HaloComponent(m));
         GetDesc = () => m.ToString();
     }
 }
