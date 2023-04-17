@@ -13,11 +13,11 @@ public class FieldComponnet : CardComponent
     public int canSwap;
     public bool CanMove => canMove > 0;
     public bool CanSwap => canSwap > 0;
-    public FieldComponnet()
+    public FieldComponnet(int canMove = 1,int canSwap = 1,int moveRange = 2)
     {
-        this.canMove = 1;
-        this.canSwap = 1;
-        this.moveRange = 2;
+        this.canMove = canMove;
+        this.canSwap = canSwap;
+        this.moveRange = moveRange;
         row = null;
         col = null;
     }

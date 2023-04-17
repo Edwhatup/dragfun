@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Debug;
 
 [CanRepeat(false)]
 public class HaloComponent : EventListenerComponent
@@ -11,8 +12,9 @@ public class HaloComponent : EventListenerComponent
 
     public override void EventListen(AbstractCardEvent e)
     {
-        // 如果既不是自己，又不是目标，则不处理
-        if (e.source != base.card && !IsTarget(e.source)) return;
+        // 如果既不是自己，又不是目标，或者目标不存在, 则不处理
+        if (e.source == null || (e.source != base.card && !IsTarget(e.source))) return;
+        // Log("触发了光环检测");
 
         switch (e)
         {
@@ -20,11 +22,21 @@ public class HaloComponent : EventListenerComponent
             case AfterUseEvent u:
                 // 是自己，则给周围加光环
                 if (u.source == base.card)
-                    GetAvailbleTargets().ForEach(c => Buff.Execute(c));
+                {
+                    // Log("光环所有者被放置, 给周围的目标加Buff");
+                    GetAvailbleTargets().ForEach(c =>
+                    {
+                        Buff.Execute(c);
+                        // Log($"给 {c.name} 加了光环");
+                    });
+                }
 
                 // 是范围内的目标（非目标在开头除掉了），加光环
                 else if (IsInRange(u.source))
+                {
                     Buff.Execute(u.source);
+                    // Log($"在光环范围内有目标被放置\n给 {u.source.name} 加了光环");
+                }
 
                 break;
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AddAroundAtkHalo : HaloEffect
 {
-    protected override List<Cell> Cells 
+    protected override List<Cell> Cells
         => CellManager.Instance.GetCells().FindAll(c => CellManager.Instance.GetStreetDistance(c, this.card.field.cell) == 1);
     private int atkValue;
 
@@ -21,7 +21,8 @@ public class AddAroundAtkHalo : HaloEffect
     // 添加光环时，就加数值
     public override void Execute(Card c)
     {
-        c.attack.atk += atkValue;
+        if (c.attack != null)
+            c.attack.atk += atkValue;
     }
 
     // 撤销光环时，就把加的数值减回来
