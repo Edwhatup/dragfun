@@ -6,26 +6,26 @@ using UnityEngine;
 public class SingleDamage2SpecifyEnemy : CardEffect
 {
     int damage;
-    public SingleDamage2SpecifyEnemy(Card card, string[] paras):base(card)
+    public SingleDamage2SpecifyEnemy(Card card, string[] paras) : base(card)
     {
         int.TryParse(paras[0], out damage);
     }
     public override bool CanUse()
     {
-        return CardManager.Instance.Enemies.Has(e=>e.field.state==BattleState.Survive);    
+        return CardManager.Instance.Enemies.Has(e => e.field.state == BattleState.Survive);
     }
-    public SingleDamage2SpecifyEnemy(Card card, int damage):base(card)
+    public SingleDamage2SpecifyEnemy(Card card, int damage) : base(card)
     {
         this.damage = damage;
     }
     public override void InitTarget()
     {
         TargetCount = 1;
-        CardTargets.Add(CardTarget.Enemy | CardTarget.Monster);
+        CardTargets.Add(CardTarget.Enemy | CardTarget.EnemyDerive | CardTarget.Monster);
     }
     public override void Excute()
     {
-        var enemy =(Targets[0] as CardVisual).card;
+        var enemy = (Targets[0] as CardVisual).card;
         enemy.attacked.ApplyDamage(card, damage);
     }
 

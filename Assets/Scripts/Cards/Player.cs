@@ -11,6 +11,7 @@ public class Player:Card
     public int maxHandCnt;
     public int initDrawCardCnt;
     public int drawCardCntTurn;
+    public int drawPPCost;
     public int maxHp;
     public int hp;
 

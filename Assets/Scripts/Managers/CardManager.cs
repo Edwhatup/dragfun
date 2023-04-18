@@ -100,6 +100,17 @@ public class CardManager : MonoBehaviour, IManager
             Refresh();
         }
     }
+
+    public void DrawCardWithPPCost(int count = 1)
+    {
+        if (GameManager.Instance.TryCostPP(Player.Instance.drawPPCost * count))
+        {
+            DrawCard(count);
+            EventManager.Instance.PassEvent(new UsePPEvent(Player.Instance.drawPPCost * count));
+            GameManager.Instance.Refresh();
+        }
+    }
+
     public void Refresh()
     {
         DeadSettlement();

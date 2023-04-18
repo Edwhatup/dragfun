@@ -56,7 +56,7 @@ public class ActionComponent : CardComponent, ISelector
         {
             if (card.attack?.CanAttack ?? false)
             {
-                var tauntEnemies = CardManager.Instance.Enemies.FindAll(e => e.field.state==BattleState.Survive && e.attacked.Taunt);
+                var tauntEnemies = CardManager.Instance.Enemies.FindAll(e => e.field.state == BattleState.Survive && e.attacked.Taunt);
                 if (tauntEnemies.Count > 0)
                 {
                     foreach (var taunt in tauntEnemies)
@@ -98,7 +98,7 @@ public class ActionComponent : CardComponent, ISelector
         else if (target is Cell cell)
             card.field.Move(cell, true, cost);
         card.ClearTag("迅捷");
-        actionTimes-=1;
+        actionTimes -= 1;
     }
 
     public ISelector GetNextSelector()
@@ -112,7 +112,7 @@ public class ActionComponent : CardComponent, ISelector
         Targets.Clear();
         CardTargets[0] = CardTarget.None;
         if (canMove) CardTargets[0] |= CardTarget.Cell;
-        if (canAttack) CardTargets[0] |= CardTarget.Enemy;
+        if (canAttack) CardTargets[0] |= CardTarget.Enemy | CardTarget.EnemyDerive;
 
     }
 
