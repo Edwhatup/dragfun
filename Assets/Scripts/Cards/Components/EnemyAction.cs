@@ -21,6 +21,7 @@ public class EnemyAction : CardComponent
         if (ls.Count == 0)
         {
             current = card.GetComponnets<EnemyEffectListener>().Find(l => l.priority == 0);
+            if (current == null) current = card.GetComponnets<EnemyEffectListener>()[0];
         }
         else
         {
