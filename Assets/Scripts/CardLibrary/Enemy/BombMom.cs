@@ -6,15 +6,15 @@ public class BombMom : Card
     public BombMom(CardInfo Info) : base(Info)
     {
         name = "投嗣育母";
-        type=CardType.Enemy;
+        type = CardType.Enemy;
         camp = CardCamp.Enemy;
         AddComponnet(new AttackedComponent(40));
         AddComponnet(new EnemyAction());
-        AddComponnet(new EnemyEffectListener(5, new EnemyNormalAttack(this, 3,3)) { priority = 0});
-        AddComponnet(new EnemyEffectListener(7, new RandomSummonDerive(this, "爆炸小鬼",2)) { priority = 1 });
-        var ls=GetComponnets<EnemyEffectListener>();
+        AddComponnet(new EnemyEffectListener(5, new EnemyNormalAttack(this, 3, 3)) { priority = 0, condition = () => GetComponent<AttackedComponent>().hp > 10 });
+        AddComponnet(new EnemyEffectListener(7, new RandomSummonDerive(this, "爆炸小鬼", 2)) { priority = 1 });
+        var ls = GetComponnets<EnemyEffectListener>();
         enemyAction.GetNextAction();
-        GetDesc =   ()=> enemyAction.current?.ToString()??"";
+        GetDesc = () => enemyAction.current?.ToString() ?? "";
     }
 
 }

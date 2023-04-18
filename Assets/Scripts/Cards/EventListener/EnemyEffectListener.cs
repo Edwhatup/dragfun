@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [RequireCardComponent(typeof(EnemyAction))]
@@ -24,6 +25,10 @@ public class EnemyEffectListener : EventListenerComponent
     public int priority = 0;
     bool canUse = false;
     public Type type = Type.Loop;
+
+    public Func<bool> condition = () => true;
+    public bool Check() => condition();
+
     public bool CanUse()
     {
         return effect.CanUse();

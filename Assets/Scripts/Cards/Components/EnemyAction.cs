@@ -8,17 +8,27 @@ public class EnemyAction : CardComponent
     public EnemyEffectListener current;
     public void GetNextAction()
     {
+        // 获取所有Listener
         var ls = card.GetComponnets<EnemyEffectListener>();
         if (ls.Count == 0) return;
-        ls.Sort((l, r) => r.priority - l.priority);
-        int maxP = GetMaxPriority(ls);
-        var listeners = new List<EnemyEffectListener>();
-        for (int i = 0; i < ls.Count; i++)
+
+        // 删除当前的 (防止重复)
+        if (ls.Contains(current)) ls.Remove(current);
+
+        // 删除不符合条件的
+        for (int i = ls.Count - 1; i >= 0; i--) if (!ls[i].Check()) ls.RemoveAt(i);
+
+        if (ls.Count == 0)
         {
-            if (ls[i].priority == maxP)
-                listeners.Add(ls[i]);
+            current = card.GetComponnets<EnemyEffectListener>().Find(l => l.priority == 0);
         }
-        current = listeners[Mathf.FloorToInt(GameManager.Instance.Random.value * listeners.Count)];
+        else
+        {
+            ls.Sort((l, r) => r.priority - l.priority);
+            int maxP = GetMaxPriority(ls);
+            var list = ls.FindAll(l => l.priority == maxP);
+            current = list[Mathf.FloorToInt(GameManager.Instance.Random.value * list.Count)];
+        }
         current.Reset();
     }
 
