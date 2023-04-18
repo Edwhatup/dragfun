@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
+
 [CanRepeat(false)]
 [RequireCardComponent(typeof(ActionComponent))]
 public class FieldComponnet : CardComponent
@@ -14,10 +16,8 @@ public class FieldComponnet : CardComponent
     public bool CanMove => canMove > 0;
     public bool CanSwap => canSwap > 0;
 
-    public FieldComponnet()
+    public FieldComponnet() : this(1, 1, 2)
     {
-        row = null;
-        col = null;
     }
 
     public FieldComponnet(int canMove = 1, int canSwap = 1, int moveRange = 2)
@@ -52,8 +52,9 @@ public class FieldComponnet : CardComponent
             var monster = targetCell.card;
             cell.Summon(monster);
         }
-        targetCell.Summon(card);
+        // Debug.Log($"cell: {cell.row},{cell.col}\ntarget: {targetCell.row},{targetCell.col}");
         var e = new AfterMoveEvent(card, targetCell.card, cell, targetCell, ppcost);
+        targetCell.Summon(card);
         GameManager.Instance.BroadcastCardEvent(e);
     }
 }

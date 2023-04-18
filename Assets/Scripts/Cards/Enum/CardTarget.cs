@@ -4,24 +4,24 @@
     /// <summary>
     /// 入场的敌人
     /// </summary>
-    Enemy = 1,
+    Enemy = 1,          // 0b00000001
     /// <summary>
     /// 入场的随从
     /// </summary>
-    Monster = 2,
+    Monster = 2,        // 0b00000010
     /// <summary>
     /// 格子
     /// </summary>
-    Cell = 4,
+    Cell = 4,           // 0b00000100
     /// <summary>
     /// 友方衍生物
     /// </summary>
-    FriendlyDerive = 8,
+    FriendlyDerive = 8, // 0b00001000
 
     /// <summary>
     /// 敌方衍生物
     /// </summary>
-    EnemyDerive = 16,
+    EnemyDerive = 16,   // 0b00010000
 
     /// <summary>
     /// 玩家

@@ -5,7 +5,7 @@ using UnityEngine;
 public class AddAroundAtkHalo : HaloEffect
 {
     protected override List<Cell> Cells
-        => CellManager.Instance.GetCells().FindAll(c => CellManager.Instance.GetStreetDistance(c, this.card.field.cell) == 1);
+        => CellManager.Instance.GetCells().FindAll(c => CellManager.Instance.GetStreetDistance(c, card.field.cell) == 1);
     private int atkValue;
 
     public AddAroundAtkHalo(Card c, int atkValue) : base(c)
@@ -30,7 +30,8 @@ public class AddAroundAtkHalo : HaloEffect
     // 如果不幸真的出现了再修吧 QAQ
     public override void Undo(Card c)
     {
-        c.attack.atk -= atkValue;
+        if (c.attack != null)
+            c.attack.atk -= atkValue;
     }
 
     public override string ToString()

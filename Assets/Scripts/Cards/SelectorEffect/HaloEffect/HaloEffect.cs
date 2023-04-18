@@ -11,6 +11,10 @@ public abstract class HaloEffect : CardEffect
     // 判定是否在范围内
     public bool IsInRange(Cell targetCell)
     {
+        // if (!targetCell) return false;
+        // Debug.Log($"检测Cell: {targetCell.row},{targetCell.col}");
+        // Debug.Log("范围Cells:");
+        // Cells.ForEach(i => Debug.Log($"{i.row},{i.col}"));
         return Cells.Contains(targetCell);
     }
 

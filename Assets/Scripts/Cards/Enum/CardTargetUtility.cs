@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class CardTargetUtility
 {
@@ -27,7 +28,7 @@ public static class CardTargetUtility
                 (IsTarget(CardTarget.Enemy) && card.type == CardType.Enemy) ||
                 (IsTarget(CardTarget.Player) && card.type == CardType.Player) ||
                 (IsTarget(CardTarget.FriendlyDerive) && card.type == CardType.FriendlyDerive) ||
-                (IsTarget(CardTarget.EnemyDerive) || card.type == CardType.EnemyDerive);
+                (IsTarget(CardTarget.EnemyDerive) && card.type == CardType.EnemyDerive);
     }
 
     public static bool CardIsTarget(Card card, List<CardTarget> targets)

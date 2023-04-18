@@ -8,6 +8,8 @@ public class HaloComponent : EventListenerComponent
 {
     protected HaloEffect Buff { get => effect as HaloEffect; }
 
+    private bool isCardPlaced = false;
+
     public HaloComponent(HaloEffect buff) : base(buff) { }
 
     public override void EventListen(AbstractCardEvent e)
@@ -18,16 +20,17 @@ public class HaloComponent : EventListenerComponent
 
         switch (e)
         {
-            // 新卡牌放置
-            case AfterUseEvent u:
+            case AfterSummonEvent u:
                 // 是自己，则给周围加光环
                 if (u.source == base.card)
                 {
+                    if (isCardPlaced) return;
+                    isCardPlaced = true;
                     // Log("光环所有者被放置, 给周围的目标加Buff");
                     GetAvailbleTargets().ForEach(c =>
                     {
                         Buff.Execute(c);
-                        // Log($"给 {c.name} 加了光环");
+                        Log($"给 {c.name} 加了光环");
                     });
                 }
 
@@ -37,7 +40,6 @@ public class HaloComponent : EventListenerComponent
                     Buff.Execute(u.source);
                     // Log($"在光环范围内有目标被放置\n给 {u.source.name} 加了光环");
                 }
-
                 break;
 
             // 自己移动前，撤销所有的光环，等移动后再加回来
@@ -69,7 +71,7 @@ public class HaloComponent : EventListenerComponent
                     GetAvailbleTargets().ForEach(c => Buff.Undo(c));
 
                 // 别的卡死亡, 去光环
-                else Buff.Undo(d.source);
+                else if (IsTarget(d.source)) Buff.Undo(d.source);
                 break;
         }
 
@@ -78,10 +80,14 @@ public class HaloComponent : EventListenerComponent
     private List<Card> GetAvailbleTargets() => CardManager.Instance.board.FindAll(c => IsInRange(c) && IsTarget(c));
 
     private bool IsTarget(Card c) => CardTargetUtility.CardIsTarget(c, Buff.CardTargets);
+
     private bool IsInRange(Card c) => Buff.IsInRange(c.field.cell);
 
     private bool IsEntering(AfterMoveEvent move) => Buff.IsInRange(move.targetCell) && !Buff.IsInRange(move.sourceCell);
-    private bool IsExiting(AfterMoveEvent move) => Buff.IsInRange(move.sourceCell) && !Buff.IsInRange(move.targetCell);
+    private bool IsExiting(AfterMoveEvent move)
+    {
+        return Buff.IsInRange(move.sourceCell) && !Buff.IsInRange(move.targetCell);
+    }
 
     public override string ToString() => $"光环: {Buff.ToString()}";
 }

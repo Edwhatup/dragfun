@@ -52,7 +52,7 @@ public class EnemyEffectListener : EventListenerComponent
     {
         if (!canUse) return;
         this.Timer -= e.ppCost;
-        Debug.Log(e.GetType().Name + e.ppCost);
+        // Debug.Log(e.GetType().Name + e.ppCost);
         if (this.Timer <= 0 && !protect)
         {
             protect = true;
