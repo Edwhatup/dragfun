@@ -36,6 +36,13 @@ public class FieldComponnet : CardComponent
         GameManager.Instance.BroadcastCardEvent(afe);
     }
 
+    public override void Recycle()
+    {
+        state = BattleState.Survive;
+        row = null;
+        col = null;
+    }
+
     /// <summary>
     /// 是当前卡牌移动到指定单元格
     /// </summary>

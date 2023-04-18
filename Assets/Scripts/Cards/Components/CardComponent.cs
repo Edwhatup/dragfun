@@ -8,8 +8,13 @@ public abstract class CardComponent
 
     }
 
-    public virtual void ResetnTurnStart()
+    public virtual void TurnReset()
     {
 
+    }
+
+    public virtual void Recycle()
+    {
+        
     }
 }

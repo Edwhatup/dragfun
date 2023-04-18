@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Text;
+using UnityEngine;
 
 public abstract class Card
 {
@@ -56,43 +57,50 @@ public abstract class Card
     }
     private void AddComponentWithPreComponent(CardComponent component)
     {
-        if(components.Find(i => i.GetType() == component.GetType()) == null)
+        if (components.Find(i => i.GetType() == component.GetType()) == null)
         {
             var preCom = RequireCardComponentAttribute.GetPreComponents(component.GetType());
-            foreach(var c in preCom)
+            foreach (var c in preCom)
             {
                 AddComponnet(c);
             }
         }
         components.Add(component);
-        component.card = this;       
+        component.card = this;
     }
     public void RemoveComponnent<T>() where T : CardComponent
     {
         components.RemoveAll(c => c.GetType() == typeof(T));
     }
-    public void RemoveComponnent(CardComponent component) 
+    public void RemoveComponnent(CardComponent component)
     {
-        components.Remove(component);   
+        components.Remove(component);
     }
     public void Buff(Card source, int atk, int hp)
     {
-        if (attacked!=null && hp != 0)
+        if (attacked != null && hp != 0)
         {
             this.attacked.hp += hp;
             this.attacked.maxHp += hp;
         }
-        if (attack!=null && atk != 0) this.attack.atk += atk;
+        if (attack != null && atk != 0) this.attack.atk += atk;
         AfterBuffEvent buff = new AfterBuffEvent(source, this);
         EventManager.Instance.PassEvent(buff);
     }
 
-    public void Reset()
+    public void TurnReset()
     {
-        foreach(var component in components)
+        foreach (var component in components)
         {
-            component.ResetnTurnStart();
+            component.TurnReset();
         }
+    }
+
+    public void Recycle()
+    {
+        Debug.Log($"回收了 {name}");
+        components.ForEach(i => i.Recycle());
+        
     }
 
     public List<T> GetComponnets<T>() where T : CardComponent

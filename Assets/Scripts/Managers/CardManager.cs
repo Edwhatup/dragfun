@@ -81,16 +81,14 @@ public class CardManager : MonoBehaviour, IManager
 
     public void DrawCard(int cnt)
     {
-        foreach (Card card in board)
-        {
-            card.Reset();
-        }
+
         for (int i = 0; i < cnt; i++)
         {
             if (drawDeck.Count == 0)
             {
                 if (discardDeck.Count == 0) return;
                 discardDeck.Shuffle();
+                discardDeck.ForEach(p => p.Recycle());
                 discardDeck.TransferAll(drawDeck);
             }
             if (hand.Count == Player.Instance.maxHandCnt) break;

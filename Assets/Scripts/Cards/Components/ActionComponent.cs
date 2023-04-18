@@ -13,7 +13,7 @@ public class ActionComponent : CardComponent, ISelector
     {
         Targets.Clear();
     }
-    public override void ResetnTurnStart()
+    public override void TurnReset()
     {
         actionTimes = 1;
     }

@@ -52,6 +52,11 @@ public class AttackedComponent : CardComponent
         this.maxHp = maxHp;
     }
 
+    public override void Recycle()
+    {
+        hp = maxHp;
+    }
+
     // public override void ResetnTurnStart()
     // {
     //     hp = maxHp;

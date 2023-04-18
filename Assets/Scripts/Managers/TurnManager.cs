@@ -37,6 +37,7 @@ public class TurnManager : MonoBehaviour, IManager
         var deltaPP = GameManager.Instance.Pp;
         GameManager.Instance.Pp = turnPP;
         CardManager.Instance.DrawCard(drawCnt);
+        CardManager.Instance.board.ForEach(i => i.TurnReset());
 
         GameManager.Instance.BroadcastCardEvent(new UsePPEvent(deltaPP));
     }
