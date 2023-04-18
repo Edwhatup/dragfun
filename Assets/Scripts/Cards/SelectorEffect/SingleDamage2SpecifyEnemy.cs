@@ -21,7 +21,7 @@ public class SingleDamage2SpecifyEnemy : CardEffect
     public override void InitTarget()
     {
         TargetCount = 1;
-        CardTargets.Add(CardTarget.Enemy | CardTarget.EnemyDerive | CardTarget.Monster);
+        CardTargets.Add(CardTarget.EnemyCardOnBoard);
     }
     public override void Excute()
     {

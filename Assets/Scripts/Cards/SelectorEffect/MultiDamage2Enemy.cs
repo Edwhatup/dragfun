@@ -60,6 +60,6 @@ public class MultiDamage2Enemy : CardEffect
     public override void InitTarget()
     {
         TargetCount = 1;
-        CardTargets.Add(CardTarget.Enemy);
+        CardTargets.Add(CardTarget.EnemyCardOnBoard);
     }
 }
