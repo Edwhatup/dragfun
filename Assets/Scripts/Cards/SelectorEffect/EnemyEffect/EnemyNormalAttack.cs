@@ -9,6 +9,7 @@ public class EnemyNormalAttack : NoTargetCardEffect
     public EnemyNormalAttack(Card card,int damage,int count) : base(card)
     {
         this.damage = damage;
+        this.count = count;
     }
     public override string ToString()
     {
