@@ -107,6 +107,7 @@ public class AttackedComponent : CardComponent
         if (this.hp <= 0)
         {
             card.field.state = BattleState.HalfDead;
+            // Debug.Log($"{card.name} 进入濒死状态");
         }
         card.visual.UpdateVisual();
         var ae = new AfterDamageEvent(source, card, info);
