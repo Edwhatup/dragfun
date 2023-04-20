@@ -39,6 +39,6 @@ public class TurnManager : MonoBehaviour, IManager
         CardManager.Instance.DrawCard(drawCnt);
         CardManager.Instance.board.ForEach(i => i.TurnReset());
 
-        GameManager.Instance.BroadcastCardEvent(new UsePPEvent(deltaPP));
+        GameManager.Instance.BroadcastCardEvent(new EndTurnEvent(deltaPP));
     }
 }
