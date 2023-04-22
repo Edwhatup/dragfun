@@ -13,6 +13,7 @@ public class BombMom : Card
         AddComponnet(new EnemyEffectListener(5, new EnemyNormalAttack(this, 3, 3)) { priority = 0, condition = () => GetComponent<AttackedComponent>().hp > GetComponent<AttackedComponent>().maxHp*0.5 });
         AddComponnet(new EnemyEffectListener(5, new EnemyNormalAttack(this, 4, 4)) { priority = 0, condition = () => GetComponent<AttackedComponent>().hp <= GetComponent<AttackedComponent>().maxHp*0.5 });
         AddComponnet(new EnemyEffectListener(7, new RandomSummonDerive(this, "爆炸小鬼", 2)) { priority = 1 });
+        AddComponnet(new EndTurnTriggerComponent(new BasicBuff(this,1,0)));
         var ls = GetComponnets<EnemyEffectListener>();
         enemyAction.GetNextAction();
         GetDesc = () => enemyAction.current?.ToString() ?? "";
