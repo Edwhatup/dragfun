@@ -10,7 +10,8 @@ public class BombMom : Card
         camp = CardCamp.Enemy;
         AddComponnet(new AttackedComponent(40));
         AddComponnet(new EnemyAction());
-        AddComponnet(new EnemyEffectListener(5, new EnemyNormalAttack(this, 3, 3)) { priority = 0, condition = () => GetComponent<AttackedComponent>().hp > 10 });
+        AddComponnet(new EnemyEffectListener(5, new EnemyNormalAttack(this, 3, 3)) { priority = 0, condition = () => GetComponent<AttackedComponent>().hp > GetComponent<AttackedComponent>().maxHp*0.5 });
+        AddComponnet(new EnemyEffectListener(5, new EnemyNormalAttack(this, 4, 4)) { priority = 0, condition = () => GetComponent<AttackedComponent>().hp <= GetComponent<AttackedComponent>().maxHp*0.5 });
         AddComponnet(new EnemyEffectListener(7, new RandomSummonDerive(this, "爆炸小鬼", 2)) { priority = 1 });
         var ls = GetComponnets<EnemyEffectListener>();
         enemyAction.GetNextAction();
