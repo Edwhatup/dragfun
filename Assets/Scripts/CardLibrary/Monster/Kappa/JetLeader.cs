@@ -8,9 +8,9 @@ public class JetLeader : Card
     {
         this.camp = CardCamp.Friendly;
         this.type = CardType.Monster;
-        this.name = "喷射地精队长";
+        this.name = "河童飞行队长";
         cost = 4;
-        var e = new RandomSummonOnSpecificRow(this,2,"喷气地精",1);
+        var e = new RandomSummonOnSpecificRow(this,2,"动力河童",1);
         var listener = new ExtraRangeSummonListener(e,5);
         AddComponnet(new AttackedComponent(2));
         AddComponnet(new AttackComponent(3));

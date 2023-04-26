@@ -6,7 +6,7 @@ public class JetBoy:Card
 {
     public JetBoy(CardInfo info) : base(info)
     {
-        name = "喷气地精";
+        name = "动力河童";
         camp = CardCamp.Friendly;
         type = CardType.Monster; 
         cost = 2;

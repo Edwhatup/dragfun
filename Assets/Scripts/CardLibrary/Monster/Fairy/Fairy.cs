@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Soldier : Card
+public class GreenFairy : Card
 {
-    public Soldier(CardInfo info) : base(info)
+    public GreenFairy(CardInfo info) : base(info)
     {
-        name = "士兵";
+        name = "绿妖精";
         camp = CardCamp.Friendly;
         type = CardType.Monster;
         AddComponnet(new AttackComponent(1){});
