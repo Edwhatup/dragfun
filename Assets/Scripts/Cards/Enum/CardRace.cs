@@ -1,5 +1,9 @@
 ﻿public enum CardRace
 {
-    Goblin,
-    Mech
+    Fairy,
+    Mech,
+    Haniwa,
+    
+
+
 }

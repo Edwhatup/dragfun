@@ -9,6 +9,7 @@ public class JetBoy:Card
         name = "动力河童";
         camp = CardCamp.Friendly;
         type = CardType.Monster; 
+        race = CardRace.Mech;
         cost = 2;
         AddComponnet(new AttackComponent(1){atkRange=2,buffAtkByRange=1});
         AddComponnet(new AttackedComponent(3));

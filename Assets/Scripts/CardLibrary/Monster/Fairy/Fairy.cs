@@ -9,6 +9,7 @@ public class GreenFairy : Card
         name = "绿妖精";
         camp = CardCamp.Friendly;
         type = CardType.Monster;
+        race = CardRace.Fairy;
         AddComponnet(new AttackComponent(1){});
         AddComponnet(new AttackedComponent(1));
         AddComponnet(new ActionComponent());

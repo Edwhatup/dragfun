@@ -6,10 +6,10 @@ public class Captain : Card
 {
     public Captain(CardInfo info) : base(info)
     {
-        name = "妖精斥候";
+        name = "妖精探长";
         camp = CardCamp.Friendly;
         type = CardType.Monster;
-        race = CardRace.Goblin;
+        race = CardRace.Fairy;
         cost = 3;
         AddComponnet(new AttackComponent(4));
         AddComponnet(new AttackedComponent(4));
