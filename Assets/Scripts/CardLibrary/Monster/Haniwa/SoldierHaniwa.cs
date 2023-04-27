@@ -16,8 +16,13 @@ public class SoldierHaniwa : Card
         AddComponnet(new ActionComponent());
         AddComponnet(new SummonComponent());
         AddComponnet(new FieldComponnet());
+
         var e=new HaniwaOnBoardListener(1,1);
         AddComponnet(e);
+        
+        var d=new DrawCard(this,1);
+        AddComponnet(new DeadComponent(d));
+
         GetDesc = () => e.ToString();
     }
 }
