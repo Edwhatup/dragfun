@@ -27,8 +27,7 @@
         if (e is AfterSummonEvent && e.source.race==CardRace.Haniwa && e.source!=card)
         {
             var summon = e as AfterSummonEvent;
-            // if(card.field.state==BattleState.Survive) 
-            if(CardManager.Instance.board.Contains(card))
+            //if(card.==) 
             {         
                 card.Buff(card,atkMod, hpMod); 
             }
