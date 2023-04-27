@@ -7,42 +7,9 @@ public class RoomSet
     public Dictionary<Vector2Int, AbstractRoom> Rooms => rooms;
     private Dictionary<Vector2Int, AbstractRoom> rooms = new Dictionary<Vector2Int, AbstractRoom>();
 
-    private int maxRooms;
-
-    // 随机地牢生成参数: 向前/两边生成的概率；向前/两边生成概率的变化率
-    private float towardWeight, sideWeight, towardSlope, sideSlope;
-
-    private System.Random random;
-
-    public RoomSet(int maxRooms, float towardWeight = 1, float sideWeight = 0.8f, float towardSlope = 0.6f, float sideSlope = 0.8f)
+    public RoomSet(Builder builder)
     {
-        this.maxRooms = maxRooms;
-        this.towardWeight = towardWeight;
-        this.sideWeight = sideWeight;
-        this.towardSlope = towardSlope;
-        this.sideSlope = sideSlope;
-        if (maxRooms <= 1)
-        {
-            Debug.LogError("错误: 地牢太小!");
-            return;
-        }
-
-        random = new System.Random();
-
-        // 创建初始房间
-        AddRoom(Vector2Int.zero, new StartRoom());
-
-        // 生成地牢
-        Generate(Vector2Int.right, Direction.Right, towardWeight, sideWeight);
-
-        // 替换终点
-        var farest = Vector2Int.zero;
-        foreach (var item in rooms)
-        {
-            if (item.Key.sqrMagnitude > farest.sqrMagnitude)
-                farest = item.Key;
-        }
-        if (farest.sqrMagnitude > 0) ReplaceRoom(farest, new EndRoom());
+        rooms = builder.rooms;
     }
 
     public void PrintRooms()
@@ -55,61 +22,152 @@ public class RoomSet
         Debug.Log(sb);
     }
 
-    private void Generate(Vector2Int pos, Direction nextDir, float towardWeight, float sideWeight)
+    public class Builder
     {
-        if (rooms.Count >= maxRooms) return;
-        if (rooms.ContainsKey(pos)) return;
+        protected int maxRooms;
+        protected float FWeight = 0.8f, FSlope = 0.6f,
+                        LWeight = 0.6f, LSlope = 0.2f,
+                        RWeight = 0.6f, RSlope = 0.2f;
+        protected internal Dictionary<Vector2Int, AbstractRoom> rooms = new Dictionary<Vector2Int, AbstractRoom>();
+        private Direction startDirection = Direction.Right;
+        private BuildType type = BuildType.Simple;
 
-        CreateRoom(pos);
 
-        // 左转
-        if (random.Next() % 100 <= 100 * sideWeight) Generate(Move(pos, TurnLeft(nextDir)), TurnLeft(nextDir), towardWeight, sideWeight * sideSlope);
-        // 右转
-        if (random.Next() % 100 <= 100 * sideWeight) Generate(Move(pos, TurnRight(nextDir)), TurnRight(nextDir), towardWeight, sideWeight * sideSlope);
-        // 直走
-        if (random.Next() % 100 <= 100 * towardWeight) Generate(Move(pos, nextDir), nextDir, towardWeight * towardSlope, sideWeight);
-    }
+        private System.Random random;
 
-    private void CreateRoom(Vector2Int pos)
-    {
-        if (rooms.ContainsKey(pos)) return;
 
-        rooms.Add(pos, new NullRoom());
-    }
-
-    private void AddRoom(Vector2Int pos, AbstractRoom room)
-    {
-        if (rooms.ContainsKey(pos)) ReplaceRoom(pos, room);
-        else rooms.Add(pos, room);
-    }
-
-    private void RemoveRoom(Vector2Int pos)
-    {
-        if (rooms.ContainsKey(pos)) rooms.Remove(pos);
-    }
-
-    public void ReplaceRoom(Vector2Int pos, AbstractRoom room)
-    {
-        if (rooms.ContainsKey(pos))
-            rooms[pos] = room;
-        else Debug.LogError($"错误: {pos} 位置没有房间!");
-    }
-
-    private Direction TurnLeft(Direction d) => (int)d - 1 < 0 ? Direction.Left : (Direction)((int)d - 1);
-    private Direction TurnRight(Direction d) => (int)d + 1 > 3 ? Direction.Up : (Direction)((int)d + 1);
-    private Vector2Int Move(Vector2Int pos, Direction dir)
-    {
-        switch (dir)
+        public Builder(int maxRooms = 2)
         {
-            case Direction.Up: pos.y++; break;
-            case Direction.Down: pos.y--; break;
-            case Direction.Left: pos.x--; break;
-            case Direction.Right: pos.x++; break;
+            this.maxRooms = maxRooms;
         }
-        return pos;
+
+        public Builder Forward(float weight, float slope)
+        {
+            FWeight = weight;
+            FSlope = slope;
+            return this;
+        }
+
+        public Builder Left(float weight, float slope)
+        {
+            LWeight = weight;
+            LSlope = slope;
+            return this;
+        }
+
+        public Builder Right(float weight, float slope)
+        {
+            RWeight = weight;
+            RSlope = slope;
+            return this;
+        }
+
+        public Builder Towards(Direction dir)
+        {
+            startDirection = dir;
+            return this;
+        }
+
+        public Builder Simple()
+        {
+            type = BuildType.Simple;
+            return this;
+        }
+
+        public RoomSet Build()
+        {
+            if (maxRooms <= 1)
+            {
+                Debug.LogError("错误: 地牢太小!");
+                return null;
+            }
+
+            random = new System.Random();
+
+            // 创建初始房间
+            AddRoom(Vector2Int.zero, new StartRoom());
+
+            switch (type)
+            {
+                case BuildType.Simple:
+                    // 生成地牢
+                    Generate(Vector2Int.right, Direction.Right, FWeight, LWeight, RWeight);
+
+                    // 替换终点
+                    var farest = Vector2Int.zero;
+                    foreach (var item in rooms)
+                    {
+                        if (item.Key.sqrMagnitude > farest.sqrMagnitude)
+                            farest = item.Key;
+                    }
+                    if (farest.sqrMagnitude > 0) ReplaceRoom(farest, new EndRoom());
+
+                    return new RoomSet(this);
+            }
+            return null;
+        }
+
+        private void Generate(Vector2Int pos, Direction nextDir, float fw, float lw, float rw)
+        {
+            if (rooms.Count >= maxRooms) return;
+            if (rooms.ContainsKey(pos)) return;
+
+            CreateRoom(pos);
+
+            // 左转
+            if (random.Next() % 100 <= 100 * lw) Generate(Move(pos, TurnLeft(nextDir)), TurnLeft(nextDir), fw, lw * LSlope, RWeight);
+            // 右转
+            if (random.Next() % 100 <= 100 * rw) Generate(Move(pos, TurnRight(nextDir)), TurnRight(nextDir), fw, lw, rw * RSlope);
+            // 直走
+            if (random.Next() % 100 <= 100 * fw) Generate(Move(pos, nextDir), nextDir, fw * FSlope, lw, rw);
+        }
+
+        private void CreateRoom(Vector2Int pos)
+        {
+            if (rooms.ContainsKey(pos)) return;
+
+            rooms.Add(pos, new NullRoom());
+        }
+
+        private void AddRoom(Vector2Int pos, AbstractRoom room)
+        {
+            if (rooms.ContainsKey(pos)) ReplaceRoom(pos, room);
+            else rooms.Add(pos, room);
+        }
+
+        private void RemoveRoom(Vector2Int pos)
+        {
+            if (rooms.ContainsKey(pos)) rooms.Remove(pos);
+        }
+
+        private void ReplaceRoom(Vector2Int pos, AbstractRoom room)
+        {
+            if (rooms.ContainsKey(pos))
+                rooms[pos] = room;
+            else Debug.LogError($"错误: {pos} 位置没有房间!");
+        }
+
+        private Direction TurnLeft(Direction d) => (int)d - 1 < 0 ? Direction.Left : (Direction)((int)d - 1);
+        private Direction TurnRight(Direction d) => (int)d + 1 > 3 ? Direction.Up : (Direction)((int)d + 1);
+        private Vector2Int Move(Vector2Int pos, Direction dir)
+        {
+            switch (dir)
+            {
+                case Direction.Up: pos.y++; break;
+                case Direction.Down: pos.y--; break;
+                case Direction.Left: pos.x--; break;
+                case Direction.Right: pos.x++; break;
+            }
+            return pos;
+        }
+
+        private enum BuildType
+        {
+            Simple
+        }
     }
 
-    private enum Direction
+    public enum Direction
     {
         Up = 0, Right = 1, Down = 2, Left = 3
     }

@@ -19,7 +19,7 @@ public class RoomSetTest : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++) Destroy(transform.GetChild(i).gameObject);
 
-        var r = new RoomSet(maxRooms, towardsW, sideW, towardsS, sideS);
+        var r = new RoomSet.Builder(maxRooms).Forward(towardsW, towardsS).Left(sideW, sideS).Right(sideW, sideS).Build();
         foreach (var item in r.Rooms)
         {
             var g = Instantiate(prefab, transform.position + (Vector3)(Vector2)item.Key * distance, Quaternion.identity, transform);
