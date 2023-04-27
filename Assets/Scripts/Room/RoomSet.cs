@@ -32,15 +32,16 @@ public class RoomSet
         private Direction startDirection = Direction.Right;
         private BuildType type = BuildType.Simple;
 
-
         private System.Random random;
-
 
         public Builder(int maxRooms = 2)
         {
             this.maxRooms = maxRooms;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Builder Forward(float weight, float slope)
         {
             FWeight = weight;
@@ -65,6 +66,11 @@ public class RoomSet
         public Builder Towards(Direction dir)
         {
             startDirection = dir;
+            return this;
+        }
+
+        public Builder RandomRoom(AbstractRoom room, int maxCount = 1, float possibility = 0.3f, int minDistance = 1, int maxDistance = 100)
+        {
             return this;
         }
 

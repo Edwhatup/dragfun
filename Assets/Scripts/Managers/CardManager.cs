@@ -291,4 +291,12 @@ public class CardManager : MonoBehaviour, IManager
                                 .ToList();
         return sameRowTarget;
     }
+
+    public static bool OnBoard(Card card) => Instance.board.Contains(card);
+    public static bool InDeck(Card card) => Instance.drawDeck.Contains(card);
+    public static bool InDiscard(Card card) => Instance.discardDeck.Contains(card);
+    public static bool InHand(Card card) => Instance.hand.Contains(card);
+
+    // TODO: Implement this method
+    public static bool InExile(Card card) => false;
 }
