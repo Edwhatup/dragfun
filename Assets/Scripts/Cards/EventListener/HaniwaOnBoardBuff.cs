@@ -24,10 +24,11 @@
 
     public override void EventListen(AbstractCardEvent e)
     {
-        if (e is AfterSummonEvent & e.source.race==CardRace.Haniwa & e.source!=card)
+        if (e is AfterSummonEvent && e.source.race==CardRace.Haniwa && e.source!=card)
         {
             var summon = e as AfterSummonEvent;
-            if(card.field.state==BattleState.Survive) 
+            // if(card.field.state==BattleState.Survive) 
+            if(CardManager.Instance.board.Contains(card))
             {         
                 card.Buff(card,atkMod, hpMod); 
             }
