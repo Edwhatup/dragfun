@@ -23,6 +23,6 @@ public class SoldierHaniwa : Card
         var d=new DrawCard(this,1);
         AddComponnet(new DeadComponent(d));
 
-        GetDesc = () => e.ToString();
+        GetDesc = () => e.ToString()+"死亡时："+d.ToString();
     }
 }

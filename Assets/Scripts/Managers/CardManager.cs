@@ -42,6 +42,8 @@ public class CardManager : MonoBehaviour, IManager
     public List<Card> friendlyTombs = new List<Card>();
     public List<Card> enemyTombs = new List<Card>();
 
+    public List<Card> requireRaceMonster= new List<Card>();
+
 
     void Awake()
     {
@@ -96,6 +98,17 @@ public class CardManager : MonoBehaviour, IManager
             drawDeck.Transfer(hand, card);
             card.Init();
             Refresh();
+        }
+    }
+
+    public void DrawSpecificRaceCard(int cnt, CardRace race)
+    {
+        var requireRaceMonster = drawDeck
+                            .FindAll(c => c.type == CardType.Monster && c.race==race)
+                                .GetRandomItems(cnt);
+        foreach(Card card in requireRaceMonster)
+        {
+            drawDeck.Transfer(hand, card);
         }
     }
 
@@ -260,6 +273,7 @@ public class CardManager : MonoBehaviour, IManager
             card.enemyAction.current.EventListen(cardEvent);
         }
     }
+
 
     public List<Card> GetSameRowEnemyUnits(Card card, Card target)
     {
