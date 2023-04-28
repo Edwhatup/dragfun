@@ -2,13 +2,13 @@
 {
     int hpMod;
     int atkMod;
-    int boardAttackCount=0;
-    public HaniwaOnBoardListener(string[] args):base(null)
+    int boardAttackCount = 0;
+    public HaniwaOnBoardListener(string[] args) : base(null)
     {
         int.TryParse(args[0], out hpMod);
         int.TryParse(args[1], out atkMod);
     }
-    public HaniwaOnBoardListener(int hpMod, int atkMod):base(null)
+    public HaniwaOnBoardListener(int hpMod, int atkMod) : base(null)
     {
         this.hpMod = hpMod;
         this.atkMod = atkMod;
@@ -24,13 +24,13 @@
 
     public override void EventListen(AbstractCardEvent e)
     {
-        if (e is AfterSummonEvent && e.source.race==CardRace.Haniwa && e.source!=card)
+        if (e is AfterSummonEvent && e.source.race == CardRace.Haniwa && e.source != card)
         {
             var summon = e as AfterSummonEvent;
             // if(card.field.state==BattleState.Survive) 
-            if(CardManager.Instance.board.Contains(card))
-            {         
-                card.Buff(card,atkMod, hpMod); 
+            if (card.OnBoard)
+            {
+                card.Buff(card, atkMod, hpMod);
             }
         }
     }

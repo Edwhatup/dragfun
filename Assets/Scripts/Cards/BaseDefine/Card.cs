@@ -31,14 +31,19 @@ public abstract class Card
     public UseComponent use => GetComponent<UseComponent>();
     public ActionComponent action => GetComponent<ActionComponent>();
     public EnemyAction enemyAction => GetComponent<EnemyAction>();
+
+    public bool InDeck => CardManager.InDeck(this);
+    public bool OnBoard => CardManager.OnBoard(this);
+    public bool InHand => CardManager.InHand(this);
+    public bool InDiscard => CardManager.InDiscard(this);
+    public bool InExile => CardManager.InExile(this);
+
     public T GetComponent<T>() where T : CardComponent
     {
         return components.Find((c) => c.GetType() == typeof(T) || c.GetType().IsSubclassOf(typeof(T))) as T;
     }
     public void AddComponnet(CardComponent component)
     {
-
-
         if (components == null) components = new List<CardComponent>();
         if (CanRepeatAttribute.CanRepeat(component))
         {
@@ -100,7 +105,7 @@ public abstract class Card
     {
         Debug.Log($"回收了 {name}");
         components.ForEach(i => i.Recycle());
-        
+
     }
 
     public List<T> GetComponnets<T>() where T : CardComponent
