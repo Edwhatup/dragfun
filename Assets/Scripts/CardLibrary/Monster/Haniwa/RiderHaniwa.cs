@@ -19,9 +19,11 @@ public class RiderHaniwa : Card
         var e = new RequireRandomDraw(this,1,CardRace.Haniwa);
         AddComponnet(new SummonComponent(e));
 
-        GetDesc = () => e.ToString();
 
-        // 亡语还没写
+        var d = new RandomDamage2Enemy(this,4,RangeType.SmallCross,1);
+        AddComponnet(new DeadComponent(d));
+
+        GetDesc = () => e.ToString()+"死亡时："+d.ToString();
 
     }
 }

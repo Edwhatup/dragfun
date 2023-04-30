@@ -60,12 +60,12 @@ public class AttackComponent : CardComponent
             List<Card> targets = new List<Card>();
             if (Sweep)
             {
-                var sameRowTarget = CardManager.Instance.GetSameRowEnemyUnits(card, target);
+                var sameRowTarget = CardManager.Instance.GetSpecificAreaEnemies(card, target,RangeType.SameRow);
                 targets.AddRange(sameRowTarget);
             }
             if (Pierce)
             {
-                var sameColTarget = CardManager.Instance.GetSameColEnemyUnits(card, target);
+                var sameColTarget = CardManager.Instance.GetSpecificAreaEnemies(card, target,RangeType.SameCol);
                 targets.AddRange(sameColTarget);
             }
             targets = targets.Distinct().ToList();

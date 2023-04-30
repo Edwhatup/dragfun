@@ -273,23 +273,72 @@ public class CardManager : MonoBehaviour, IManager
             card.enemyAction.current.EventListen(cardEvent);
         }
     }
-
-
-    public List<Card> GetSameRowEnemyUnits(Card card, Card target)
+    
+    public List<Card> GetSpecificAreaEnemies(Card card, Card target,RangeType range)
     {
-        var sameRowTarget = cards
+        if(range==RangeType.SameRow)
+        {
+            var sameRowTarget = cards
                             .FindAll(c => c.camp != card.camp && c.field.row != null && c.field.row == target.field.row)
                                 .ToList();
-        return sameRowTarget;
-    }
-
-    public List<Card> GetSameColEnemyUnits(Card card, Card target)
-    {
-        var sameColTarget = cards
+            return sameRowTarget;
+        }
+        else if(range==RangeType.SameCol)
+        {
+            var sameColTarget = cards
                                   .FindAll(c => c.camp != card.camp && c.field.row != null && c.field.col == target.field.col)
                                    .ToList();
-        return sameColTarget;
+            return sameColTarget;
+        }
+        else if(range==RangeType.Round)
+        {
+            var roundTargets = cards
+                                  .FindAll(c => c.camp != card.camp && (c.field.row == target.field.row + 1 || c.field.row == target.field.row - 1 || c.field.row == target.field.row) && (c.field.col == target.field.col + 1 || c.field.col == target.field.col - 1 || c.field.col == target.field.col) && c != target)
+                                   .ToList();
+            return roundTargets;
+        }
+        else if(range==RangeType.SmallCross)
+        {
+            var smallCrossTargets = cards
+                                  .FindAll(c => c.camp != card.camp && CellManager.Instance.GetStreetDistance(c.field.cell, card.field.cell) == 1)
+                                   .ToList();
+            return smallCrossTargets;
+        }
+        else
+        {
+            var allEnemies = cards
+                                  .FindAll(c => c.camp != card.camp)
+                                   .ToList();
+            return allEnemies;
+        }
+        
     }
+
+    public string GetSpecificAreaName(RangeType range)
+    {
+        if(range==RangeType.SameRow)
+        {
+            return "同一行";
+        }
+        else if(range==RangeType.SameCol)
+        {
+            return "同一列";
+        }
+        else if(range==RangeType.Round)
+        {
+            return "周围8格";
+        }
+        else if(range==RangeType.SmallCross)
+        {
+            return "周围4格";
+        }
+        else
+        {
+            return "任意";
+        }
+    }
+
+
     public List<Card> GetRoundFriendUnits(Card target)
     {
         var roundFriendTargets = cards

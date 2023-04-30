@@ -4,6 +4,7 @@
     AllEnemiesOnBoard,
     SameRow,
     SameCol,
+    Round,
     SmallCross,
     BigCross
 }

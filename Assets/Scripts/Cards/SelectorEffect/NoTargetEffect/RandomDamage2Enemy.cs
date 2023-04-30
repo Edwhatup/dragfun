@@ -29,14 +29,20 @@ public class RandomDamage2Enemy : NoTargetCardEffect
         if(range==RangeType.AllEnemies && targetCnt==1)
         {return $"随机对一名敌人造成{damage}点伤害";}
         else
-        return $"随机对{targetCnt}名敌人造成{damage}点伤害";
-        //没写完
+        return $"随机对+{CardManager.Instance.GetSpecificAreaName(range)}的{targetCnt}名敌人造成{damage}点伤害";
     }
 
     public override void Excute()
     {
         //Debug.Log("excute start");
-        var enemy = CardManager.Instance.Enemies.FindAll(e=>e.field.state==BattleState.Survive).GetRandomItem();
-        enemy.attacked.ApplyDamage(card, damage);
+        if(range==RangeType.AllEnemies && targetCnt==1)
+        {
+            var enemy = CardManager.Instance.Enemies.FindAll(e=>e.field.state==BattleState.Survive).GetRandomItem();
+            enemy.attacked.ApplyDamage(card, damage);
+        }
+        else
+        {
+            var enemy =CardManager.Instance.GetSpecificAreaEnemies(card,card,range).GetRandomItem();
+        }
     }
 }
