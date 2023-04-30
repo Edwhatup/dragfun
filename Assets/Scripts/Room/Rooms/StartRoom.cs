@@ -1,4 +1,4 @@
-﻿public class StartRoom : AbstractRoom
+﻿public class StartRoom : NullRoom
 {
     public override RoomType Type => RoomType.Start;
 

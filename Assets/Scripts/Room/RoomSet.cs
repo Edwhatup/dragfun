@@ -1,18 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using UnityEngine;
 
 public class RoomSet
 {
     public Dictionary<Vector2Int, AbstractRoom> Rooms => rooms;
-    private Dictionary<Vector2Int, AbstractRoom> rooms = new Dictionary<Vector2Int, AbstractRoom>();
+    private readonly Dictionary<Vector2Int, AbstractRoom> rooms = new Dictionary<Vector2Int, AbstractRoom>();
 
     public RoomSet(Builder builder)
     {
         rooms = builder.rooms;
     }
 
-    public void PrintRooms()
+    public void PrintData()
     {
         StringBuilder sb = new StringBuilder("Roomset: \n");
         foreach (var item in rooms)
@@ -32,6 +34,9 @@ public class RoomSet
         private Direction startDirection = Direction.Right;
         private BuildType type = BuildType.Simple;
 
+        private AbstractRoom defaultRoom = new NullRoom();
+        private List<RandomRoomInfo> randomRooms = new List<RandomRoomInfo>();
+
         private System.Random random;
 
         public Builder(int maxRooms = 2)
@@ -39,9 +44,6 @@ public class RoomSet
             this.maxRooms = maxRooms;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public Builder Forward(float weight, float slope)
         {
             FWeight = weight;
@@ -69,8 +71,24 @@ public class RoomSet
             return this;
         }
 
-        public Builder RandomRoom(AbstractRoom room, int maxCount = 1, float possibility = 0.3f, int minDistance = 1, int maxDistance = 100)
+        public Builder Random(AbstractRoom room, int maxCount, float possibility)
+            => Random(room, maxCount, possibility, r => true);
+
+        public Builder Random(AbstractRoom room, int maxCount, float possibility, Func<AbstractRoom, bool> condition)
         {
+            randomRooms.Add(new RandomRoomInfo()
+            {
+                room = room,
+                count = maxCount,
+                possibility = possibility,
+                condition = condition
+            });
+            return this;
+        }
+
+        public Builder Default(AbstractRoom defaultRoom)
+        {
+            this.defaultRoom = defaultRoom;
             return this;
         }
 
@@ -107,10 +125,29 @@ public class RoomSet
                             farest = item.Key;
                     }
                     if (farest.sqrMagnitude > 0) ReplaceRoom(farest, new EndRoom());
-
-                    return new RoomSet(this);
+                    break;
             }
-            return null;
+
+            foreach (var item in randomRooms)
+            {
+                // Debug.Log("gg");
+                var l = rooms.Where(i => item.condition.Invoke(i.Value) 
+                                        && i.Value.Type != RoomType.Start 
+                                        && i.Value.Type != RoomType.End
+                                        ).ToList();
+                if (l.Count == 0) continue;
+                // Debug.Log("hh");
+                for (int i = 0; i < item.count; i++)
+                {
+                    if (random.Next() % 100 < 100 * item.possibility)
+                    {
+                        var targetPair = l[random.Next() % l.Count];
+                        ReplaceRoom(targetPair.Key, item.room.Copy());
+                    }
+                }
+            }
+
+            return new RoomSet(this);
         }
 
         private void Generate(Vector2Int pos, Direction nextDir, float fw, float lw, float rw)
@@ -132,7 +169,7 @@ public class RoomSet
         {
             if (rooms.ContainsKey(pos)) return;
 
-            rooms.Add(pos, new NullRoom());
+            rooms.Add(pos, defaultRoom.Copy());
         }
 
         private void AddRoom(Vector2Int pos, AbstractRoom room)
@@ -165,6 +202,14 @@ public class RoomSet
                 case Direction.Right: pos.x++; break;
             }
             return pos;
+        }
+
+        private struct RandomRoomInfo
+        {
+            public AbstractRoom room;
+            public int count;
+            public float possibility;
+            public Func<AbstractRoom, bool> condition;
         }
 
         private enum BuildType

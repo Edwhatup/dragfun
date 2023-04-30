@@ -1,12 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class DataManager:MonoBehaviour
+public class DataManager : MonoBehaviour
 {
     public static DataManager Instance { get; private set; }
+    public static string NextEnemyDataPath { get; set; } = "";
+    // private string nextEnemyDataPath = "";
+
     [SerializeField]
     TextAsset enemyData;
+
     void Awake()
     {
         if (Instance == null)
@@ -15,7 +17,9 @@ public class DataManager:MonoBehaviour
             DontDestroyOnLoad(this);
         }
         else Destroy(Instance);
+
+        if (NextEnemyDataPath != "") enemyData = Resources.Load<TextAsset>(NextEnemyDataPath);
     }
 
-    public string CurrentEnemyData=>enemyData.text;
+    public string CurrentEnemyData => enemyData.text;
 }
