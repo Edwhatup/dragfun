@@ -29,7 +29,7 @@ public class BombChild : Card
         camp = CardCamp.Enemy;
         AddComponnet(new AttackedComponent(5));
         AddComponnet(new EnemyAction());
-        AddComponnet(new EnemyEffectListener(5, new GroupDamage1(this, 3)) { priority = 1 });
+        AddComponnet(new EnemyEffectListener(5, new RandomDamage2Enemy(this,3,RangeType.SmallCross,4)) { priority = 1 });
         enemyAction.GetNextAction();
         GetDesc = () => enemyAction.current?.ToString() ?? "";
     }

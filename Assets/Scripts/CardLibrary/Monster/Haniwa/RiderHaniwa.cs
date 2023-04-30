@@ -20,7 +20,7 @@ public class RiderHaniwa : Card
         AddComponnet(new SummonComponent(e));
 
 
-        var d = new RandomDamage2Enemy(this,4,RangeType.SmallCross,1);
+        var d = new RandomDamage2Enemy(this,4,RangeType.Round,1);
         AddComponnet(new DeadComponent(d));
 
         GetDesc = () => e.ToString()+"死亡时："+d.ToString();
