@@ -112,6 +112,9 @@ public class AttackedComponent : CardComponent
         card.visual.UpdateVisual();
         var ae = new AfterDamageEvent(source, card, info);
         EventManager.Instance.PassEvent(ae);
+
+        if (card.field.state != BattleState.Survive) GameManager.Instance.Refresh();
+
         return info;
     }
 

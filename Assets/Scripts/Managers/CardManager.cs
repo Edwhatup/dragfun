@@ -42,7 +42,7 @@ public class CardManager : MonoBehaviour, IManager
     public List<Card> friendlyTombs = new List<Card>();
     public List<Card> enemyTombs = new List<Card>();
 
-    public List<Card> requireRaceMonster= new List<Card>();
+    public List<Card> requireRaceMonster = new List<Card>();
 
 
     void Awake()
@@ -104,9 +104,9 @@ public class CardManager : MonoBehaviour, IManager
     public void DrawSpecificRaceCard(int cnt, CardRace race)
     {
         var requireRaceMonster = drawDeck
-                            .FindAll(c => c.type == CardType.Monster && c.race==race)
+                            .FindAll(c => c.type == CardType.Monster && c.race == race)
                                 .GetRandomItems(cnt);
-        foreach(Card card in requireRaceMonster)
+        foreach (Card card in requireRaceMonster)
         {
             drawDeck.Transfer(hand, card);
         }
@@ -163,14 +163,14 @@ public class CardManager : MonoBehaviour, IManager
 
     private void CheckCardState(Card card, ref bool flag)
     {
-        if (card.field.state == BattleState.Dead || card.field.state == BattleState.HalfDead)
+        if (card.field.state == BattleState.HalfDead)
         {
+            card.field.state = BattleState.Dead;
             var deads = card.GetComponnets<DeadComponent>();
             foreach (var dead in deads)
             {
                 dead.Excute();
             }
-            card.field.state = BattleState.Dead;
             DestoryCardOnBoard(card);
             flag = true;
         }
@@ -273,62 +273,62 @@ public class CardManager : MonoBehaviour, IManager
             card.enemyAction.current.EventListen(cardEvent);
         }
     }
-    
-    public List<Card> GetSpecificAreaEnemies(Card card, Card target,RangeType range)
+
+    public List<Card> GetSpecificAreaEnemies(Card card, Card target, RangeType range)
     {
-        if(range==RangeType.SameRow)
+        if (range == RangeType.SameRow)
         {
-            var sameRowTarget = cards
+            var sameRowTarget = board
                             .FindAll(c => c.camp != card.camp && c.field.row != null && c.field.row == target.field.row)
                                 .ToList();
             return sameRowTarget;
         }
-        else if(range==RangeType.SameCol)
+        else if (range == RangeType.SameCol)
         {
-            var sameColTarget = cards
+            var sameColTarget = board
                                   .FindAll(c => c.camp != card.camp && c.field.row != null && c.field.col == target.field.col)
                                    .ToList();
             return sameColTarget;
         }
-        else if(range==RangeType.Round)
+        else if (range == RangeType.Round)
         {
-            var roundTargets = cards
+            var roundTargets = board
                                   .FindAll(c => c.camp != card.camp && (c.field.row == target.field.row + 1 || c.field.row == target.field.row - 1 || c.field.row == target.field.row) && (c.field.col == target.field.col + 1 || c.field.col == target.field.col - 1 || c.field.col == target.field.col) && c != target)
                                    .ToList();
             return roundTargets;
         }
-        else if(range==RangeType.SmallCross)
+        else if (range == RangeType.SmallCross)
         {
-            var smallCrossTargets = cards
+            var smallCrossTargets = board
                                   .FindAll(c => c.camp != card.camp && CellManager.Instance.GetStreetDistance(c.field.cell, card.field.cell) == 1)
-                                   .ToList();
+                                    .ToList();
             return smallCrossTargets;
         }
         else
         {
-            var allEnemies = cards
+            var allEnemies = board
                                   .FindAll(c => c.camp != card.camp)
                                    .ToList();
             return allEnemies;
         }
-        
+
     }
 
     public string GetSpecificAreaName(RangeType range)
     {
-        if(range==RangeType.SameRow)
+        if (range == RangeType.SameRow)
         {
             return "同一行";
         }
-        else if(range==RangeType.SameCol)
+        else if (range == RangeType.SameCol)
         {
             return "同一列";
         }
-        else if(range==RangeType.Round)
+        else if (range == RangeType.Round)
         {
             return "周围8格";
         }
-        else if(range==RangeType.SmallCross)
+        else if (range == RangeType.SmallCross)
         {
             return "周围4格";
         }
