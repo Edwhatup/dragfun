@@ -6,10 +6,10 @@ public class RandomSummonDerive : NoTargetCardEffect
 {
     string deriveName;
     int count;
-    public RandomSummonDerive(Card card,string name,int count) : base(card)
+    public RandomSummonDerive(Card card, string name, int count) : base(card)
     {
         this.deriveName = name;
-        this.count=count;
+        this.count = count;
     }
     public override string ToString()
     {
@@ -21,12 +21,13 @@ public class RandomSummonDerive : NoTargetCardEffect
     }
     public override void Excute()
     {
-        for(int i=0;i<count;i++)
+        for (int i = 0; i < count; i++)
         {
             var cell = CellManager.Instance.GetCells().FindAll(c => c.CanSummon()).GetRandomItem();
-            var info=new CardInfo() { name = deriveName};
+            var info = new CardInfo() { name = deriveName };
             var card = CardStore.Instance.CreateCard(info);
             card.field.Summon(cell);
+            // CardManager.Instance.drawDeck.Transfer(CardManager.Instance.board, card);
         }
     }
 }

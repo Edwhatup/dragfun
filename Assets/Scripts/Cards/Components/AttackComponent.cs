@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 [CanRepeat(false)]
@@ -36,6 +37,7 @@ public class AttackComponent : CardComponent
         this.atk = initAtk;
     }
 
+    [Obsolete("使用新的Buff系统, 考虑拓展CardBuff并使用card.AddBuff")]
     public void RangeUp(Card target, int extraRange)
     {
         this.atkRange += extraRange;

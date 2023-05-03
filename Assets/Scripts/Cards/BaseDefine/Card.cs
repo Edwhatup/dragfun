@@ -32,6 +32,11 @@ public abstract class Card
     public ActionComponent action => GetComponent<ActionComponent>();
     public EnemyAction enemyAction => GetComponent<EnemyAction>();
 
+    public List<CardBuff> buffs = new List<CardBuff>();
+    public List<CardBuff> BoardBuffs => buffs.FindAll(i => i.LifeType == BuffLifeType.Board);
+    public List<CardBuff> GameBuffs => buffs.FindAll(i => i.LifeType == BuffLifeType.Game);
+    public List<CardBuff> PermanentBuffs => buffs.FindAll(i => i.LifeType == BuffLifeType.Permanent);
+
     public bool InDeck => CardManager.InDeck(this);
     public bool OnBoard => CardManager.OnBoard(this);
     public bool InHand => CardManager.InHand(this);
@@ -81,6 +86,8 @@ public abstract class Card
     {
         components.Remove(component);
     }
+
+    [Obsolete("现在使用新的Buff系统, 考虑拓展CardBuff并使用card.AddBuff")]
     public void Buff(Card source, int atk, int hp)
     {
         if (attacked != null && hp != 0)
@@ -91,6 +98,20 @@ public abstract class Card
         if (attack != null && atk != 0) this.attack.atk += atk;
         AfterBuffEvent buff = new AfterBuffEvent(source, this);
         EventManager.Instance.PassEvent(buff);
+    }
+
+    public void AddBuff(CardBuff buff)
+    {
+        buff.Bind(this);
+        buffs.Add(buff);
+        EventManager.Instance.PassEvent(new AfterBuffEvent(source, this, buff));
+    }
+
+    public void RemoveBuff(CardBuff buff)
+    {
+        if (!buffs.Contains(buff)) return;
+        buffs.Remove(buff);
+        buff.Release();
     }
 
     public void TurnReset()
@@ -105,7 +126,7 @@ public abstract class Card
     {
         Debug.Log($"回收了 {name}");
         components.ForEach(i => i.Recycle());
-
+        BoardBuffs.ForEach(i => RemoveBuff(i));
     }
 
     public List<T> GetComponnets<T>() where T : CardComponent
