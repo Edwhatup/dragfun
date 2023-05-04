@@ -32,7 +32,8 @@ public abstract class Card
     public ActionComponent action => GetComponent<ActionComponent>();
     public EnemyAction enemyAction => GetComponent<EnemyAction>();
 
-    public List<CardBuff> buffs = new List<CardBuff>();
+    private List<CardBuff> buffs = new List<CardBuff>();
+    public List<CardBuff> Buffs => buffs;
     public List<CardBuff> BoardBuffs => buffs.FindAll(i => i.LifeType == BuffLifeType.Board);
     public List<CardBuff> GameBuffs => buffs.FindAll(i => i.LifeType == BuffLifeType.Game);
     public List<CardBuff> PermanentBuffs => buffs.FindAll(i => i.LifeType == BuffLifeType.Permanent);
