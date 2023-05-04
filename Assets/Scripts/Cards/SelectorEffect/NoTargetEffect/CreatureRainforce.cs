@@ -28,10 +28,10 @@ public class CreatureRainforce : NoTargetCardEffect
             switch (i)
             {
                 case 1:
-                    card.Buff(target, 3, 3);
+                    target.AddBuff(new StatsPositiveBuff(3,3));
                     break;
                 case 2:
-                    target.GetComponent<AttackComponent>().RangeUp(target,1);
+                    target.AddBuff(new RangeUpBuff(1));
                     break;
                 case 3:
                     break;

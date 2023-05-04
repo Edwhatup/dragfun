@@ -25,6 +25,7 @@ public class SelfBuffEffect : NoTargetCardEffect
     }
     public override void Excute()
     {
-        card.Buff(card, atkMofifier, hpModifier);
+        var buff = new StatsPositiveBuff(atkMofifier,hpModifier);
+        card.AddBuff(buff);
     }
 }

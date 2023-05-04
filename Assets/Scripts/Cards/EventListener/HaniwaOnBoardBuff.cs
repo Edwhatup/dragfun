@@ -2,7 +2,6 @@
 {
     int hpMod;
     int atkMod;
-    int boardAttackCount = 0;
     public HaniwaOnBoardListener(string[] args) : base(null)
     {
         int.TryParse(args[0], out hpMod);
@@ -30,7 +29,7 @@
             // if(card.field.state==BattleState.Survive) 
             if (card.OnBoard)
             {
-                card.Buff(card, atkMod, hpMod);
+                card.AddBuff(new StatsPositiveBuff(atkMod,hpMod));
             }
         }
     }

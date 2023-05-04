@@ -65,8 +65,9 @@ public enum BuffLifeType
     // 在场时存在，下场时消除
     Board,
 
-    // 当局游戏存在，下一局消除
-    Game,
+
+    // 本次战斗一直存在，下一局消除
+    Battle,
 
     // 始终存在
     Permanent

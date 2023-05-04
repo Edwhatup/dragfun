@@ -19,7 +19,7 @@ public class BuffAtkByDerNumber : NoTargetCardEffect
         var cells = CellManager.Instance.GetCells().FindAll(c => c.card.type==CardType.FriendlyDerive);
         foreach (var c in cells)
         {
-            card.Buff(card,baseBuff,0);
+            card.AddBuff(new StatsPositiveBuff(baseBuff,0));
         }
     }
 }

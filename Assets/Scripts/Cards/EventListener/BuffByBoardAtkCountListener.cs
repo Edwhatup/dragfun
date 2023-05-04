@@ -30,13 +30,15 @@
         if (e is AfterAttackEvent)
         {
             var attack = e as AfterAttackEvent;
+            var buff = new StatsPositiveBuff(atkModifierOnAttack,hpModifierOnAttack);
+
             if(card.field.state==BattleState.Survive) boardAttackCount+=1;
             if (boardAttackCount == requireCount)
             {
                 var targets = CardManager.Instance.GetRoundFriendUnits(card);
                 foreach(Card target in targets)
                 {
-                    if(target.race==CardRace.Mech) target.Buff(card,atkModifierOnAttack, hpModifierOnAttack); 
+                    if(target.race==CardRace.Mech) target.AddBuff(buff); 
                 }
                 boardAttackCount=0;
             }

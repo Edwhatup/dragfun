@@ -7,6 +7,7 @@ public class AddAroundAtkHalo : HaloEffect
     protected override List<Cell> Cells
         => CellManager.Instance.GetCells().FindAll(c => CellManager.Instance.GetStreetDistance(c, card.field.cell) == 1);
     private int atkValue;
+    CardBuff buff;
 
     public AddAroundAtkHalo(Card c, int atkValue) : base(c)
     {
@@ -21,8 +22,8 @@ public class AddAroundAtkHalo : HaloEffect
     // 添加光环时，就加数值
     public override void Execute(Card c)
     {
-        if (c.attack != null)
-            c.attack.atk += atkValue;
+        buff =new StatsPositiveBuff(atkValue,0);
+        c.AddBuff(buff);
     }
 
     // 撤销光环时，就把加的数值减回来
@@ -30,8 +31,7 @@ public class AddAroundAtkHalo : HaloEffect
     // 如果不幸真的出现了再修吧 QAQ
     public override void Undo(Card c)
     {
-        if (c.attack != null)
-            c.attack.atk -= atkValue;
+        c.RemoveBuff(buff);
     }
 
     public override string ToString()

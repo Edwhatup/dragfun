@@ -314,6 +314,15 @@ public class CardManager : MonoBehaviour, IManager
 
     }
 
+    public List<Card> GetSpecificDeckMonster(CardRace race,int cnt)
+    {
+        var monsters = drawDeck
+                                  .FindAll(c => c.race==race)
+                                    .ToList()
+                                    .GetRandomItems(cnt);
+        return monsters;
+    }
+
     public string GetSpecificAreaName(RangeType range)
     {
         if (range == RangeType.SameRow)

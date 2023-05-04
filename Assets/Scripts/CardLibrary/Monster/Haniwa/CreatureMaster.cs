@@ -2,17 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CreatureMaster : MonoBehaviour
+public class CreatureMaster : Card
 {
-    // Start is called before the first frame update
-    void Start()
+    public CreatureMaster(CardInfo info) : base(info)
     {
-        
-    }
+        name = "造型大师";
+        camp = CardCamp.Friendly;
+        type = CardType.Monster;
+        race = CardRace.Haniwa;
+        cost = 4;
+        AddComponnet(new AttackComponent(4));
+        AddComponnet(new AttackedComponent(1));
+        AddComponnet(new ActionComponent());
+        AddComponnet(new FieldComponnet());
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        var e = new ConditionalRandomSummon(this,CardRace.Haniwa,1);
+        AddComponnet(new SummonComponent(e));
+
+
+
+        GetDesc = () => e.ToString();
+
     }
 }

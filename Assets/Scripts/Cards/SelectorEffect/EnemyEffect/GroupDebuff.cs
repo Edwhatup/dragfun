@@ -22,7 +22,6 @@ public class GroupDebuff : NoTargetCardEffect
         foreach (var c in cells)
         {
             if (c.card != null && c.card.attacked != null && c.card.camp == CardCamp.Friendly)
-                c.card.Buff(c.card,atkmod,hpmod);
-        }
+            c.card.AddBuff(new StatsDebuff(atkmod,hpmod));        }
     }
 }

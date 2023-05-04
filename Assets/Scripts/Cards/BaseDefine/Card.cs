@@ -35,7 +35,7 @@ public abstract class Card
     private List<CardBuff> buffs = new List<CardBuff>();
     public List<CardBuff> Buffs => buffs;
     public List<CardBuff> BoardBuffs => buffs.FindAll(i => i.LifeType == BuffLifeType.Board);
-    public List<CardBuff> GameBuffs => buffs.FindAll(i => i.LifeType == BuffLifeType.Game);
+    public List<CardBuff> GameBuffs => buffs.FindAll(i => i.LifeType == BuffLifeType.Battle);
     public List<CardBuff> PermanentBuffs => buffs.FindAll(i => i.LifeType == BuffLifeType.Permanent);
 
     public bool InDeck => CardManager.InDeck(this);

@@ -17,11 +17,6 @@ public class BasicBuff : NoTargetCardEffect
     }
     public override void Excute()
     { 
-        var cell = card.field.cell;
-        var cells = CellManager.Instance.GetCells().FindAll(c => c.card.type==CardType.FriendlyDerive);
-        foreach (var c in cells)
-        {
-            card.Buff(card,atk,hp);
-        }
+        card.AddBuff(new StatsPositiveBuff(atk,hp));
     }
 }

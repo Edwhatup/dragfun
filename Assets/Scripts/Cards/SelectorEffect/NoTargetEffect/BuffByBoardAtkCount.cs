@@ -21,7 +21,7 @@ public class BuffByAtkCount : NoTargetCardEffect
     public override void Excute()
     {
         var monster =(Targets[0] as CardVisual).card;
-        monster.attack.RangeUp(card, extraRange);
+        card.AddBuff(new RangeUpBuff(extraRange));
     }
 
     public override string ToString()
