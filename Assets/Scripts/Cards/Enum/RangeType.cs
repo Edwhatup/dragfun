@@ -1,6 +1,7 @@
 ﻿public enum RangeType
 {
     AllEnemies,
+    AllFriends,
     AllEnemiesOnBoard,
     SameRow,
     SameCol,

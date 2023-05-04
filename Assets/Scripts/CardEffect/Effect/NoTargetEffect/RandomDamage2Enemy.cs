@@ -45,7 +45,6 @@ public class RandomDamage2Enemy : NoTargetCardEffect
             var enemy = CardManager.Instance.GetSpecificAreaEnemies(card, card, range).GetRandomItems(targetCnt);
             foreach (var a in enemy)
             {
-                // Debug.Log($"{card.name} 随机攻击了 {a.name}");
                 a.attacked.ApplyDamage(card, damage);
             }
         }

@@ -313,6 +313,45 @@ public class CardManager : MonoBehaviour, IManager
         }
 
     }
+    public List<Card> GetSpecificAreaFriends(Card card, Card target, RangeType range)
+    {
+        if (range == RangeType.SameRow)
+        {
+            var sameRowTarget = board
+                            .FindAll(c => c.camp == card.camp && c.field.row != null && c.field.row == target.field.row)
+                                .ToList();
+            return sameRowTarget;
+        }
+        else if (range == RangeType.SameCol)
+        {
+            var sameColTarget = board
+                                  .FindAll(c => c.camp == card.camp && c.field.row != null && c.field.col == target.field.col)
+                                   .ToList();
+            return sameColTarget;
+        }
+        else if (range == RangeType.Round)
+        {
+            var roundTargets = board
+                                  .FindAll(c => c.camp == card.camp && (c.field.row == target.field.row + 1 || c.field.row == target.field.row - 1 || c.field.row == target.field.row) && (c.field.col == target.field.col + 1 || c.field.col == target.field.col - 1 || c.field.col == target.field.col) && c != target)
+                                   .ToList();
+            return roundTargets;
+        }
+        else if (range == RangeType.SmallCross)
+        {
+            var smallCrossTargets = board
+                                  .FindAll(c => c.camp == card.camp && CellManager.Instance.GetStreetDistance(c.field.cell, card.field.cell) == 1)
+                                    .ToList();
+            return smallCrossTargets;
+        }
+        else
+        {
+            var allEnemies = board
+                                  .FindAll(c => c.camp == card.camp)
+                                   .ToList();
+            return allEnemies;
+        }
+
+    }
 
     public List<Card> GetSpecificDeckMonster(CardRace race,int cnt)
     {
