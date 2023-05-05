@@ -22,13 +22,13 @@
         this.lifeTimer = lifeTime;
         this.type = type;
         this.lifeType = lifeType;
-        EventManager.Instance.eventListen += Listen;
     }
 
     public void Bind(Card c)
     {
         card = c;
         Execute();
+        EventManager.Instance.eventListen += Listen;
     }
 
     public virtual void Execute() { }
