@@ -38,7 +38,7 @@ public class CreatureRainforce : NoTargetCardEffect
                 case 4:
                     break;
                 case 5:
-                    target.GetComponent<AttackedComponent>().taunt=1;
+                    target.AddBuff(new TauntBuff());
                     break;           
             }
         }

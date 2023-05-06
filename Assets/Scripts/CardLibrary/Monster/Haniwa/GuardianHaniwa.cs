@@ -15,9 +15,10 @@ public class GuardianHaniwa : Card
         AddComponnet(new AttackedComponent(6));
         AddComponnet(new ActionComponent());
         AddComponnet(new FieldComponnet());
+        
 
-        var e = new TauntBuff();
-        this.AddBuff(e);
+        var e = new GetTaunt(this);
+        AddComponnet(new SummonComponent(e));
 
         var d = new GroupStatsBuff(this,2,2,CardRace.Haniwa);
         AddComponnet(new DeadComponent(d));
