@@ -138,9 +138,11 @@ public class AttackedComponent : CardComponent
             str += $"({block})";
         if (Bless)
             str = '(' + str + ")";
-        if (this.hp == this.maxHp)
+
+        if (hp > maxHp) return $"<color=green>{str}</color>";
+        if (hp == maxHp)
         {
-            if (this.maxHp > this.initMaxHp)
+            if (maxHp > initMaxHp)
                 return $"<color=green>{str}</color>";
             else return $"<color=white>{str}</color>";
         }
