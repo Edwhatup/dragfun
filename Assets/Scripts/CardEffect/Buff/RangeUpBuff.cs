@@ -3,7 +3,7 @@
 public class RangeUpBuff : CardBuff
 {
     private int modValue;
-    public RangeUpBuff(int modValue) : base("增程", 3, BuffType.Positive, BuffLifeType.Board)
+    public RangeUpBuff(int modValue) : base("增程", -1, BuffType.Positive, BuffLifeType.Board)
     {
         if(modValue < 0 ) Debug.LogError("错误: modValue<0!");
         this.modValue=modValue;

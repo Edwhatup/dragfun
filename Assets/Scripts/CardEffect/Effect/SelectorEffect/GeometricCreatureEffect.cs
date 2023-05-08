@@ -41,6 +41,7 @@ public class GeometricCreatureEffect : CardEffect
             var card = CardStore.Instance.CreateCard(info);
             card.field.Summon(target);
         }
+        //完全没做完
     }
     public override bool CanSelectTarget(ISeletableTarget target, int i)
     {
@@ -52,7 +53,6 @@ public class GeometricCreatureEffect : CardEffect
     }
     public override string ToString()
     {
-        //return $"入场时，在第一排召唤{summonCount}个{summonUnit}";
         return $"在第一排召唤{summonCount}个{summonUnit}";
     }
 }
