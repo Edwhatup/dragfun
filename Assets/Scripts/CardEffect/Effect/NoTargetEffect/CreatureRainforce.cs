@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// 根据场上攻击次数给周围8格的随从上BUFF
+/// 根据入场次数给周围8格的随从上BUFF
 /// </summary>
 public class CreatureRainforce : NoTargetCardEffect
 {
@@ -34,11 +34,13 @@ public class CreatureRainforce : NoTargetCardEffect
                     target.AddBuff(new RangeUpBuff(1));
                     break;
                 case 3:
+                    target.AddBuff(new BlessBuff());
                     break;
                 case 4:
+                    target.AddBuff(new SwiftBuff());
                     break;
                 case 5:
-                    target.GetComponent<AttackedComponent>().taunt=1;
+                    target.AddBuff(new TauntBuff());
                     break;           
             }
         }
@@ -47,6 +49,6 @@ public class CreatureRainforce : NoTargetCardEffect
 
     public override string ToString()
     {
-        return $"抽{buffCnt}张牌";
+        return $"进行{buffCnt}次造型强化";
     }
 }

@@ -5,7 +5,7 @@ public class StatsPositiveBuff : CardBuff
     private int atk = 0;
     private int hp = 0;
 
-    public StatsPositiveBuff(int atk,int hp) : base("身材加成", 3, BuffType.Positive, BuffLifeType.Board)
+    public StatsPositiveBuff(int atk,int hp) : base("身材加成", -1, BuffType.Positive, BuffLifeType.Board)
     {
         if(atk < 0 ) Debug.LogError("错误: 攻击加成<0!");
         this.atk = atk;
@@ -16,6 +16,7 @@ public class StatsPositiveBuff : CardBuff
     {
         if (card.attack != null)
             card.attack.atk += atk;
+            card.attacked.maxHp+=hp;
             card.attacked.hp+=hp;
     }
 
@@ -23,6 +24,7 @@ public class StatsPositiveBuff : CardBuff
     {
         if (card.attack != null)
             card.attack.atk -= atk;
+            card.attacked.maxHp+=hp;
             card.attacked.hp-=hp;
 
 

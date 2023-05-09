@@ -57,6 +57,13 @@ public class AttackedComponent : CardComponent
         hp = maxHp;
     }
 
+    public void Destroy(Card card)
+    {
+        card.field.state=BattleState.HalfDead;
+        card.visual.UpdateVisual();
+        GameManager.Instance.Refresh();
+    }
+
     // public override void ResetnTurnStart()
     // {
     //     hp = maxHp;

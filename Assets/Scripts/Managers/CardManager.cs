@@ -29,6 +29,7 @@ public class CardManager : MonoBehaviour, IManager
     public List<Card> FriendlyCardOnBoard => board.FindAll(c => c.camp == CardCamp.Friendly);
 
     public List<Card> FriendlyMonsterOnBorad => board.FindAll(c => c.type == CardType.Monster);
+    //笑喜字打错了，不想改了就这样吧
 
     public List<Card> FriendlyDeriveOnBorad => board.FindAll(c => c.type == CardType.FriendlyDerive);
 

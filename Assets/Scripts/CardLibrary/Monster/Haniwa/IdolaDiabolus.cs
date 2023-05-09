@@ -2,28 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GuardianHaniwa : Card
+public class IdolaDiabolus : Card
 {
-    public GuardianHaniwa(CardInfo info) : base(info)
+    public IdolaDiabolus(CardInfo info) : base(info)
     {
-        name = "卫士埴轮";
+        name = "造型恶魔";
         camp = CardCamp.Friendly;
         type = CardType.Monster;
         race = CardRace.Haniwa;
         cost = 6;
-        AddComponnet(new AttackComponent(3));
+        AddComponnet(new AttackComponent(6));
         AddComponnet(new AttackedComponent(6));
         AddComponnet(new ActionComponent());
         AddComponnet(new FieldComponnet());
-        
 
-        var e = new GetTaunt(this);
+        var e = new RequireRandomDraw(this,1,CardRace.Haniwa);
         AddComponnet(new SummonComponent(e));
 
-        var d = new GroupStatsBuff(this,2,2,CardRace.Haniwa);
+
+        var d = new RandomDamage2Enemy(this,4,RangeType.Round,1);
         AddComponnet(new DeadComponent(d));
 
-        GetDesc = () => e.ToString()+",死亡时："+d.ToString();
+        GetDesc = () => e.ToString()+"死亡时："+d.ToString();
 
     }
 }
