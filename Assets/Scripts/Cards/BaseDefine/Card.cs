@@ -33,7 +33,17 @@ public abstract class Card
     public EnemyAction enemyAction => GetComponent<EnemyAction>();
 
     private List<CardBuff> buffs = new List<CardBuff>();
+    private List<CardBuff> subBuffs = new List<CardBuff>();
     public List<CardBuff> Buffs => buffs;
+    public List<CardBuff> AllBuffs
+    {
+        get
+        {
+            List<CardBuff> all = new List<CardBuff>(buffs);
+            all.AddRange(subBuffs);
+            return all;
+        }
+    }
     public List<CardBuff> BoardBuffs => buffs.FindAll(i => i.LifeType == BuffLifeType.Board);
     public List<CardBuff> GameBuffs => buffs.FindAll(i => i.LifeType == BuffLifeType.Battle);
     public List<CardBuff> PermanentBuffs => buffs.FindAll(i => i.LifeType == BuffLifeType.Permanent);
@@ -112,6 +122,20 @@ public abstract class Card
     {
         if (!buffs.Contains(buff)) return;
         buffs.Remove(buff);
+        buff.Release();
+    }
+
+    public void AddSubBuff(CardBuff buff)
+    {
+        buff.Bind(this);
+        subBuffs.Add(buff);
+        EventManager.Instance.PassEvent(new AfterBuffEvent(source, this, buff));
+    }
+
+    public void RemoveSubBuff(CardBuff buff)
+    {
+        if (!buffs.Contains(buff)) return;
+        subBuffs.Remove(buff);
         buff.Release();
     }
 
