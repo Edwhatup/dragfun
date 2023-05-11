@@ -54,12 +54,13 @@ public class AttackedComponent : CardComponent
 
     public override void Recycle()
     {
+        maxHp = initMaxHp;
         hp = maxHp;
     }
 
     public void Destroy(Card card)
     {
-        card.field.state=BattleState.HalfDead;
+        card.field.state = BattleState.HalfDead;
         card.visual.UpdateVisual();
         GameManager.Instance.Refresh();
     }
