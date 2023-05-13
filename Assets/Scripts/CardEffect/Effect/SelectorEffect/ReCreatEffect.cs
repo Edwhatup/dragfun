@@ -36,7 +36,7 @@ public class ReCreateEffect : CardEffect
 
     public override void Excute()
     {
-        Debug.Log("excute start");        
+        //Debug.Log("excute start");        
         List<Card> conditionedMonsters = CardManager.Instance.GetSpecificDeckMonster(race,summonCount);
         
         foreach(var monster in conditionedMonsters)
@@ -59,6 +59,6 @@ public class ReCreateEffect : CardEffect
     }
     public override string ToString()
     {
-        return $"在随机位置从牌堆中召唤{summonCount}个埴轮随从然后将其破坏";
+        return $"在指定位置从牌堆中召唤{summonCount}个埴轮随从然后将其破坏";
     }
 }

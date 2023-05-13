@@ -15,7 +15,6 @@ public class GeometricCreatureEffect : CardEffect
     }
     public override bool CanUse()
     {
-        //return CardManager.Instance.board.FindAll(c => c.field.row == 1).Count!=CellManager.Instance.GetColCount();
         return CellManager.Instance.GetCells().FindAll(c => c.card.race==CardRace.Haniwa).Count >= destroyCount;
     }
     public GeometricCreatureEffect(Card card, int summonCount,string summonUnit):base(card)
@@ -27,10 +26,11 @@ public class GeometricCreatureEffect : CardEffect
     public override void InitTarget()
     {
         TargetCount = summonCount;
-        for(int i=0; i<summonCount; i++)
+        for (int i=0; i<summonCount; i++)
         {
-            CardTargets.Add(CardTarget.Cell);
+            CardTargets.Add(CardTarget.Monster);
         }
+        
     }
 
     public override void Excute()
@@ -45,7 +45,7 @@ public class GeometricCreatureEffect : CardEffect
     }
     public override bool CanSelectTarget(ISeletableTarget target, int i)
     {
-        return(target as Cell).CanSummon() &(target as Cell).row==0;
+        return(target as Cell).card.race==CardRace.Haniwa;
     }
     public override void OnSelected()
     {
@@ -53,6 +53,6 @@ public class GeometricCreatureEffect : CardEffect
     }
     public override string ToString()
     {
-        return $"在第一排召唤{summonCount}个{summonUnit}";
+        return $"破坏{summonCount}个埴轮随从然后召唤一个具有他们所有能力的几何造物";
     }
 }

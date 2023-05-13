@@ -11,6 +11,7 @@ public class MonsterCardVisual : CardVisual, ISeletableTarget
     [SerializeField] Text atkText;
     [SerializeField] Text hpText;
     [SerializeField] Text costText;
+    [SerializeField] Text buffText;
     public MonsterCardVisual(Card card)
     {
         this.card = card;

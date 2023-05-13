@@ -362,6 +362,14 @@ public class CardManager : MonoBehaviour, IManager
                                     .GetRandomItems(cnt);
         return monsters;
     }
+    public List<Card> GetSpecificDiscardMonster(CardRace race,int cnt)
+    {
+        var monsters = discardDeck
+                                  .FindAll(c => c.race==race)
+                                    .ToList()
+                                    .GetRandomItems(cnt);
+        return monsters;
+    }
 
     public string GetSpecificAreaName(RangeType range)
     {

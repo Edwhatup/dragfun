@@ -28,8 +28,12 @@
             i+=1;
             if(i==onboardcnt)
             {
-                //var target = CardManager.Instance.FriendlyMonsterOnBorad.FindAll(e => e.field.state == BattleState.Survive&&e.race==CardRace.Haniwa).GetRandomItem();
-                //target.AddBuff(new CreatureReinforceBuff());
+                var targets = CardManager.Instance.board.FindAll(c => c.race==CardRace.Haniwa).GetRandomItems(buffCnt);
+                foreach (var target in targets)
+                {
+                    target.AddBuff(new CreatureReinforceBuff());
+                }
+                i=0;
             }
 
         }

@@ -15,13 +15,12 @@ public class CreatureMaster : Card
         AddComponnet(new AttackedComponent(1));
         AddComponnet(new ActionComponent());
         AddComponnet(new FieldComponnet());
+        AddComponnet(new SummonComponent());
 
-        var e = new ConditionalRandomSummon(this,CardRace.Haniwa,1);
-        AddComponnet(new SummonComponent(e));
+        var listener=new CreatureMasterListener(3,1);
+        AddComponnet(listener);
 
-
-
-        GetDesc = () => e.ToString();
+        GetDesc = () => listener.ToString();
 
     }
 }

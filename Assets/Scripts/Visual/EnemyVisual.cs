@@ -7,6 +7,8 @@ public class EnemyVisual : CardVisual, ISeletableTarget
     [SerializeField] Text healthText;
     [SerializeField] Text nameText;
     [SerializeField] Text descText;
+    [SerializeField] Text countDownText;
+
     #region ISeletableTarget实现区域
     public void UpdateSelectableVisual(bool canSelect)
     {
