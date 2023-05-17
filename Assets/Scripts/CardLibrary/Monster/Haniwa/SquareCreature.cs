@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoldierHaniwa : Card
+public class SquareCreature : Card
 {
-    public SoldierHaniwa(CardInfo info) : base(info)
+    public SquareCreature(CardInfo info) : base(info)
     {
-        name = "战士埴轮";
+        name = "方形造物";
         camp = CardCamp.Friendly;
         type = CardType.Monster;
         race = CardRace.Haniwa;
@@ -23,6 +23,6 @@ public class SoldierHaniwa : Card
         var d=new DrawCard(this,1);
         AddComponnet(new DeadComponent(d));
 
-        GetDesc = () => "入场时:"+e.ToString()+"\n死亡时："+d.ToString();
+        GetDesc = () => e.ToString()+"死亡时："+d.ToString();
     }
 }

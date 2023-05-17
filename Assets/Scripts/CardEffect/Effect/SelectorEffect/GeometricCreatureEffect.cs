@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// 在第一排指定位置召唤x个x
+/// 几何造物：破坏两个随从然后召唤一个具有他们复合能力的随从
 /// </summary>
 public class GeometricCreatureEffect : CardEffect
 {
