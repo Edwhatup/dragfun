@@ -18,7 +18,7 @@ public class GeometricCreatureEffect : CardEffect
     }
     public override bool CanUse()
     {
-        return CellManager.Instance.GetCells().FindAll(c => c.card.race==CardRace.Haniwa).Count >= destroyCount;
+        return CardManager.Instance.board.FindAll(c=>c.race==CardRace.Haniwa).Count>= destroyCount;
     }
     public GeometricCreatureEffect(Card card, int destroyCount,string summonUnit):base(card)
     {
@@ -65,7 +65,7 @@ public class GeometricCreatureEffect : CardEffect
     }
     public override bool CanSelectTarget(ISeletableTarget target, int i)
     {
-        return(target as Cell).card.race==CardRace.Haniwa;
+        return(target as Card).race==CardRace.Haniwa;
     }
     public override void OnSelected()
     {
