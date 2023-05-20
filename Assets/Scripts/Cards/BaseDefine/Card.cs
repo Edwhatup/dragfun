@@ -110,6 +110,10 @@ public abstract class Card
         AfterBuffEvent buff = new AfterBuffEvent(source, this);
         EventManager.Instance.PassEvent(buff);
     }
+    public List<CardBuff> GetBuffList()
+    {
+        return buffs;
+    }
 
     public void AddBuff(CardBuff buff)
     {

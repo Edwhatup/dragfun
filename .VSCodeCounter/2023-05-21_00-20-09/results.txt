@@ -1,0 +1,259 @@
+Date : 2023-05-21 00:20:09
+Directory : e:\DragFun\New Unity Project
+Total : 193 files,  8037 codes, 424 comments, 808 blanks, all 9269 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| C#       |        185 |      6,066 |        417 |        803 |      7,286 |
+| XML      |          5 |      1,917 |          7 |          2 |      1,926 |
+| JSON     |          3 |         54 |          0 |          3 |         57 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                      | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                         |        193 |      8,037 |        424 |        808 |      9,269 |
+| Assets                                                                                                    |        187 |      6,080 |        417 |        805 |      7,302 |
+| Assets\Datas                                                                                              |          2 |         14 |          0 |          2 |         16 |
+| Assets\Scripts                                                                                            |        178 |      5,974 |        413 |        786 |      7,173 |
+| Assets\Scripts\CardEffect                                                                                 |         60 |      2,012 |        117 |        271 |      2,400 |
+| Assets\Scripts\CardEffect\Buff                                                                            |          8 |        215 |          4 |         70 |        289 |
+| Assets\Scripts\CardEffect\Effect                                                                          |         44 |      1,513 |        111 |        167 |      1,791 |
+| Assets\Scripts\CardEffect\Effect\EnemyEffect                                                              |          7 |        185 |          1 |         13 |        199 |
+| Assets\Scripts\CardEffect\Effect\HaloEffect                                                               |          3 |         73 |         23 |         22 |        118 |
+| Assets\Scripts\CardEffect\Effect\NoTargetEffect                                                           |         18 |        644 |         39 |         65 |        748 |
+| Assets\Scripts\CardEffect\Effect\SelectorEffect                                                           |         16 |        611 |         48 |         67 |        726 |
+| Assets\Scripts\CardEffect\EventListener                                                                   |          8 |        284 |          2 |         34 |        320 |
+| Assets\Scripts\CardEvent                                                                                  |         13 |        198 |         18 |         25 |        241 |
+| Assets\Scripts\CardLibrary                                                                                |         42 |        855 |         11 |        114 |        980 |
+| Assets\Scripts\CardLibrary\Enemy                                                                          |          4 |        154 |          3 |         11 |        168 |
+| Assets\Scripts\CardLibrary\FriendlyDerive                                                                 |          1 |         19 |          1 |          3 |         23 |
+| Assets\Scripts\CardLibrary\Monster                                                                        |         19 |        380 |          6 |         59 |        445 |
+| Assets\Scripts\CardLibrary\Monster\Fairy                                                                  |          2 |         38 |          0 |          4 |         42 |
+| Assets\Scripts\CardLibrary\Monster\Haniwa                                                                 |          6 |        139 |          0 |         35 |        174 |
+| Assets\Scripts\CardLibrary\Monster\Kappa                                                                  |          5 |         89 |          2 |         12 |        103 |
+| Assets\Scripts\CardLibrary\Monster\Normal                                                                 |          1 |         19 |          0 |          1 |         20 |
+| Assets\Scripts\CardLibrary\Sample                                                                         |          7 |        126 |          0 |         15 |        141 |
+| Assets\Scripts\CardLibrary\Special                                                                        |          1 |         17 |          0 |          3 |         20 |
+| Assets\Scripts\CardLibrary\Spell                                                                          |         10 |        159 |          1 |         23 |        183 |
+| Assets\Scripts\CardLibrary\Spell\Fairy                                                                    |          1 |         16 |          0 |          3 |         19 |
+| Assets\Scripts\CardLibrary\Spell\Haniwa                                                                   |          3 |         48 |          0 |          9 |         57 |
+| Assets\Scripts\CardLibrary\Spell\Normal                                                                   |          2 |         32 |          0 |          4 |         36 |
+| Assets\Scripts\Cards                                                                                      |         35 |      1,412 |        211 |        181 |      1,804 |
+| Assets\Scripts\Cards\BaseDefine                                                                           |          6 |        238 |         14 |         32 |        284 |
+| Assets\Scripts\Cards\Components                                                                           |         17 |        906 |         45 |        110 |      1,061 |
+| Assets\Scripts\Cards\Components\Attributes                                                                |          2 |         82 |          0 |          7 |         89 |
+| Assets\Scripts\Cards\Enum                                                                                 |          8 |         95 |         94 |         21 |        210 |
+| Assets\Scripts\Debug                                                                                      |          1 |         32 |          0 |          6 |         38 |
+| Assets\Scripts\Extension                                                                                  |          1 |         83 |          5 |          3 |         91 |
+| Assets\Scripts\Managers                                                                                   |          8 |        690 |         36 |         89 |        815 |
+| Assets\Scripts\Room                                                                                       |          7 |        240 |         10 |         54 |        304 |
+| Assets\Scripts\Room\Rooms                                                                                 |          5 |         51 |          2 |         15 |         68 |
+| Assets\Scripts\Selection                                                                                  |          2 |        164 |          3 |         14 |        181 |
+| Assets\Scripts\Visual                                                                                     |          8 |        280 |          2 |         28 |        310 |
+| Packages                                                                                                  |          1 |         40 |          0 |          1 |         41 |
+| UIElementsSchema                                                                                          |          4 |      1,104 |          0 |          0 |      1,104 |
++-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                                  | language | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| e:\DragFun\New Unity Project\Assembly-CSharp.csproj                                                       | XML      |        813 |          7 |          2 |        822 |
+| e:\DragFun\New Unity Project\Assets\Click2Draw.cs                                                         | C#       |         11 |          0 |          2 |         13 |
+| e:\DragFun\New Unity Project\Assets\Click2EndTurn.cs                                                      | C#       |         10 |          0 |          2 |         12 |
+| e:\DragFun\New Unity Project\Assets\Datas\Player.json                                                     | JSON     |         10 |          0 |          0 |         10 |
+| e:\DragFun\New Unity Project\Assets\Datas\kazuzaizhe.json                                                 | JSON     |          4 |          0 |          2 |          6 |
+| e:\DragFun\New Unity Project\Assets\EnemyIntention.cs                                                     | C#       |         20 |          1 |          1 |         22 |
+| e:\DragFun\New Unity Project\Assets\FuncTest.cs                                                           | C#       |         13 |          1 |          3 |         17 |
+| e:\DragFun\New Unity Project\Assets\PPText.cs                                                             | C#       |         16 |          2 |          4 |         22 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Buff\BlessBuff.cs                                  | C#       |         18 |          0 |          9 |         27 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Buff\CardBuff.cs                                   | C#       |         56 |          4 |         15 |         75 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Buff\CreatureReinforceBuff.cs                      | C#       |         36 |          0 |          9 |         45 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Buff\RangeUpBuff.cs                                | C#       |         21 |          0 |          7 |         28 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Buff\StatsDebuff.cs                                | C#       |         25 |          0 |          8 |         33 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Buff\StatsPositiveBuff.cs                          | C#       |         27 |          0 |          8 |         35 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Buff\SwiftBuff.cs                                  | C#       |         16 |          0 |          7 |         23 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Buff\TauntBuff.cs                                  | C#       |         16 |          0 |          7 |         23 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\EnemyEffect\BasicBuff.cs                    | C#       |         21 |          0 |          1 |         22 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\EnemyEffect\BuffAtkByDerNumber.cs           | C#       |         24 |          0 |          1 |         25 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\EnemyEffect\EnemyNormalAttack.cs            | C#       |         35 |          0 |          3 |         38 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\EnemyEffect\GroupDamage1.cs                 | C#       |         25 |          0 |          2 |         27 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\EnemyEffect\GroupDebuff.cs                  | C#       |         26 |          0 |          2 |         28 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\EnemyEffect\RandomDamage.cs                 | C#       |         23 |          0 |          2 |         25 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\EnemyEffect\RandomSummonDerive.cs           | C#       |         31 |          1 |          2 |         34 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\HaloEffect\AddArmorHalo.cs                  | C#       |         27 |         16 |          9 |         52 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\HaloEffect\AddAroundAtkHalo.cs              | C#       |         31 |          4 |          7 |         42 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\HaloEffect\HaloEffect.cs                    | C#       |         15 |          3 |          6 |         24 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\AddFirstRowArmour.cs         | C#       |         36 |          0 |          5 |         41 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\AllExtraRangeAttack.cs       | C#       |         47 |          1 |          5 |         53 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\AttackRandom.cs              | C#       |         35 |          1 |          4 |         40 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\BuffByBoardAtkCount.cs       | C#       |         27 |          3 |          1 |         31 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\ConditionalRandomSummon.cs   | C#       |         40 |          3 |          5 |         48 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\CreatureRainforce.cs         | C#       |         49 |          3 |          2 |         54 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\DmgToFriend.cs               | C#       |         36 |          3 |          2 |         41 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\DrawCard.cs                  | C#       |         26 |          3 |          2 |         31 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\GetTaunt.cs                  | C#       |         21 |          3 |          3 |         27 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\GroupDamage.cs               | C#       |         50 |          0 |          5 |         55 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\GroupStatsBuff.cs            | C#       |         56 |          3 |          6 |         65 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\IdolaDiabolusEffect.cs       | C#       |         25 |          1 |          4 |         30 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\RandomDamage2Enemy.cs        | C#       |         45 |          1 |          6 |         52 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\RandomMove.cs                | C#       |         12 |          2 |          5 |         19 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\RandomSummonOnSpecificRow.cs | C#       |         41 |          3 |          2 |         46 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\RebirthEffect.cs             | C#       |         43 |          3 |          5 |         51 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\RequireRandomDraw.cs         | C#       |         28 |          3 |          2 |         33 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\NoTargetEffect\SelfBuffEffect.cs            | C#       |         27 |          3 |          1 |         31 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\SelectorEffect\AddArmour.cs                 | C#       |         38 |          3 |          2 |         43 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\SelectorEffect\AddAtkRange.cs               | C#       |         36 |          4 |          2 |         42 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\SelectorEffect\AddDeadEffect.cs             | C#       |         32 |          1 |          5 |         38 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\SelectorEffect\AddResonanceBuff.cs          | C#       |         32 |          5 |          2 |         39 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\SelectorEffect\CardEffect.cs                | C#       |         62 |          0 |          8 |         70 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\SelectorEffect\DestroyUnit.cs               | C#       |         29 |          1 |          8 |         38 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\SelectorEffect\GeometricCreatureEffect.cs   | C#       |         52 |          4 |          2 |         58 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\SelectorEffect\MultiDamage2Enemy.cs         | C#       |         62 |          0 |          4 |         66 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\SelectorEffect\NewBehaviourScript.cs        | C#       |         12 |          2 |          5 |         19 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\SelectorEffect\OldAssSelection.cs           | C#       |         34 |          7 |          7 |         48 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\SelectorEffect\PermanentStrengthMonster.cs  | C#       |         33 |          6 |          4 |         43 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\SelectorEffect\ReCreatEffect.cs             | C#       |         54 |          5 |          5 |         64 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\SelectorEffect\SingleDamage2SpecifyEnemy.cs | C#       |         36 |          3 |          2 |         41 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\SelectorEffect\SquareCreatureEffect.cs      | C#       |         12 |          2 |          5 |         19 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\SelectorEffect\SummonOnFirstRow.cs          | C#       |         51 |          5 |          1 |         57 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\Effect\SelectorEffect\SwapMonster.cs               | C#       |         36 |          0 |          5 |         41 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\EventListener\BuffByBoardAtkCountListener.cs       | C#       |         44 |          0 |          4 |         48 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\EventListener\CreatureMasterListener.cs            | C#       |         36 |          0 |          6 |         42 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\EventListener\EnemyEffectListener.cs               | C#       |         69 |          1 |         10 |         80 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\EventListener\ExtraRangeSummonListener.cs          | C#       |         28 |          0 |          3 |         31 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\EventListener\HaniwaOnBoardBuff.cs                 | C#       |         33 |          1 |          3 |         37 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\EventListener\MatrixListener.cs                    | C#       |         17 |          0 |          3 |         20 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\EventListener\OnMoveBuffListener.cs                | C#       |         27 |          0 |          2 |         29 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEffect\EventListener\SelfAttackListener.cs                | C#       |         30 |          0 |          3 |         33 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEvent\AfterBuffEvent.cs                                   | C#       |          9 |          0 |          3 |         12 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEvent\AfterMoveEvent.cs                                   | C#       |         31 |          6 |          4 |         41 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEvent\AfterSummonEvent.cs                                 | C#       |          8 |          1 |          0 |          9 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEvent\AttackEvent.cs                                      | C#       |         14 |          0 |          2 |         16 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEvent\BeforeDamageEvent.cs                                | C#       |         16 |          3 |          1 |         20 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEvent\BeforeMoveEvent.cs                                  | C#       |         31 |          6 |          4 |         41 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEvent\BeforeUseEvent.cs                                   | C#       |          8 |          0 |          4 |         12 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEvent\CardEvent.cs                                        | C#       |         31 |          0 |          4 |         35 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEvent\DeathEvent.cs                                       | C#       |          6 |          1 |          1 |          8 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEvent\EndTurnEvent.cs                                     | C#       |          4 |          0 |          0 |          4 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEvent\GameEventListenser.cs                               | C#       |         22 |          1 |          0 |         23 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEvent\HealEvent.cs                                        | C#       |          8 |          0 |          1 |          9 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardEvent\UsePPEvent.cs                                       | C#       |         10 |          0 |          1 |         11 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Enemy\BombMom.cs                                  | C#       |         35 |          0 |          1 |         36 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Enemy\PlainEnemy.cs                               | C#       |         14 |          0 |          3 |         17 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Enemy\Shaman.cs                                   | C#       |         71 |          3 |          5 |         79 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Enemy\Slime.cs                                    | C#       |         34 |          0 |          2 |         36 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\FriendlyDerive\SpellWreck.cs                      | C#       |         19 |          1 |          3 |         23 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\AutoBattery.cs                            | C#       |         20 |          0 |          1 |         21 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\BlackRockTower.cs                         | C#       |         19 |          0 |          2 |         21 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\Fairy\Captain.cs                          | C#       |         19 |          0 |          2 |         21 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\Fairy\Fairy.cs                            | C#       |         19 |          0 |          2 |         21 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\Haniwa\CreatureMaster.cs                  | C#       |         22 |          0 |          4 |         26 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\Haniwa\GuardianHaniwa.cs                  | C#       |         23 |          0 |          7 |         30 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\Haniwa\IdolaDiabolus.cs                   | C#       |         23 |          0 |          7 |         30 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\Haniwa\RiderHaniwa.cs                     | C#       |         23 |          0 |          7 |         30 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\Haniwa\SoldierHaniwa.cs                   | C#       |         24 |          0 |          5 |         29 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\Haniwa\SquareCreature.cs                  | C#       |         24 |          0 |          5 |         29 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\Kappa\FinalMachine.cs                     | C#       |         19 |          0 |          2 |         21 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\Kappa\GoblinPirateQueen.cs                | C#       |         12 |          2 |          5 |         19 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\Kappa\IncrementMatrix.cs                  | C#       |         19 |          0 |          1 |         20 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\Kappa\JetBoy.cs                           | C#       |         20 |          0 |          3 |         23 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\Kappa\JetLeader.cs                        | C#       |         19 |          0 |          1 |         20 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\Normal\AngerTotem.cs                      | C#       |         19 |          0 |          1 |         20 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\OldAss.cs                                 | C#       |         18 |          4 |          0 |         22 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\PalaDin.cs                                | C#       |         18 |          0 |          2 |         20 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Monster\Waiver.cs                                 | C#       |         20 |          0 |          2 |         22 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Sample\Battlefury.cs                              | C#       |         17 |          0 |          2 |         19 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Sample\Harvester.cs                               | C#       |         18 |          0 |          2 |         20 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Sample\MrsDead.cs                                 | C#       |         20 |          0 |          2 |         22 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Sample\Queen.cs                                   | C#       |         18 |          0 |          3 |         21 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Sample\RedEye.cs                                  | C#       |         19 |          0 |          2 |         21 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Sample\Spike.cs                                   | C#       |         18 |          0 |          2 |         20 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Sample\Strike.cs                                  | C#       |         16 |          0 |          2 |         18 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Special\JetBuffer.cs                              | C#       |         17 |          0 |          3 |         20 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Spell\AddResonanceBuff.cs                         | C#       |         16 |          0 |          1 |         17 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Spell\Fairy\FairyCall.cs                          | C#       |         16 |          0 |          3 |         19 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Spell\FrontlineSupport.cs                         | C#       |         15 |          0 |          3 |         18 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Spell\Haniwa\GeometricCreature.cs                 | C#       |         16 |          0 |          3 |         19 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Spell\Haniwa\ReBirth.cs                           | C#       |         16 |          0 |          3 |         19 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Spell\Haniwa\ReCreate.cs                          | C#       |         16 |          0 |          3 |         19 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Spell\JetBuff.cs                                  | C#       |         16 |          0 |          2 |         18 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Spell\Normal\DestroyUnit.cs                       | C#       |         16 |          0 |          2 |         18 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Spell\Normal\HurtTest.cs                          | C#       |         16 |          0 |          2 |         18 |
+| e:\DragFun\New Unity Project\Assets\Scripts\CardLibrary\Spell\Recast.cs                                   | C#       |         16 |          1 |          1 |         18 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\BaseDefine\Card.cs                                      | C#       |        176 |         14 |         13 |        203 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\BaseDefine\CardInfo.cs                                  | C#       |         10 |          0 |          3 |         13 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\BaseDefine\EnemyCardInfo.cs                             | C#       |          6 |          0 |          3 |          9 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\BaseDefine\MonsterCardInfo.cs                           | C#       |         24 |          0 |          7 |         31 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\BaseDefine\PlayerInfo.cs                                | C#       |         14 |          0 |          3 |         17 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\BaseDefine\SpellCardInfo.cs                             | C#       |          8 |          0 |          3 |         11 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\CardStore.cs                                            | C#       |         92 |         58 |          6 |        156 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\ActionComponent.cs                           | C#       |        115 |          1 |          8 |        124 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\AttackComponent.cs                           | C#       |         79 |          2 |         10 |         91 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\AttackedComponent.cs                         | C#       |        130 |         19 |         11 |        160 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\Attributes\CanRepeatAttribute.cs             | C#       |         29 |          0 |          4 |         33 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\Attributes\RequireCardComponentAttribute.cs  | C#       |         53 |          0 |          3 |         56 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\CardComponent.cs                             | C#       |         14 |          0 |          7 |         21 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\DeadComponent.cs                             | C#       |         21 |          0 |          0 |         21 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\EndTurnTriggerComponent.cs                   | C#       |         12 |          0 |          3 |         15 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\EnemyAction.cs                               | C#       |         32 |          3 |          6 |         41 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\EventListenerComponent.cs                    | C#       |         25 |          0 |          3 |         28 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\FieldComponnet.cs                            | C#       |         56 |          6 |          6 |         68 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\HaloComponent.cs                             | C#       |         62 |         12 |         20 |         94 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\ResonanceComponent.cs                        | C#       |         38 |          0 |          4 |         42 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\SpellCastComponent.cs                        | C#       |         60 |          0 |          7 |         67 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\SummonComponent.cs                           | C#       |         66 |          0 |          8 |         74 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\UseComponent.cs                              | C#       |         76 |          1 |          8 |         85 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Components\WreckComponent.cs                            | C#       |         38 |          1 |          2 |         41 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\DamageInfo.cs                                           | C#       |         24 |          0 |          2 |         26 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Enum\BattleState.cs                                     | C#       |          6 |          0 |          0 |          6 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Enum\CardCamp.cs                                        | C#       |          5 |          0 |          1 |          6 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Enum\CardRace.cs                                        | C#       |          7 |          0 |          4 |         11 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Enum\CardRarity.cs                                      | C#       |          5 |          0 |          1 |          6 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Enum\CardTarget.cs                                      | C#       |         14 |         90 |          7 |        111 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Enum\CardTargetUtility.cs                               | C#       |         36 |          4 |          7 |         47 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Enum\CardType.cs                                        | C#       |         11 |          0 |          0 |         11 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Enum\RangeType.cs                                       | C#       |         11 |          0 |          1 |         12 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\Player.cs                                               | C#       |         38 |          0 |          7 |         45 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Cards\PlayerVisual.cs                                         | C#       |         19 |          0 |          3 |         22 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Debug\RoomSetTest.cs                                          | C#       |         32 |          0 |          6 |         38 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Extension\ListExtension.cs                                    | C#       |         83 |          5 |          3 |         91 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Managers\CardManager.cs                                       | C#       |        376 |          3 |         44 |        423 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Managers\CellManager.cs                                       | C#       |        133 |         24 |         12 |        169 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Managers\DataManager.cs                                       | C#       |         19 |          1 |          6 |         26 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Managers\EffectQueue.cs                                       | C#       |         15 |          3 |          3 |         21 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Managers\EventManager.cs                                      | C#       |         22 |          0 |          5 |         27 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Managers\GameManager.cs                                       | C#       |         83 |          5 |         10 |         98 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Managers\IManager.cs                                          | C#       |          6 |          0 |          0 |          6 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Managers\TurnManager.cs                                       | C#       |         36 |          0 |          9 |         45 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Ref.cs                                                        | C#       |          8 |          0 |          1 |          9 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Room\Room.cs                                                  | C#       |          6 |          0 |          4 |         10 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Room\RoomSet.cs                                               | C#       |        183 |          8 |         35 |        226 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Room\Rooms\CombatRoom.cs                                      | C#       |         17 |          0 |          5 |         22 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Room\Rooms\EndRoom.cs                                         | C#       |          8 |          1 |          2 |         11 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Room\Rooms\NullRoom.cs                                        | C#       |         10 |          0 |          4 |         14 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Room\Rooms\RoomType.cs                                        | C#       |          9 |          0 |          3 |         12 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Room\Rooms\StartRoom.cs                                       | C#       |          7 |          1 |          1 |          9 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Selection\ISeletableTarget.cs                                 | C#       |         17 |          0 |          1 |         18 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Selection\Selections.cs                                       | C#       |        147 |          3 |         13 |        163 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Visual\Arrow.cs                                               | C#       |         17 |          0 |          0 |         17 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Visual\CardVisual.cs                                          | C#       |         43 |          0 |          3 |         46 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Visual\Cell.cs                                                | C#       |         99 |          1 |          9 |        109 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Visual\EnemyVisual.cs                                         | C#       |         25 |          0 |          3 |         28 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Visual\IUpdateVisual.cs                                       | C#       |          4 |          0 |          0 |          4 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Visual\MonsterCardVisual.cs                                   | C#       |         55 |          0 |          4 |         59 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Visual\SpellCardVisual.cs                                     | C#       |         23 |          0 |          5 |         28 |
+| e:\DragFun\New Unity Project\Assets\Scripts\Visual\ZoomUI.cs                                              | C#       |         14 |          1 |          4 |         19 |
+| e:\DragFun\New Unity Project\Assets\SystemRandom.cs                                                       | C#       |          7 |          0 |          3 |         10 |
+| e:\DragFun\New Unity Project\Assets\ViewDeck.cs                                                           | C#       |         15 |          0 |          2 |         17 |
+| e:\DragFun\New Unity Project\Packages\manifest.json                                                       | JSON     |         40 |          0 |          1 |         41 |
+| e:\DragFun\New Unity Project\UIElementsSchema\UIElements.xsd                                              | XML      |          6 |          0 |          0 |          6 |
+| e:\DragFun\New Unity Project\UIElementsSchema\UnityEditor.Experimental.UIElements.xsd                     | XML      |        559 |          0 |          0 |        559 |
+| e:\DragFun\New Unity Project\UIElementsSchema\UnityEditor.PackageManager.UI.xsd                           | XML      |        169 |          0 |          0 |        169 |
+| e:\DragFun\New Unity Project\UIElementsSchema\UnityEngine.Experimental.UIElements.xsd                     | XML      |        370 |          0 |          0 |        370 |
+| Total                                                                                                     |          |      8,037 |        424 |        808 |      9,269 |
++-----------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

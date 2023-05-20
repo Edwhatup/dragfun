@@ -23,7 +23,7 @@ public class RandomSummonOnSpecificRow : NoTargetCardEffect
 
     public override void Excute()
     {
-        Debug.Log("excute start");
+        //Debug.Log("excute start");
         List<Cell> firstRollEmptyCell= new List<Cell> ();
 
         List<Cell> finalTargets = CellManager.Instance.GetCells()
