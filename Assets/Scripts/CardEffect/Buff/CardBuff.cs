@@ -53,6 +53,11 @@
     {
         return $"{name}: {lifeTimer}";
     }
+
+    public void ChangeLifeType(BuffLifeType life)
+    {
+        this.lifeType=life;
+    }
 }
 
 public enum BuffType

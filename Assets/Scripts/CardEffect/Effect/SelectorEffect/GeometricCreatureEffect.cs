@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 /// <summary>
 /// 几何造物：破坏两个随从然后召唤一个具有他们复合能力的随从
 /// </summary>
