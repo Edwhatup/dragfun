@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
-public class MonsterCardVisual : CardVisual, ISeletableTarget
+public class MonsterCardVisual : CardVisual, ISeletableTarget, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     Image selectableEdge;
@@ -8,10 +9,13 @@ public class MonsterCardVisual : CardVisual, ISeletableTarget
     public Cell cell;
     [SerializeField] Text nameText;
     [SerializeField] Text descText;
-    [SerializeField] Text atkText;
-    [SerializeField] Text hpText;
-    [SerializeField] Text costText;
-    [SerializeField] Text buffText;
+    [SerializeField] GameObject atkText;
+    [SerializeField] GameObject hpText;
+    [SerializeField] GameObject costText;
+    [SerializeField] GameObject buffText;
+
+
+
     public MonsterCardVisual(Card card)
     {
         this.card = card;
@@ -21,13 +25,19 @@ public class MonsterCardVisual : CardVisual, ISeletableTarget
     public override void UpdateVisual()
     {
         if (nameText) nameText.text = card.name;
-        if (costText) costText.text = card.cost.ToString();
+        if (costText) 
+            {
+                GameObject CostText = costText.transform.Find("CostText").gameObject;
+                CostText.GetComponent<Text>().text = card.cost.ToString();
+            }
         if (hpText)
         {
             if (card.attacked != null)
             {
                 hpText.gameObject.SetActive(true);
-                hpText.text = card.attacked.ToString();
+                GameObject HpText = hpText.transform.Find("HealthText").gameObject;
+                HpText.GetComponent<Text>().text = card.attacked.ToString();
+
             }
             else
                 hpText.gameObject.SetActive(false);
@@ -37,9 +47,12 @@ public class MonsterCardVisual : CardVisual, ISeletableTarget
             if (card.attack != null)
             {
                 atkText.gameObject.SetActive(true);
-                atkText.text = card.attack.ToString();
+                Text AtkText = atkText.transform.Find("AttackText").gameObject.GetComponent<Text>();
+                AtkText.text = card.attack.ToString();
             }
-            else atkText.gameObject.SetActive(false);
+            else 
+                atkText.gameObject.SetActive(false);
+
         }
         if (descText) descText.text = card.GetDesc();
     }
@@ -55,4 +68,15 @@ public class MonsterCardVisual : CardVisual, ISeletableTarget
     {
         return true;
     }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        buffText.gameObject.SetActive(true);
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        buffText.gameObject.SetActive(false);
+    }
+
+    
 }
