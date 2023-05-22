@@ -189,6 +189,16 @@ public abstract class Card
         if (tags.ContainsKey(tag))
             tags[tag] = 0;
     }
+
+    public string GetBuffText()
+    {
+        string text="";
+        foreach(CardBuff buff in buffs)
+        {
+            text+=buff.GetDesc()+"\n";
+        }
+        return text;
+    }
     public Dictionary<string, int> tags = new Dictionary<string, int>();
     //public class CardTag
     //{

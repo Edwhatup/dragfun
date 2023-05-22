@@ -55,6 +55,8 @@ public class MonsterCardVisual : CardVisual, ISeletableTarget, IPointerEnterHand
 
         }
         if (descText) descText.text = card.GetDesc();
+
+        if (buffText) buffText.transform.Find("buffText").gameObject.GetComponent<Text>().text=card.GetBuffText();
     }
     public void UpdateSelectableVisual(bool canSelect)
     {

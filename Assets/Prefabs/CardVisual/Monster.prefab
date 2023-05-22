@@ -31,7 +31,7 @@ RectTransform:
   m_Children:
   - {fileID: 5330666713039848153}
   m_Father: {fileID: 5330666712311997565}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 3148945911733285756}
   - component: {fileID: 8796370625731274529}
   - component: {fileID: 3065507034110395481}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: BuffText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ RectTransform:
   m_Children:
   - {fileID: 9084961615775410937}
   m_Father: {fileID: 5330666712311997565}
-  m_RootOrder: 5
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -254,7 +254,7 @@ RectTransform:
   m_Children:
   - {fileID: 5330666712866279141}
   m_Father: {fileID: 5330666712311997565}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 9084961615775410937}
   - component: {fileID: 3855018493333923399}
   - component: {fileID: 811768739701911177}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: buffText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -479,10 +479,10 @@ RectTransform:
   - {fileID: 5330666713395891655}
   - {fileID: 5330666713146712810}
   - {fileID: 7106291258622981849}
-  - {fileID: 3148945911733285756}
   - {fileID: 8997982182992155008}
   - {fileID: 5163836814688128782}
   - {fileID: 5330666712314481434}
+  - {fileID: 3148945911733285756}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -555,7 +555,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5330666712311997565}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
