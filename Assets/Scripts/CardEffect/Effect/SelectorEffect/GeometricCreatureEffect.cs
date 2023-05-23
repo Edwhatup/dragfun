@@ -7,21 +7,21 @@ using System.Linq;
 public class GeometricCreatureEffect : CardEffect
 {
     int destroyCount;
-    string summonUnit="几何造物";
-    private List<CardBuff> bufflist;
-    private int atk=0;
-    private int hp=0;
+    string summonUnit = "几何造物";
+    private List<CardBuff> bufflist = new List<CardBuff>();
+    private int atk = 0;
+    private int hp = 0;
 
-    public GeometricCreatureEffect(Card card, string[] paras):base(card)
+    public GeometricCreatureEffect(Card card, string[] paras) : base(card)
     {
         int.TryParse(paras[0], out destroyCount);
-        summonUnit=paras[1];
+        summonUnit = paras[1];
     }
     public override bool CanUse()
     {
-        return CardManager.Instance.board.FindAll(c=>c.race==CardRace.Haniwa).Count>= destroyCount;
+        return CardManager.Instance.board.FindAll(c => c.race == CardRace.Haniwa).Count >= destroyCount;
     }
-    public GeometricCreatureEffect(Card card, int destroyCount,string summonUnit):base(card)
+    public GeometricCreatureEffect(Card card, int destroyCount, string summonUnit) : base(card)
     {
         this.destroyCount = destroyCount;
         this.summonUnit = summonUnit;
@@ -30,43 +30,44 @@ public class GeometricCreatureEffect : CardEffect
     public override void InitTarget()
     {
         TargetCount = destroyCount;
-        for (int i=0; i<destroyCount; i++)
+        for (int i = 0; i < destroyCount; i++)
         {
             CardTargets.Add(CardTarget.Monster);
         }
-        
+
     }
 
     public override void Excute()
     {
         var info = new CardInfo() { name = summonUnit };
-        foreach(Card target in Targets)
+        foreach (CardVisual t in Targets)
         {
-            foreach(CardBuff buff in target.GetBuffList())
+            var target = t.card;
+            foreach (CardBuff buff in target.GetBuffList())
             {
                 bufflist.Add(buff);
             }
-            atk+=target.attack.initAtk;
-            hp+=target.attacked.initMaxHp;
+            atk += target.attack.initAtk;
+            hp += target.attacked.initMaxHp;
             target.attacked.Destroy(target);
         }
         Cell cell = CellManager.Instance.GetCells()
-                                            .FindAll(c =>c.CanSummon())
+                                            .FindAll(c => c.CanSummon())
                                             .GetRandomItem();
 
-       
+
         var geoCreture = CardStore.Instance.CreateCard(info);
         geoCreture.field.Summon(cell);
-        foreach(var buff in bufflist)
+        foreach (var buff in bufflist)
         {
             geoCreture.AddBuff(buff);
         }
-        geoCreture.AddBuff(new StatsPositiveBuff(atk,hp));
-        
+        geoCreture.AddBuff(new StatsPositiveBuff(atk, hp));
+
     }
     public override bool CanSelectTarget(ISeletableTarget target, int i)
     {
-        return(target as Card).race==CardRace.Haniwa;
+        return (target as CardVisual).card.race == CardRace.Haniwa;
     }
     public override void OnSelected()
     {
