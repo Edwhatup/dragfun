@@ -16,7 +16,7 @@ public class CardManager : MonoBehaviour, IManager
     [SerializeField]
     RectTransform handTrans;
     [SerializeField]
-    RectTransform enemyBoardTrans;
+    RectTransform enemyBoardTrans, enemyBelowBoardTrans;
     [SerializeField]
     RectTransform tombsTrans;
 
@@ -199,6 +199,8 @@ public class CardManager : MonoBehaviour, IManager
     private void ReadEnemy()
     {
         string[] dataRow = DataManager.Instance.CurrentEnemyData.Split('\n');
+
+        bool side = true;
         foreach (var row in dataRow)
         {
             string[] rowArray = row.Split(',');
@@ -209,16 +211,27 @@ public class CardManager : MonoBehaviour, IManager
 
             var enemy = CardStore.Instance.CreateCard(info);
             enemy.camp = CardCamp.Enemy;
-            enemy.field.row = -1;
+
             enemy.field.col = null;
             board.Add(enemy);
             cards.Add(enemy);
-            if (enemy.field.row >= 0)
-            {
-                EnemyDeriveOnBoard.Add(enemy);
-            }
-            enemy.visual.transform.SetParent(enemyBoardTrans, false);
 
+
+            // if (enemy.field.row >= 0)
+            // {
+            //     EnemyDeriveOnBoard.Add(enemy);
+            // }
+
+            if (side)
+            {
+                enemy.field.row = -1;
+                enemy.visual.transform.SetParent(enemyBoardTrans, false);
+            }
+            else
+            {
+                enemy.field.row = 5;
+                enemy.visual.transform.SetParent(enemyBelowBoardTrans, false);
+            }
         }
     }
 
@@ -354,18 +367,18 @@ public class CardManager : MonoBehaviour, IManager
 
     }
 
-    public List<Card> GetSpecificDeckMonster(CardRace race,int cnt)
+    public List<Card> GetSpecificDeckMonster(CardRace race, int cnt)
     {
         var monsters = drawDeck
-                                  .FindAll(c => c.race==race)
+                                  .FindAll(c => c.race == race)
                                     .ToList()
                                     .GetRandomItems(cnt);
         return monsters;
     }
-    public List<Card> GetSpecificDiscardMonster(CardRace race,int cnt)
+    public List<Card> GetSpecificDiscardMonster(CardRace race, int cnt)
     {
         var monsters = discardDeck
-                                  .FindAll(c => c.race==race)
+                                  .FindAll(c => c.race == race)
                                     .ToList()
                                     .GetRandomItems(cnt);
         return monsters;
