@@ -1334,8 +1334,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -686, y: 39}
-  m_SizeDelta: {x: 255.75122, y: 52.6969}
+  m_AnchoredPosition: {x: 110.26001, y: 47.872}
+  m_SizeDelta: {x: 51.543358, y: 734.88574}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &889537515
 MonoBehaviour:
@@ -2424,7 +2424,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.7696673, y: 0.4668302}
   m_AnchorMax: {x: 0.7696673, y: 0.4668302}
-  m_AnchoredPosition: {x: -40, y: 84.756}
+  m_AnchoredPosition: {x: 213, y: 89.2}
   m_SizeDelta: {x: 346.82336, y: 1063.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1703041058
@@ -2607,8 +2607,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3, y: -3.5}
-  m_SizeDelta: {x: 229.10617, y: 37.067688}
+  m_AnchoredPosition: {x: -0.00001144, y: 38.7}
+  m_SizeDelta: {x: 45.81662, y: 265.96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1790964334
 MonoBehaviour:
@@ -2630,16 +2630,16 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 27
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 40
-    m_Alignment: 1
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 100/100
 --- !u!222 &1790964335
@@ -2833,8 +2833,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0014038, y: 53}
-  m_SizeDelta: {x: 900, y: 1061.1787}
+  m_AnchoredPosition: {x: 110.26, y: 47.872}
+  m_SizeDelta: {x: 1246.2114, y: 1061.1787}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2103126540
 MonoBehaviour:
@@ -2870,10 +2870,10 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
-  m_StartCorner: 0
-  m_StartAxis: 0
+  m_ChildAlignment: 8
+  m_StartCorner: 1
+  m_StartAxis: 1
   m_CellSize: {x: 210, y: 280}
-  m_Spacing: {x: 20, y: 20}
+  m_Spacing: {x: 120, y: 20}
   m_Constraint: 0
   m_ConstraintCount: 2
