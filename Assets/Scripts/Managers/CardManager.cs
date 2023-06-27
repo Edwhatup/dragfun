@@ -91,12 +91,15 @@ public class CardManager : MonoBehaviour, IManager
             {
                 if (discardDeck.Count == 0) return;
                 discardDeck.Shuffle();
-                discardDeck.ForEach(p => p.Recycle());
+                discardDeck.ForEach(p => { p.Recycle(); p.visual.UpdateVisual(); });
                 discardDeck.TransferAll(drawDeck);
+                Debug.Log($"抽卡堆更新, 剩余 {drawDeck.Count} ");
+
             }
             if (hand.Count == Player.Instance.maxHandCnt) break;
             var card = drawDeck[0];
             drawDeck.Transfer(hand, card);
+            Debug.Log($"抽卡堆减少{cnt}张, 剩余 {drawDeck.Count} ");
             card.Init();
             Refresh();
         }
@@ -111,6 +114,7 @@ public class CardManager : MonoBehaviour, IManager
         {
             drawDeck.Transfer(hand, card);
         }
+        Debug.Log($"抽卡堆减少{cnt}张, 剩余 {drawDeck.Count} ");
     }
 
     public void DrawCardWithPPCost(int count = 1)

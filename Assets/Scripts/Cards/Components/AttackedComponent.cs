@@ -61,8 +61,8 @@ public class AttackedComponent : CardComponent
     public void Destroy(Card card)
     {
         card.field.state = BattleState.HalfDead;
-        card.visual.UpdateVisual();
         GameManager.Instance.Refresh();
+        card.visual.UpdateVisual();
     }
 
     // public override void ResetnTurnStart()
@@ -154,6 +154,7 @@ public class AttackedComponent : CardComponent
                 return $"<color=green>{str}</color>";
             else return $"<color=white>{str}</color>";
         }
+        // Debug.Log($"name {card.name} ,hp {hp}, max {maxHp}, init {initMaxHp}");
         return $"<color=red>{str}</color>";
     }
 }

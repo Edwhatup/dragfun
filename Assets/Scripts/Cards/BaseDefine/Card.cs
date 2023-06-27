@@ -154,8 +154,9 @@ public abstract class Card
     public void Recycle()
     {
         Debug.Log($"回收了 {name}");
-        components.ForEach(i => i.Recycle());
         BoardBuffs.ForEach(i => RemoveBuff(i));
+        components.ForEach(i => i.Recycle());
+        GameManager.Instance.Refresh();
     }
 
     public List<T> GetComponnets<T>() where T : CardComponent
@@ -192,10 +193,10 @@ public abstract class Card
 
     public string GetBuffText()
     {
-        string text="";
-        foreach(CardBuff buff in buffs)
+        string text = "";
+        foreach (CardBuff buff in buffs)
         {
-            text+=buff.GetDesc()+"\n";
+            text += buff.GetDesc() + "\n";
         }
         return text;
     }
