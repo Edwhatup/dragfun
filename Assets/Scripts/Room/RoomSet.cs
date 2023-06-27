@@ -14,6 +14,8 @@ public class RoomSet
         rooms = builder.rooms;
     }
 
+    public bool HasPos(Vector2Int pos) => rooms.Keys.Contains(pos);
+
     public void PrintData()
     {
         StringBuilder sb = new StringBuilder("Roomset: \n");
@@ -131,8 +133,8 @@ public class RoomSet
             foreach (var item in randomRooms)
             {
                 // Debug.Log("gg");
-                var l = rooms.Where(i => item.condition.Invoke(i.Value) 
-                                        && i.Value.Type != RoomType.Start 
+                var l = rooms.Where(i => item.condition.Invoke(i.Value)
+                                        && i.Value.Type != RoomType.Start
                                         && i.Value.Type != RoomType.End
                                         ).ToList();
                 if (l.Count == 0) continue;

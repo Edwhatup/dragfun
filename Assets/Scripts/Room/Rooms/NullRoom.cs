@@ -3,6 +3,8 @@
 public class NullRoom : AbstractRoom
 {
     public override RoomType Type => RoomType.Null;
+    public override bool ShowExecButton => false;
+    public override bool ExecuteOnEnter => false;
 
     public override AbstractRoom Copy() => new NullRoom();
 
