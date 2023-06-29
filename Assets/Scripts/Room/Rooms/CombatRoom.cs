@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CombatRoom : AbstractRoom
 {
@@ -10,14 +11,16 @@ public class CombatRoom : AbstractRoom
 
     private bool isDone = false;
 
+    private string combatScene;
     private List<string> paths = new List<string>();
 
-    public CombatRoom(params string[] enemyDataPaths)
+    public CombatRoom(string combatSceneName, params string[] enemyDataPaths)
     {
+        combatScene = combatSceneName;
         paths = new List<string>(enemyDataPaths);
     }
 
-    public override AbstractRoom Copy() => new CombatRoom();
+    public override AbstractRoom Copy() => new CombatRoom(combatScene, paths.ToArray());
 
     public override void Execute()
     {
@@ -25,5 +28,6 @@ public class CombatRoom : AbstractRoom
         if (paths.Count == 0) return;
         if (isDone) return;
         DataManager.NextEnemyDataPath = paths[new System.Random().Next() % paths.Count];
+        SceneManager.LoadScene(combatScene);
     }
 }

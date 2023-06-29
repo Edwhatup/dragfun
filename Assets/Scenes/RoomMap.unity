@@ -434,6 +434,10 @@ MonoBehaviour:
   roomParent: {fileID: 940449087}
   charactor: {fileID: 784664331}
   interactButton: {fileID: 1197319883}
+  combatSceneName: Test_ZC
+  combatPaths:
+  - Assets/Datas/EnemyData.csv
+  - Assets/Datas/EnemyData.csv
   maxRooms: 10
   towardsW: 1
   towardsS: 0.6

@@ -23,7 +23,7 @@ public class RoomSetTest : MonoBehaviour
                         .Forward(towardsW, towardsS)
                         .Left(sideW, sideS)
                         .Right(sideW, sideS)
-                        .Default(new CombatRoom())
+                        // .Default(new CombatRoom())
                         .Random(new NullRoom(),5,0.3f)
                         .Build();
         foreach (var item in r.Rooms)
