@@ -3,7 +3,7 @@
 public class DataManager : MonoBehaviour
 {
     public static DataManager Instance { get; private set; }
-    public static string NextEnemyDataPath { get; set; } = "";
+    public static TextAsset NextEnemyData { get; set; }
     // private string nextEnemyDataPath = "";
 
     [SerializeField]
@@ -18,7 +18,8 @@ public class DataManager : MonoBehaviour
         }
         else Destroy(Instance);
 
-        if (NextEnemyDataPath != "") enemyData = Resources.Load<TextAsset>(NextEnemyDataPath);
+        if (NextEnemyData) enemyData = NextEnemyData;
+        // if (NextEnemyData != "") enemyData = Resources.Load<TextAsset>(NextEnemyData);
     }
 
     public string CurrentEnemyData => enemyData.text;

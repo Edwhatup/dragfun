@@ -10,7 +10,7 @@ public class RoomManager : MonoBehaviour
 
     [Header("战斗场景的数据")]
     public string combatSceneName;
-    public string[] combatPaths;
+    public TextAsset[] enemyDatas;
 
 
     [Header("控制地图生成的参数")]
@@ -59,7 +59,7 @@ public class RoomManager : MonoBehaviour
             .Forward(towardsW, towardsS)
             .Left(sideW, sideS)
             .Right(sideW, sideS)
-            .Default(new CombatRoom(combatSceneName, combatPaths))
+            .Default(new CombatRoom(combatSceneName, enemyDatas))
             .Random(new NullRoom(), 5, 0.3f)
             .Build();
 
