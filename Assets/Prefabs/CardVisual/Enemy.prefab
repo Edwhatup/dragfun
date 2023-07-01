@@ -715,7 +715,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -12.799988, y: -6.9100037}
+  m_AnchoredPosition: {x: -12.799988, y: -6.910034}
   m_SizeDelta: {x: 128.11517, y: 166.95999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2335246937939136546
@@ -735,7 +735,7 @@ MonoBehaviour:
   healthText: {fileID: 4225133133652413244}
   nameText: {fileID: 4225133135307725810}
   descText: {fileID: 4225133134384914918}
-  countDownText: {fileID: 0}
+  countDownText: {fileID: 6452367998921647207}
 --- !u!1 &4403854904154520990
 GameObject:
   m_ObjectHideFlags: 0

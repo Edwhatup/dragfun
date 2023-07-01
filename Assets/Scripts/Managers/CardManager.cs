@@ -281,15 +281,15 @@ public class CardManager : MonoBehaviour, IManager
     }
     private void BroadcastCardEvent2Card(Card card, AbstractCardEvent cardEvent)
     {
-        if (card.camp == CardCamp.Friendly)
-            foreach (var l in card.GetComponnets<EventListenerComponent>())
-            {
-                l.EventListen(cardEvent);
-            }
-        else
+        // if (card.camp == CardCamp.Friendly)
+        foreach (var l in card.GetComponnets<EventListenerComponent>())
         {
-            card.enemyAction.current.EventListen(cardEvent);
+            l.EventListen(cardEvent);
         }
+        // else
+        // {
+        //     card.enemyAction.current.EventListen(cardEvent);
+        // }
     }
 
     public List<Card> GetSpecificAreaEnemies(Card card, Card target, RangeType range)

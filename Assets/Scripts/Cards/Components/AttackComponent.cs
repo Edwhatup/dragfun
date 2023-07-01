@@ -37,16 +37,22 @@ public class AttackComponent : CardComponent
         this.atk = initAtk;
     }
 
-    [Obsolete("使用新的Buff系统, 考虑拓展CardBuff并使用card.AddBuff")]
-    public void RangeUp(Card target, int extraRange)
-    {
-        this.atkRange += extraRange;
-        //Debug.Log(this.atkRange);
-    }
+    // [Obsolete("使用新的Buff系统, 考虑拓展CardBuff并使用card.AddBuff")]
+    // public void RangeUp(Card target, int extraRange)
+    // {
+    //     this.atkRange += extraRange;
+    //     //Debug.Log(this.atkRange);
+    // }
 
     public void Attack(Card target, bool active = true, int cost = 0)
     {
         if (target.attacked == null || !CanAttack) return;
+        if (card.visual is EnemyVisual)
+        {
+            if (card.GetComponent<DirectAtkCountdownComponent>().Ready)
+                target = Player.Instance;
+            // target = GameManager.;
+        }
         int ppcost = active ? cost : 0;
 
         if (!GameManager.Instance.TryCostPP(ppcost)) return;
@@ -62,12 +68,12 @@ public class AttackComponent : CardComponent
             List<Card> targets = new List<Card>();
             if (Sweep)
             {
-                var sameRowTarget = CardManager.Instance.GetSpecificAreaEnemies(card, target,RangeType.SameRow);
+                var sameRowTarget = CardManager.Instance.GetSpecificAreaEnemies(card, target, RangeType.SameRow);
                 targets.AddRange(sameRowTarget);
             }
             if (Pierce)
             {
-                var sameColTarget = CardManager.Instance.GetSpecificAreaEnemies(card, target,RangeType.SameCol);
+                var sameColTarget = CardManager.Instance.GetSpecificAreaEnemies(card, target, RangeType.SameCol);
                 targets.AddRange(sameColTarget);
             }
             targets = targets.Distinct().ToList();
@@ -81,6 +87,7 @@ public class AttackComponent : CardComponent
         globalAtkCount += 1;
         GameManager.Instance.BroadcastCardEvent(ae);
     }
+
     public override string ToString()
     {
         if (atk > initAtk) return $"<color=green>{atk}</color>";
