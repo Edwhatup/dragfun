@@ -10,7 +10,7 @@ public class GuardianHaniwa : Card
         camp = CardCamp.Friendly;
         type = CardType.Monster;
         race = CardRace.Haniwa;
-        cost = 6;
+        cost = 3;
         AddComponnet(new AttackComponent(3));
         AddComponnet(new AttackedComponent(6));
         AddComponnet(new ActionComponent());

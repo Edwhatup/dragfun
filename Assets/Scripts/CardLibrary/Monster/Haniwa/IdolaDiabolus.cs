@@ -10,7 +10,7 @@ public class IdolaDiabolus : Card
         camp = CardCamp.Friendly;
         type = CardType.Monster;
         race = CardRace.Haniwa;
-        cost = 6;
+        cost = 3;
         AddComponnet(new AttackComponent(6));
         AddComponnet(new AttackedComponent(6));
         AddComponnet(new ActionComponent());

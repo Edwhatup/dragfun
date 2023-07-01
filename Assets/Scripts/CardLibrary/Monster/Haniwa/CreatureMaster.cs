@@ -10,7 +10,7 @@ public class CreatureMaster : Card
         camp = CardCamp.Friendly;
         type = CardType.Monster;
         race = CardRace.Haniwa;
-        cost = 4;
+        cost = 2;
         AddComponnet(new AttackComponent(4));
         AddComponnet(new AttackedComponent(1));
         AddComponnet(new ActionComponent());

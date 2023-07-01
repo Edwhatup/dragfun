@@ -10,7 +10,7 @@ public class IdolCreature : Card
         camp = CardCamp.Friendly;
         type = CardType.FriendlyDerive;
         race = CardRace.Haniwa;
-        cost = 0;
+        cost = 3;
         AddComponnet(new AttackComponent(1));
         AddComponnet(new AttackedComponent(1));
         AddComponnet(new ActionComponent());

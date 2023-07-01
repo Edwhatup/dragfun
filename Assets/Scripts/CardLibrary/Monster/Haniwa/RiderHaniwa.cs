@@ -10,7 +10,7 @@ public class RiderHaniwa : Card
         camp = CardCamp.Friendly;
         type = CardType.Monster;
         race = CardRace.Haniwa;
-        cost = 3;
+        cost = 2;
         AddComponnet(new AttackComponent(4));
         AddComponnet(new AttackedComponent(1));
         AddComponnet(new ActionComponent());

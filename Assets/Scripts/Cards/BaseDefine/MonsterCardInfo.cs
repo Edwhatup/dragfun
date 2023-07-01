@@ -23,6 +23,7 @@ public class MonsterCardInfo
     public int moveCost=1;
     public bool atkFree = false;
     public int atkCost=1;
+    public int directAttackCountDOwn=3;
 
     public List<List<string>> eventListers;
     public List<List<string>> haloEffect;
