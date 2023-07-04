@@ -39,18 +39,18 @@ public class CardStore : MonoBehaviour
     private void ReadCard()
     {
         cardBox = new Dictionary<string, Card>();
-        cardCtors= new Dictionary<string, ConstructorInfo>();   
+        cardCtors = new Dictionary<string, ConstructorInfo>();
         var ct = typeof(Card);
-        var ass =ct.Assembly;
-        var types=ass.GetTypes();
-        foreach(var type in types)
+        var ass = ct.Assembly;
+        var types = ass.GetTypes();
+        foreach (var type in types)
         {
-            if(type.IsSubclassOf(ct))
+            if (type.IsSubclassOf(ct))
             {
-                var ctor = type.GetConstructor(new Type[] {typeof(CardInfo) });
+                var ctor = type.GetConstructor(new Type[] { typeof(CardInfo) });
                 if (ctor != null)
                 {
-                    Card card = (Card)ctor.Invoke(new object[] { null});
+                    Card card = (Card)ctor.Invoke(new object[] { null });
                     cardBox[card.name] = card;
                     cardCtors[card.name] = ctor;
                 }
@@ -70,7 +70,7 @@ public class CardStore : MonoBehaviour
             case CardType.FriendlyDerive:
             case CardType.Construction:
                 visual = GameObject.Instantiate(monsterPrefab);
-                break;    
+                break;
             case CardType.Spell:
                 visual = GameObject.Instantiate(spellPrefab);
                 break;
@@ -81,17 +81,19 @@ public class CardStore : MonoBehaviour
         v.SetCard(card);
         return v;
     }
-    public Card CreateCard(CardInfo info)
+    public Card CreateCard(CardInfo info, bool withVisual = true)
     {
         if (cardBox == null) ReadCard();
         if (cardBox.ContainsKey(info.name))
         {
-            var card = cardCtors[info.name].Invoke(new object[] { info}) as Card;
-            CreateCardVisual(card);
+            var card = cardCtors[info.name].Invoke(new object[] { info }) as Card;
+            if (withVisual) CreateCardVisual(card);
             return card;
         }
         throw new Exception($"不存在{info.name}卡牌");
     }
+
+    public Card CreateCard(string name, bool withVisual = true) => CreateCard(new CardInfo() { name = name }, withVisual);
     //public void LoadCardData()
     //{
     //    var monsterFiles = Directory.GetFiles(MonsterDataPath);

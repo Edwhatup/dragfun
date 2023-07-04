@@ -29,7 +29,7 @@ public class RandomDamage2Enemy : NoTargetCardEffect
         if (range == RangeType.AllEnemies && targetCnt == 1)
         { return $"随机对一名敌人造成{damage}点伤害"; }
         else
-            return $"随机对{CardManager.Instance.GetSpecificAreaName(range)}的{targetCnt}名敌人造成{damage}点伤害";
+            return $"随机对{CardManager.GetSpecificAreaName(range)}的{targetCnt}名敌人造成{damage}点伤害";
     }
 
     public override void Excute()

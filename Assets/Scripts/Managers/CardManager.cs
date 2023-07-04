@@ -388,7 +388,7 @@ public class CardManager : MonoBehaviour, IManager
         return monsters;
     }
 
-    public string GetSpecificAreaName(RangeType range)
+    public static string GetSpecificAreaName(RangeType range)
     {
         if (range == RangeType.SameRow)
         {

@@ -23,6 +23,7 @@ public abstract class Card
     public Func<string> GetDesc;
     public int cost;
     public int consume = 0;
+    public int moneyCost = 10;
     List<CardComponent> components;
     public ResonanceComponent resonance => GetComponent<ResonanceComponent>();
     public AttackComponent attack => GetComponent<AttackComponent>();

@@ -4,12 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Player : Card
 {
-    private const string path = "Datas/Player.json";
+    private const string path = "Datas/Player";
     public static Player Instance
     {
         get
         {
-            if (instance == null) instance = LoadPlayerData(Resources.Load<TextAsset>(path).text);
+            // Debug.Log(instance);
+            if (instance == null)
+            {
+                instance = LoadPlayerData(Resources.Load<TextAsset>(path).text);
+                instance.SetUp();
+            }
             return instance;
         }
     }
@@ -21,11 +26,17 @@ public class Player : Card
     public int drawPPCost;
     public int maxHp;
     public int hp;
+    public int money = 0;
 
     public Dictionary<string, int> deck;
     public List<string> cards = new List<string>();
 
     public Player() : base(null)
+    {
+
+    }
+
+    private void SetUp()
     {
         ReadDeck();
         AddComponent(new AttackedComponent(maxHp));

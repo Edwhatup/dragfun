@@ -8,6 +8,8 @@ public class EnemyAction : CardComponent
     public EnemyEffectListener current;
     public void GetNextAction()
     {
+        if (!GameManager.Instance) return;
+
         // 获取所有Listener
         var ls = card.GetComponnets<EnemyEffectListener>();
         if (ls.Count == 0) return;
