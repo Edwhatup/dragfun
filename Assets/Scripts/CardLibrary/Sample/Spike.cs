@@ -9,11 +9,11 @@ public class Spike:Card
         name = "尖刺";
         camp = CardCamp.Friendly;
         type = CardType.Monster;
-        AddComponnet(new AttackComponent(3) { pierce=1});
-        AddComponnet(new AttackedComponent(2));
-        AddComponnet(new ActionComponent());
-        AddComponnet(new SummonComponent());
-        AddComponnet(new UseComponent(1));
+        AddComponent(new AttackComponent(3) { pierce=1});
+        AddComponent(new AttackedComponent(2));
+        AddComponent(new ActionComponent());
+        AddComponent(new SummonComponent());
+        AddComponent(new UseComponent(1));
         GetDesc=() => "纵贯。";
     }
 }

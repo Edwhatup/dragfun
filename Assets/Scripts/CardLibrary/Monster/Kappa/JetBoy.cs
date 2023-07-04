@@ -11,11 +11,11 @@ public class JetBoy:Card
         type = CardType.Monster; 
         race = CardRace.Mech;
         cost = 2;
-        AddComponnet(new AttackComponent(1){atkRange=2,buffAtkByRange=1});
-        AddComponnet(new AttackedComponent(3));
-        AddComponnet(new ActionComponent());
-        AddComponnet(new SummonComponent());
-        AddComponnet(new UseComponent(2));
+        AddComponent(new AttackComponent(1){atkRange=2,buffAtkByRange=1});
+        AddComponent(new AttackedComponent(3));
+        AddComponent(new ActionComponent());
+        AddComponent(new SummonComponent());
+        AddComponent(new UseComponent(2));
         GetDesc = () => "增程1，攻击造成额外等于射程的伤害";
     }
 }

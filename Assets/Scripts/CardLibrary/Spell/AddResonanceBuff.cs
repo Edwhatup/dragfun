@@ -11,7 +11,7 @@ public class StrengthenResonance : Card
         type = CardType.Spell;
         cost = 5;
         var e = new AddResonanceBuff(this);
-        AddComponnet(new SpellCastComponent(5,e));
+        AddComponent(new SpellCastComponent(5,e));
         GetDesc=()=>e.ToString();    
     }
 }

@@ -22,7 +22,7 @@ public class AddResonanceBuff : CardEffect
     {
         var monster =(Targets[0] as CardVisual).card;
         var e =new SelfBuffEffect(monster,1,1);
-        monster.AddComponnet(new ResonanceComponent(e));
+        monster.AddComponent(new ResonanceComponent(e));
         //var r =new ResonanceComponent(e);
         //monster.AddComponnet(r);
     }

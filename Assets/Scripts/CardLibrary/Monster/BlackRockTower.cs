@@ -11,10 +11,10 @@ public class BlackRockTower : Card
         type = CardType.Monster;
         race = CardRace.Mech;
         cost = 1;
-        AddComponnet(new AttackComponent(0));
-        AddComponnet(new AttackedComponent(3));
+        AddComponent(new AttackComponent(0));
+        AddComponent(new AttackedComponent(3));
         var e= new BuffByBoardAtkCountListener(2,2,3);
-        AddComponnet(e);
+        AddComponent(e);
         GetDesc = () => e.ToString();
     }
 }

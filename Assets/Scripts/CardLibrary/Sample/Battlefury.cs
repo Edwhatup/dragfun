@@ -10,9 +10,9 @@ public class Battlefury:Card
         camp = CardCamp.Friendly;
         type = CardType.Monster;
         cost = 1;
-        AddComponnet(new AttackedComponent(2));
-        AddComponnet(new AttackComponent(3) { sweep=1});
-        AddComponnet(new SummonComponent());
+        AddComponent(new AttackedComponent(2));
+        AddComponent(new AttackComponent(3) { sweep=1});
+        AddComponent(new SummonComponent());
         GetDesc = () => "横扫。";
     }
 }

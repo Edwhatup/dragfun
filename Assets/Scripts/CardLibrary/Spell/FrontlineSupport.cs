@@ -10,7 +10,7 @@ public class FrontlineSupport : Card
         camp = CardCamp.Friendly;
         type = CardType.Spell;
         var e = new AddFirstRowArmour(this,2);
-        AddComponnet(new SpellCastComponent(5,e));
+        AddComponent(new SpellCastComponent(5,e));
         GetDesc=()=>e.ToString();
     }
 }

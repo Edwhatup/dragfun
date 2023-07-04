@@ -10,11 +10,11 @@ public class RedEye : Card
         camp = CardCamp.Friendly;
         type = CardType.Monster;
         cost = 1;
-        AddComponnet(new AttackComponent(2));
-        AddComponnet(new AttackedComponent(3));
-        AddComponnet(new SummonComponent());
+        AddComponent(new AttackComponent(2));
+        AddComponent(new AttackedComponent(3));
+        AddComponent(new SummonComponent());
         var m = new SelfAttackListener(new SelfBuffEffect(this,2, 2));
-        AddComponnet(m);
+        AddComponent(m);
         GetDesc = () => m.ToString();
     }
 }

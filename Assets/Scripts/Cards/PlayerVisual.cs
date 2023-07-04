@@ -12,9 +12,9 @@ public class PlayerVisual : CardVisual
 
     void Awake()
     {
-        card = Player.LoadPlayerData(data.text);
-        (card as Player).Init(this);
+        Player.Instance.BindVisual(this);
     }
+
     public override void UpdateVisual()
     {
         if (healthText) healthText.text = card.attacked.hp + "/" + card.attacked.maxHp;

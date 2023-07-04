@@ -10,12 +10,12 @@ public class Waiver : Card
         camp = CardCamp.Friendly;
         type = CardType.Monster;
         cost = 2;
-        AddComponnet(new AttackedComponent(1));
-        AddComponnet(new ActionComponent());
-        AddComponnet(new SummonComponent());
+        AddComponent(new AttackedComponent(1));
+        AddComponent(new ActionComponent());
+        AddComponent(new SummonComponent());
         var e=new GroupDamage(this,1,RangeType.AllEnemiesOnBoard);
         var r=new ResonanceComponent(e);
-        AddComponnet(r);
+        AddComponent(r);
         GetDesc = () => r.ToString();
     }
 }

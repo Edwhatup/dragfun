@@ -11,10 +11,10 @@ public class IdolCreature : Card
         type = CardType.FriendlyDerive;
         race = CardRace.Haniwa;
         cost = 3;
-        AddComponnet(new AttackComponent(1));
-        AddComponnet(new AttackedComponent(1));
-        AddComponnet(new ActionComponent());
-        AddComponnet(new FieldComponnet());
+        AddComponent(new AttackComponent(1));
+        AddComponent(new AttackedComponent(1));
+        AddComponent(new ActionComponent());
+        AddComponent(new FieldComponnet());
         //没做完
 
         GetDesc = () => "";

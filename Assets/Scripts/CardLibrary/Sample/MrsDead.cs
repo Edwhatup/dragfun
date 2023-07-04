@@ -12,10 +12,10 @@ public class MrsDead : Card
         cost = 1;
         var e = new RandomDamage2Enemy(this, 6);
         var dead = new DeadComponent(e);
-        AddComponnet(dead);
-        AddComponnet(new AttackedComponent(2));
-        AddComponnet(new AttackComponent(3));
-        AddComponnet(new SummonComponent());
+        AddComponent(dead);
+        AddComponent(new AttackedComponent(2));
+        AddComponent(new AttackComponent(3));
+        AddComponent(new SummonComponent());
         GetDesc = () => dead.ToString();
     }
 }

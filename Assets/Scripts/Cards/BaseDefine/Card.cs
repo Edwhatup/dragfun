@@ -58,7 +58,7 @@ public abstract class Card
     {
         return components.Find((c) => c.GetType() == typeof(T) || c.GetType().IsSubclassOf(typeof(T))) as T;
     }
-    public void AddComponnet(CardComponent component)
+    public void AddComponent(CardComponent component)
     {
         if (components == null) components = new List<CardComponent>();
         if (CanRepeatAttribute.CanRepeat(component))
@@ -83,7 +83,7 @@ public abstract class Card
             var preCom = RequireCardComponentAttribute.GetPreComponents(component.GetType());
             foreach (var c in preCom)
             {
-                AddComponnet(c);
+                AddComponent(c);
             }
         }
         components.Add(component);

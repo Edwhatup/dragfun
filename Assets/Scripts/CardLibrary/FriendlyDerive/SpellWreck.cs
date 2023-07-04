@@ -9,12 +9,12 @@ public class SpellWreck : Card
         name = "法术残骸";
         camp = CardCamp.Friendly;
         type = CardType.FriendlyDerive;
-        AddComponnet(new FieldComponnet()
+        AddComponent(new FieldComponnet()
         {
             canMove = 0,
             canSwap = 0,
         });
-        AddComponnet(new WreckComponent(5));
+        AddComponent(new WreckComponent(5));
         //AddComponnet(new WreckComponent(int.Parse(info.paras[0])));
         GetDesc = () => GetComponent<WreckComponent>().ToString();
     }

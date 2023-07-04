@@ -16,7 +16,6 @@ public class CardStore : MonoBehaviour
     [SerializeField]
     GameObject enemyPrefab;
 
-
     private Dictionary<string, MonsterCardInfo> monsterCardInfos = new Dictionary<string, MonsterCardInfo>();
     private Dictionary<string, SpellCardInfo> spellCardInfos = new Dictionary<string, SpellCardInfo>();
     private Dictionary<string, EnemyCardInfo> CardInfos = new Dictionary<string, EnemyCardInfo>();

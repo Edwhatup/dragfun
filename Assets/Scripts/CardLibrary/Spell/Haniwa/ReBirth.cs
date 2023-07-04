@@ -11,7 +11,7 @@ public class ReBirth : Card
         type = CardType.Spell;
         cost = 0;
         var e = new RebirthEffect(this,1);        
-        AddComponnet(new SpellCastComponent(4, e));
+        AddComponent(new SpellCastComponent(4, e));
         GetDesc=()=>e.ToString();    
     }
 }

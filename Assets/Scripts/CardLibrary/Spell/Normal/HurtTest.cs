@@ -11,7 +11,7 @@ public class HurtTest : Card
         type = CardType.Spell;
         cost = 0;
         var e = new DmgToFriend(this,3);
-        AddComponnet(new SpellCastComponent(5, e));
+        AddComponent(new SpellCastComponent(5, e));
         GetDesc=()=>e.ToString();    
     }
 }

@@ -10,8 +10,8 @@ public class JetBuffer : Card
         this.camp = CardCamp.Friendly;
         this.type = CardType.Monster;
         cost = 1;
-        AddComponnet(new AttackedComponent(2));
-        AddComponnet(new AttackComponent(3));
+        AddComponent(new AttackedComponent(2));
+        AddComponent(new AttackComponent(3));
         
         var e = new AddAtkRange(this,2);    //这个地方没写完，应该是加入卡组时，给一个具有增程的随从+3+3
         GetDesc=()=>e.ToString();    

@@ -11,7 +11,7 @@ public class DestroyUnit : Card
         type = CardType.Spell;
         cost = 0;
         var e = new DestroyUnitEffect(this);
-        AddComponnet(new SpellCastComponent(5, e));
+        AddComponent(new SpellCastComponent(5, e));
         GetDesc=()=>e.ToString();    
     }
 }

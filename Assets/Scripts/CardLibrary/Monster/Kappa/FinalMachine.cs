@@ -11,10 +11,10 @@ public class FinalMachine:Card
         type = CardType.Monster;
         race = CardRace.Mech;
         cost = 3;
-        AddComponnet(new AttackComponent(5) {atkRange=2, sweep=1,pierce=1});
-        AddComponnet(new AttackedComponent(5));
-        AddComponnet(new ActionComponent());
-        AddComponnet(new SummonComponent());
+        AddComponent(new AttackComponent(5) {atkRange=2, sweep=1,pierce=1});
+        AddComponent(new AttackedComponent(5));
+        AddComponent(new ActionComponent());
+        AddComponent(new SummonComponent());
         GetDesc=() => "增程1，横扫，纵贯";
     }
 }

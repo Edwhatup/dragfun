@@ -11,17 +11,17 @@ public class GuardianHaniwa : Card
         type = CardType.Monster;
         race = CardRace.Haniwa;
         cost = 3;
-        AddComponnet(new AttackComponent(3));
-        AddComponnet(new AttackedComponent(6));
-        AddComponnet(new ActionComponent());
-        AddComponnet(new FieldComponnet());
+        AddComponent(new AttackComponent(3));
+        AddComponent(new AttackedComponent(6));
+        AddComponent(new ActionComponent());
+        AddComponent(new FieldComponnet());
         
 
         var e = new GetTaunt(this);
-        AddComponnet(new SummonComponent(e));
+        AddComponent(new SummonComponent(e));
 
         var d = new GroupStatsBuff(this,2,2,CardRace.Haniwa);
-        AddComponnet(new DeadComponent(d));
+        AddComponent(new DeadComponent(d));
 
         GetDesc = () => e.ToString()+",死亡时："+d.ToString();
 

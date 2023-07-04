@@ -12,7 +12,7 @@ public class Recast : Card
         cost = 1;
         var e = new RandomDamage2Enemy(this,3);
         //还没写完，应该改成破坏一个友方机械随从然后增加主动技能两点充能
-        AddComponnet(new SpellCastComponent(5, e));
+        AddComponent(new SpellCastComponent(5, e));
         GetDesc=()=>e.ToString();    
     }
 }

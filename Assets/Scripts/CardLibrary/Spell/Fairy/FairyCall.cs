@@ -11,7 +11,7 @@ public class FairyCall : Card
         type = CardType.Spell;
         cost = 3;
         var e = new RandomSummonOnSpecificRow(this,2,"绿妖精",0);
-        AddComponnet(new SpellCastComponent(3, e));
+        AddComponent(new SpellCastComponent(3, e));
         GetDesc=()=>e.ToString();
     }
 }

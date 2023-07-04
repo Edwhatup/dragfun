@@ -11,11 +11,11 @@ public class AutoBattery : Card
         type = CardType.Monster;
         race = CardRace.Mech;
         cost = 1;
-        AddComponnet(new AttackedComponent(1));
-        AddComponnet(new SummonComponent());
+        AddComponent(new AttackedComponent(1));
+        AddComponent(new SummonComponent());
         var e=new AttackRandom(this);
         var r=new ResonanceComponent(e);
-        AddComponnet(r);
+        AddComponent(r);
         GetDesc = () => r.ToString();
     }
 }

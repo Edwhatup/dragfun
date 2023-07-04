@@ -22,7 +22,7 @@ public class AddDeadEffect : CardEffect
     public override void Excute()
     {
         var monster = (Targets[0] as CardVisual).card;
-        monster.AddComponnet(new DeadComponent(deadEffect));
+        monster.AddComponent(new DeadComponent(deadEffect));
     }
 
     public override void OnSelected()

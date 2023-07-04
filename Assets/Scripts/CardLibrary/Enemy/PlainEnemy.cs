@@ -9,7 +9,7 @@ public class PlainEnemy : Card
         name = "地精";
         camp = CardCamp.Enemy;
         type = CardType.Enemy;
-        AddComponnet(new AttackedComponent(50) { bless=1,block=10});
+        AddComponent(new AttackedComponent(50) { bless=1,block=10});
         GetDesc = () => "只是个地精。";
     }
 

@@ -11,14 +11,14 @@ public class CreatureMaster : Card
         type = CardType.Monster;
         race = CardRace.Haniwa;
         cost = 2;
-        AddComponnet(new AttackComponent(4));
-        AddComponnet(new AttackedComponent(1));
-        AddComponnet(new ActionComponent());
-        AddComponnet(new FieldComponnet());
-        AddComponnet(new SummonComponent());
+        AddComponent(new AttackComponent(4));
+        AddComponent(new AttackedComponent(1));
+        AddComponent(new ActionComponent());
+        AddComponent(new FieldComponnet());
+        AddComponent(new SummonComponent());
 
         var listener=new CreatureMasterListener(3,1);
-        AddComponnet(listener);
+        AddComponent(listener);
 
         GetDesc = () => listener.ToString();
 

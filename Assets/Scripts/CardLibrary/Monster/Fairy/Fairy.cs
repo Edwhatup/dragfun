@@ -10,11 +10,11 @@ public class GreenFairy : Card
         camp = CardCamp.Friendly;
         type = CardType.Monster;
         race = CardRace.Fairy;
-        AddComponnet(new AttackComponent(1){});
-        AddComponnet(new AttackedComponent(1));
-        AddComponnet(new ActionComponent());
-        AddComponnet(new SummonComponent());
-        AddComponnet(new UseComponent(1));
+        AddComponent(new AttackComponent(1){});
+        AddComponent(new AttackedComponent(1));
+        AddComponent(new ActionComponent());
+        AddComponent(new SummonComponent());
+        AddComponent(new UseComponent(1));
         GetDesc = () => "";
     }
 

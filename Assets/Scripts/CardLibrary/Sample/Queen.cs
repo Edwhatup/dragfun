@@ -9,11 +9,11 @@ public class Queen : Card
         name = "皇后";
         camp = CardCamp.Friendly;
         type = CardType.Monster;
-        AddComponnet(new AttackComponent(2));
-        AddComponnet(new AttackedComponent(3));
+        AddComponent(new AttackComponent(2));
+        AddComponent(new AttackedComponent(3));
         var e = new RandomDamage2Enemy(this, 5);
-        AddComponnet(new ResonanceComponent(e));
-        AddComponnet(new SummonComponent(e));        
+        AddComponent(new ResonanceComponent(e));
+        AddComponent(new SummonComponent(e));        
         GetDesc=()=>$"战吼,呼应:{e};";
 
     }

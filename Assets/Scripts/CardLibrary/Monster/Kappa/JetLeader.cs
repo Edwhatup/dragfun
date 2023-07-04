@@ -12,9 +12,9 @@ public class JetLeader : Card
         cost = 4;
         var e = new RandomSummonOnSpecificRow(this,2,"动力河童",1);
         var listener = new ExtraRangeSummonListener(e,5);
-        AddComponnet(new AttackedComponent(2));
-        AddComponnet(new AttackComponent(3));
-        AddComponnet(new SummonComponent());
+        AddComponent(new AttackedComponent(2));
+        AddComponent(new AttackComponent(3));
+        AddComponent(new SummonComponent());
         GetDesc = () => listener.ToString();
     }
 }

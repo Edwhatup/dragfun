@@ -11,7 +11,7 @@ public class GeometricCreate : Card
         type = CardType.Spell;
         cost = 0;
         var e = new GeometricCreatureEffect(this,2,"几何造物");        
-        AddComponnet(new SpellCastComponent(5, e));
+        AddComponent(new SpellCastComponent(5, e));
         GetDesc=()=>e.ToString();    
     }
 }

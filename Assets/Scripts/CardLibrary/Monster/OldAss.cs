@@ -11,11 +11,11 @@ public class OldAss:Card
         name = "老佣兵";
         camp = CardCamp.Friendly;
         type = CardType.Monster; 
-        AddComponnet(new AttackComponent(1));
-        AddComponnet(new AttackedComponent(4));
-        AddComponnet(new ActionComponent());
-        AddComponnet(new SummonComponent());
-        AddComponnet(new UseComponent(3));
+        AddComponent(new AttackComponent(1));
+        AddComponent(new AttackedComponent(4));
+        AddComponent(new ActionComponent());
+        AddComponent(new SummonComponent());
+        AddComponent(new UseComponent(3));
         //没写完
         GetDesc = () => "";
     }

@@ -11,7 +11,7 @@ public class JetBuff : Card
         type = CardType.Spell;
         cost = 1;
         var e = new AddAtkRange(this,2);
-        AddComponnet(new SpellCastComponent(5,e));
+        AddComponent(new SpellCastComponent(5,e));
         GetDesc=()=>e.ToString();    
     }
 }

@@ -11,7 +11,7 @@ public class ReCreate : Card
         type = CardType.Spell;
         cost = 0;
         var e = new ReCreateEffect(this,CardRace.Haniwa,1);        
-        AddComponnet(new SpellCastComponent(5, e));
+        AddComponent(new SpellCastComponent(5, e));
         GetDesc=()=>e.ToString();    
     }
 }
