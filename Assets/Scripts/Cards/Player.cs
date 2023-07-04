@@ -45,6 +45,7 @@ public class Player : Card
     public void BindVisual(PlayerVisual playerVisual)
     {
         visual = playerVisual;
+        visual.card = this;
     }
 
     private void ReadDeck()
