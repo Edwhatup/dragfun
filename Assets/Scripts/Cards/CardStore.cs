@@ -15,6 +15,8 @@ public class CardStore : MonoBehaviour
     GameObject spellPrefab;
     [SerializeField]
     GameObject enemyPrefab;
+    [SerializeField]
+    GameObject enemyDerivePrefab;
 
     private Dictionary<string, MonsterCardInfo> monsterCardInfos = new Dictionary<string, MonsterCardInfo>();
     private Dictionary<string, SpellCardInfo> spellCardInfos = new Dictionary<string, SpellCardInfo>();
@@ -63,8 +65,10 @@ public class CardStore : MonoBehaviour
         switch (card.type)
         {
             case CardType.Enemy:
-            case CardType.EnemyDerive:
                 visual = GameObject.Instantiate(enemyPrefab);
+                break;
+            case CardType.EnemyDerive:
+                visual = GameObject.Instantiate(enemyDerivePrefab);
                 break;
             case CardType.Monster:
             case CardType.FriendlyDerive:
