@@ -15,7 +15,7 @@ public class DirectAtkCountdownComponent : EventListenerComponent
 
     public override void EventListen(AbstractCardEvent e)
     {
-        Debug.Log("gg");
+        // Debug.Log("gg");
         timer -= e.ppCost;
         if (timer < 0) timer = 0;
         card.visual.UpdateVisual();

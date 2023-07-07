@@ -20,8 +20,11 @@ public class ActionComponent : CardComponent, ISelector
 
     public bool CanSelectTarget(ISeletableTarget target, int i)
     {
-        if (CardTargetUtility.IsTargetsCompatible(CardTargets[0], CardTarget.Cell) && target is Cell cell)
+        if ((CardTargetUtility.IsTargetsCompatible(CardTargets[0], CardTarget.Cell)
+                || CardTargetUtility.IsTargetsCompatible(CardTargets[0], CardTarget.EnemyDerive))
+                )
         {
+            var cell = (target is Cell) ? (Cell)target : ((EnemyVisual)target).card.field.cell;
             var dis = CellManager.Instance.GetStreetDistance(card.field.cell, cell);
             return (cell.CanMove() || cell.CanSwaped()) && dis <= card.field.moveRange && dis > 0;
         }
@@ -93,8 +96,13 @@ public class ActionComponent : CardComponent, ISelector
     public void Excute()
     {
         var target = Targets[0];
+        Debug.Log("ll");
         if (target is EnemyVisual visual)
-            card.attack.Attack(visual.card, true, cost);
+        {
+            if (card.attack != null)
+                card.attack.Attack(visual.card, true, cost);
+            else card.field.Move(visual.card.field.cell, true, cost);
+        }
         else if (target is Cell cell)
             card.field.Move(cell, true, cost);
         card.ClearTag("迅捷");
@@ -111,7 +119,7 @@ public class ActionComponent : CardComponent, ISelector
         Selections.Instance.CreateArrow(card.visual.transform);
         Targets.Clear();
         CardTargets[0] = CardTarget.None;
-        if (canMove) CardTargets[0] |= CardTarget.Cell;
+        if (canMove) CardTargets[0] |= CardTarget.Cell | CardTarget.EnemyDerive;
         if (canAttack) CardTargets[0] |= CardTarget.Enemy | CardTarget.EnemyDerive;
 
     }

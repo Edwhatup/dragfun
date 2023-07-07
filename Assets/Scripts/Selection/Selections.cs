@@ -122,7 +122,7 @@ public class Selections : MonoBehaviour
         {
             var s = Selector.GetNextSelector();
             ClearVisual();
-            if(!TryAddSelector(s))
+            if (!TryAddSelector(s))
             {
                 foreach (var item in selectors)
                 {
@@ -139,7 +139,7 @@ public class Selections : MonoBehaviour
     private bool CanSelect(ISeletableTarget target)
     {
         if (target == null) return false;
-        if (Selector == null || Selector==target || Targets.Contains(target)) return false; 
+        if (Selector == null || Selector == target || Targets.Contains(target)) return false;
         int i = Targets.Count;
         return i < Selector.TargetCount &&
                 CardTargetUtility.CardIsTarget(target, Selector.CardTargets[i]) &&

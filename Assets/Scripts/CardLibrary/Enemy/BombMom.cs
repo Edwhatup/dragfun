@@ -33,5 +33,7 @@ public class BombChild : Card
         AddComponent(new EnemyEffectListener(5, new RandomDamage2Enemy(this,3,RangeType.SmallCross,4)) { priority = 1 });
         enemyAction.GetNextAction();
         GetDesc = () => enemyAction.current?.ToString() ?? "";
+
+        field.canSwap = 1;
     }
 }
