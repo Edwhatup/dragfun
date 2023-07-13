@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour, IManager
 {
+    public TextAsset shopItems;
+
     public SystemRandom Random = new SystemRandom();
     public enum GamePhase
     {
@@ -75,6 +78,10 @@ public class GameManager : MonoBehaviour, IManager
     public void GamePass()
     {
         Console.WriteLine("游戏通关");
+
+        var l = ReadShopItem(shopItems);
+        ShopController.SetItems(l[UnityEngine.Random.Range(0, l.Count)]);
+        SceneManager.LoadScene("Shop");
     }
 
     public void BroadcastCardEvent(AbstractCardEvent e)
@@ -94,5 +101,13 @@ public class GameManager : MonoBehaviour, IManager
             return true;
         }
         return false;
+    }
+
+    private List<string[]> ReadShopItem(TextAsset text)
+    {
+        var lines = text.text.Split(';');
+        var s = new List<string[]>();
+        foreach (var item in lines) s.Add(item.Split(','));
+        return s;
     }
 }

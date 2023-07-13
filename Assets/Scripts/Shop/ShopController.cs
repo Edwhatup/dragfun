@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ShopController : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class ShopController : MonoBehaviour
     public ShopCard SelectedShopCard => selectedCard;
     private ShopCard selectedCard;
 
+    private static string[] targetItems = null;
+
+    [SerializeField] private string nextScene;
+
     private void Awake()
     {
         instance = this;
@@ -22,9 +27,13 @@ public class ShopController : MonoBehaviour
 
     private void Start()
     {
+        if (targetItems != null) items = targetItems;
+        targetItems = null;
+
         foreach (var item in items)
         {
-            var c = CardStore.Instance.CreateCard(item, false);
+            var i = item.Trim('\n', '\r', ' ');
+            var c = CardStore.Instance.CreateCard(i, false);
             var sC = Instantiate(shopCard, Vector3.zero, Quaternion.identity, shopParent).GetComponent<ShopCard>();
             sC.BindCard(c);
         }
@@ -69,5 +78,15 @@ public class ShopController : MonoBehaviour
         moneyText.text = Player.Instance.money.ToString();
 
         HideDeck();
+    }
+
+    public void NextScene()
+    {
+        SceneManager.LoadScene(nextScene);
+    }
+
+    public static void SetItems(string[] items)
+    {
+        targetItems = items;
     }
 }

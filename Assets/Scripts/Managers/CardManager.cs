@@ -44,6 +44,8 @@ public class CardManager : MonoBehaviour, IManager
 
     public List<Card> requireRaceMonster = new List<Card>();
 
+    public List<Card> enemies = new List<Card>();
+
 
     void Awake()
     {
@@ -161,6 +163,11 @@ public class CardManager : MonoBehaviour, IManager
             GameManager.Instance.GameFalse();
             return;
         }
+        else if (Enemies.Count == 0)
+        {
+            GameManager.Instance.GamePass();
+            return;
+        }
         if (flag)
             DeadSettlement();
     }
@@ -175,6 +182,7 @@ public class CardManager : MonoBehaviour, IManager
             {
                 dead.Excute();
             }
+            if (enemies.Contains(card)) enemies.Remove(card);
             DestoryCardOnBoard(card);
             flag = true;
         }
@@ -201,6 +209,7 @@ public class CardManager : MonoBehaviour, IManager
     }
     private void ReadEnemy()
     {
+        enemies.Clear();
         string[] dataRow = DataManager.Instance.CurrentEnemyData.Split('\n');
 
         bool side = true;
@@ -235,6 +244,7 @@ public class CardManager : MonoBehaviour, IManager
                 enemy.field.row = 5;
                 enemy.visual.transform.SetParent(enemyBelowBoardTrans, false);
             }
+            enemies.Add(enemy);
         }
     }
 

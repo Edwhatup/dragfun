@@ -204,7 +204,7 @@ RectTransform:
   m_Children:
   - {fileID: 1197319882}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -362,7 +362,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 4869d39903b74944aa3d8f1992581d6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -386,7 +386,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &784664331
 MonoBehaviour:
@@ -410,7 +410,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 940449087}
-  - component: {fileID: 940449086}
   m_Layer: 0
   m_Name: Room
   m_TagString: Untagged
@@ -418,42 +417,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &940449086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 940449085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b9e9bc3b3599b74f8574b12e0b03fe3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initOnStart: 1
-  roomParent: {fileID: 940449087}
-  charactor: {fileID: 784664331}
-  interactButton: {fileID: 1197319883}
-  combatSceneName: Test_ZC
-  enemyDatas:
-  - {fileID: 4900000, guid: f0a08c25d7e44be45a7843141d381ba6, type: 3}
-  maxRooms: 10
-  towardsW: 1
-  towardsS: 0.6
-  sideW: 0.8
-  sideS: 0.8
-  interval: 2
-  nullRoom: {fileID: 7215379315362119215, guid: 3512f9636b024f74985beadfb094584e,
-    type: 3}
-  startRoom: {fileID: 7215379315362119215, guid: b13f92dfe2261c746bb34ec7d2a2e0ff,
-    type: 3}
-  endRoom: {fileID: 7215379315362119215, guid: a4af0f193fda5064cbb00cf44a6e6506, type: 3}
-  combatRoom: {fileID: 7215379315362119215, guid: 0b54a43a150f4314da620aca4b7a7d57,
-    type: 3}
-  bossRoom: {fileID: 7215379315362119215, guid: 35103aeba4fcfdd49b9b95cd7426359e,
-    type: 3}
-  shopRoom: {fileID: 7215379315362119215, guid: ccf7511becb8bb84dab8646fe8794ec2,
-    type: 3}
 --- !u!4 &940449087
 Transform:
   m_ObjectHideFlags: 0
@@ -466,7 +429,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1051259070
 GameObject:
@@ -734,9 +697,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1560543096
+--- !u!1 &1751286344
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -744,25 +707,62 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1560543098}
+  - component: {fileID: 1751286346}
+  - component: {fileID: 1751286345}
   m_Layer: 0
-  m_Name: Debug
+  m_Name: RoomManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1560543098
+--- !u!114 &1751286345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751286344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b9e9bc3b3599b74f8574b12e0b03fe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initOnStart: 1
+  roomParent: {fileID: 940449087}
+  charactor: {fileID: 784664331}
+  interactButton: {fileID: 1197319883}
+  combatSceneName: Test_ZC
+  enemyDatas:
+  - {fileID: 4900000, guid: f0a08c25d7e44be45a7843141d381ba6, type: 3}
+  maxRooms: 10
+  towardsW: 1
+  towardsS: 0.6
+  sideW: 0.8
+  sideS: 0.8
+  interval: 2
+  nullRoom: {fileID: 7215379315362119215, guid: 3512f9636b024f74985beadfb094584e,
+    type: 3}
+  startRoom: {fileID: 7215379315362119215, guid: b13f92dfe2261c746bb34ec7d2a2e0ff,
+    type: 3}
+  endRoom: {fileID: 7215379315362119215, guid: a4af0f193fda5064cbb00cf44a6e6506, type: 3}
+  combatRoom: {fileID: 7215379315362119215, guid: 0b54a43a150f4314da620aca4b7a7d57,
+    type: 3}
+  bossRoom: {fileID: 7215379315362119215, guid: 35103aeba4fcfdd49b9b95cd7426359e,
+    type: 3}
+  shopRoom: {fileID: 7215379315362119215, guid: ccf7511becb8bb84dab8646fe8794ec2,
+    type: 3}
+--- !u!4 &1751286346
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1560543096}
+  m_GameObject: {fileID: 1751286344}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

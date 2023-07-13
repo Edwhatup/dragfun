@@ -12,7 +12,6 @@ public class RoomManager : MonoBehaviour
     public string combatSceneName;
     public TextAsset[] enemyDatas;
 
-
     [Header("控制地图生成的参数")]
     public int maxRooms = 10;
     public float towardsW = 1, towardsS = 0.6f;
@@ -22,12 +21,13 @@ public class RoomManager : MonoBehaviour
     public float interval = 2;
     public GameObject nullRoom, startRoom, endRoom, combatRoom, bossRoom, shopRoom;
 
-    public RoomSet RoomSet { get; private set; }
-    public Vector2Int CurPos { get; private set; }
+    public static RoomSet RoomSet { get; private set; }
+    public static Vector2Int CurPos { get; private set; }
 
     private void Start()
     {
-        if (initOnStart) BuildMap(maxRooms, towardsW, towardsS, sideW, sideS);
+        if (RoomSet == null) BuildMap(maxRooms, towardsW, towardsS, sideW, sideS);
+        ShowMap();
     }
 
     private void Update()
@@ -63,6 +63,11 @@ public class RoomManager : MonoBehaviour
             .Random(new NullRoom(), 5, 0.3f)
             .Build();
 
+        CurPos = Vector2Int.zero;
+    }
+
+    public void ShowMap()
+    {
         foreach (var item in RoomSet.Rooms)
         {
             switch (item.Value.Type)
@@ -93,7 +98,7 @@ public class RoomManager : MonoBehaviour
             }
         }
 
-        CurPos = Vector2Int.zero;
+        charactor.transform.position = (Vector2)CurPos * interval;
     }
 
     private void Enter(Vector2Int pos)
