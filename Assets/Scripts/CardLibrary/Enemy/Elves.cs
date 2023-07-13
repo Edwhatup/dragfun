@@ -47,7 +47,7 @@ public class WeakElf : Card
         AddComponent(new AttackedComponent(3));
         AddComponent(new FieldComponnet());
         AddComponent(new EnemyAction());
-        AddComponent(new HaloComponent(new YellElfHalo(this,1)));// 还没改完
+        AddComponent(new HaloComponent(new WeakHalo(this,2)));
         AddComponent(new EnemyEffectListener(5, new EnemyNormalAttack(this, 3,1)) { priority = 0});
         enemyAction.GetNextAction();
         GetDesc = () => enemyAction.current?.ToString() ?? "";
