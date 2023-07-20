@@ -20,22 +20,40 @@ public class ActionComponent : CardComponent, ISelector
 
     public bool CanSelectTarget(ISeletableTarget target, int i)
     {
-        if ((CardTargetUtility.IsTargetsCompatible(CardTargets[0], CardTarget.Cell)
-                || CardTargetUtility.IsTargetsCompatible(CardTargets[0], CardTarget.EnemyDerive))
-                )
+        if (target == card.visual) return false;
+        // 先判定攻击
+        if (card.attack != null
+                && CardTargetUtility.IsTargetsCompatible(CardTargets[0], CardTarget.Enemy | CardTarget.EnemyDerive)
+                && target is EnemyVisual)
         {
-            var cell = (target is Cell) ? (Cell)target : ((EnemyVisual)target).card.field.cell;
-            var dis = CellManager.Instance.GetStreetDistance(card.field.cell, cell);
-            return (cell.CanMove() || cell.CanSwaped()) && dis <= card.field.moveRange && dis > 0;
-        }
-        if (CardTargetUtility.IsTargetsCompatible(CardTargets[0], CardTarget.Enemy) && target is EnemyVisual visual)
-        {
-            var e = visual.card;
+            // Debug.Log(target.GetType());
+            var e = ((EnemyVisual)target).card;
             var dis = e.attacked.GetAttackDistance(card);
             //通过优先级来计算
             return e.attacked.GetAttackDistance(card) <= card.attack.AtkRange && e.attacked.GetAttackedPriority(card) == targetPriority;
-
         }
+
+        // 再判定移动
+        if (card.field != null)
+        {
+            if (CardTargetUtility.IsTargetsCompatible(CardTargets[0], CardTarget.Cell) && target is Cell c)
+            {
+                var dis = CellManager.Instance.GetStreetDistance(card.field.cell, c);
+                return dis <= card.field.moveRange && dis > 0;
+            }
+
+            var visual = (CardVisual)target;
+            if ((CardTargetUtility.IsTargetsCompatible(CardTargets[0], CardTarget.EnemyDerive)
+                        && visual.card.type == CardType.EnemyDerive)
+                    || CardTargetUtility.IsTargetsCompatible(CardTargets[0], CardTarget.Monster)
+                    )
+            {
+                var cell = visual.card.field.cell;
+                var dis = CellManager.Instance.GetStreetDistance(card.field.cell, cell);
+                return (cell.CanMove() || cell.CanSwaped()) && dis <= card.field.moveRange && dis > 0;
+            }
+        }
+
         return false;
     }
     int targetPriority;
@@ -96,10 +114,9 @@ public class ActionComponent : CardComponent, ISelector
     public void Excute()
     {
         var target = Targets[0];
-        Debug.Log("ll");
-        if (target is EnemyVisual visual)
+        if (target is CardVisual visual)
         {
-            if (card.attack != null)
+            if (card.attack != null && visual.card.camp != CardCamp.Friendly)
                 card.attack.Attack(visual.card, true, cost);
             else card.field.Move(visual.card.field.cell, true, cost);
         }
@@ -119,7 +136,7 @@ public class ActionComponent : CardComponent, ISelector
         Selections.Instance.CreateArrow(card.visual.transform);
         Targets.Clear();
         CardTargets[0] = CardTarget.None;
-        if (canMove) CardTargets[0] |= CardTarget.Cell | CardTarget.EnemyDerive;
+        if (canMove) CardTargets[0] |= CardTarget.Cell | CardTarget.EnemyDerive | CardTarget.Monster;
         if (canAttack) CardTargets[0] |= CardTarget.Enemy | CardTarget.EnemyDerive;
 
     }

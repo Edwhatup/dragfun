@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-public class Cell : MonoBehaviour,  ISeletableTarget,IPointerEnterHandler,IPointerExitHandler, IPointerDownHandler
+public class Cell : MonoBehaviour, ISeletableTarget, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     public Card card;
     [SerializeField]
@@ -9,12 +9,12 @@ public class Cell : MonoBehaviour,  ISeletableTarget,IPointerEnterHandler,IPoint
     public int row;
     public int col;
     public Card preShowCard;
-    bool mouseEnter=false;
+    bool mouseEnter = false;
     void Update()
     {
         if (mouseEnter)
         {
-            if (Input.GetMouseButtonDown(0)|| Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(0))
             {
                 //Selections.Instance.TryAddSelectTarget(this);
             }
@@ -23,20 +23,20 @@ public class Cell : MonoBehaviour,  ISeletableTarget,IPointerEnterHandler,IPoint
     public void Summon(Card card)
     {
         var field = card.field;
-        if(field != null)
+        if (field != null)
         {
-            if(field.cell!=null) field.cell.card = null;
+            if (field.cell != null) field.cell.card = null;
             field.cell = this;
             this.card = card;
             card.field.row = row;
             card.field.col = col;
-            card.visual.transform.SetParent(transform,false);
-            card.visual.transform.localPosition= Vector3.zero;
+            card.visual.transform.SetParent(transform, false);
+            card.visual.transform.localPosition = Vector3.zero;
         }
     }
     public void CancleSummon()
     {
-        if(card!=null)
+        if (card != null)
         {
             card.field.cell = null;
 
@@ -44,7 +44,7 @@ public class Cell : MonoBehaviour,  ISeletableTarget,IPointerEnterHandler,IPoint
     }
     public bool CanMove()
     {
-        return card==null;
+        return card == null;
     }
     public bool CanSwaped()
     {
@@ -53,7 +53,7 @@ public class Cell : MonoBehaviour,  ISeletableTarget,IPointerEnterHandler,IPoint
     }
     public bool CanSummon()
     {
-        return card == null && preShowCard==null;
+        return card == null && preShowCard == null;
     }
     public bool CanCastSpell()
     {
@@ -78,7 +78,7 @@ public class Cell : MonoBehaviour,  ISeletableTarget,IPointerEnterHandler,IPoint
     public void PreShowCard(Card card)
     {
         preShowCard = card;
-        card.visual.transform.SetParent(transform,false);
+        card.visual.transform.SetParent(transform, false);
         card.visual.transform.localPosition = Vector3.zero;
     }
     public void RemoveCard()
@@ -93,7 +93,7 @@ public class Cell : MonoBehaviour,  ISeletableTarget,IPointerEnterHandler,IPoint
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        mouseEnter=false;   
+        mouseEnter = false;
     }
     public void OnPointerDown(PointerEventData eventData)
     {
