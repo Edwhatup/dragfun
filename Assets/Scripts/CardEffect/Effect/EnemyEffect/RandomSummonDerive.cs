@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +20,10 @@ public class RandomSummonDerive : NoTargetCardEffect
     }
     public override string ToString()
     {
+        if(deriveNames!=null)
+        {
+            return $"在随机位置召唤{count}个它的衍生物。";
+        }
         return $"在随机位置召唤{count}个{deriveName}。";
     }
     public override bool CanUse()
@@ -44,7 +49,11 @@ public class RandomSummonDerive : NoTargetCardEffect
         }
         else
         {
-            
+            for(int i=0; i< count;i++)
+            {
+                string name=deriveNames[Random.Range(1,deriveNames.Count+1)];
+                SingleSummon(name,1);
+            }
         }
     }
 }

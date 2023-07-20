@@ -1,7 +1,26 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class BigElf : Card
+{
+    public BigElf(CardInfo Info) : base(Info)
+    {
+        name = "大妖精";
+        type = CardType.Enemy;
+        camp = CardCamp.Enemy;
+        AddComponent(new AttackedComponent(20){ });
+        AddComponent(new FieldComponnet());
+        AddComponent(new EnemyAction());
+        AddComponent(new DirectAtkCountdownComponent(5));
+        AddComponent(new EnemyEffectListener(6, new EnemyNormalAttack(this, 3,1)) { priority = 0});
+        List<string> elfDervies= new List<string>{"庇护妖精","应援妖精","虚弱妖精"};
+        AddComponent(new EnemyEffectListener(6, new RandomSummonDerive(this,elfDervies,2)) { priority = 1});
+        enemyAction.GetNextAction();
+        GetDesc = () => enemyAction.current?.ToString() ?? "";
+    }
+
+}
 public class ShelterElf : Card
 {
     public ShelterElf(CardInfo Info) : base(Info)
