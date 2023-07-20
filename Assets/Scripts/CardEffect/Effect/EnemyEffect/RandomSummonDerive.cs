@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class RandomSummonDerive : NoTargetCardEffect
 {
-    List<string> deriveNames=null;
-    string deriveName=null;
+    List<string> deriveNames = null;
+    string deriveName = null;
     int count;
     public RandomSummonDerive(Card card, string name, int count) : base(card)
     {
@@ -20,7 +20,7 @@ public class RandomSummonDerive : NoTargetCardEffect
     }
     public override string ToString()
     {
-        if(deriveNames!=null)
+        if (deriveNames != null)
         {
             return $"在随机位置召唤{count}个它的衍生物。";
         }
@@ -43,16 +43,16 @@ public class RandomSummonDerive : NoTargetCardEffect
     }
     public override void Excute()
     {
-        if(deriveName!=null)
+        if (deriveName != null)
         {
-            SingleSummon(deriveName,count);
+            SingleSummon(deriveName, count);
         }
         else
         {
-            for(int i=0; i< count;i++)
+            for (int i = 0; i < count; i++)
             {
-                string name=deriveNames[Random.Range(1,deriveNames.Count+1)];
-                SingleSummon(name,1);
+                string name = deriveNames[Random.Range(0, deriveNames.Count)];
+                SingleSummon(name, 1);
             }
         }
     }
