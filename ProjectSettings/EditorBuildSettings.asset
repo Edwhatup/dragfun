@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Test_ZC.unity
     guid: 04abb64a7016a45488116ba145aa3fd6
+  - enabled: 1
+    path: Assets/Scenes/RoomMap.unity
+    guid: cf7444bb1af393c45869c6f84eb1e17f
+  - enabled: 1
+    path: Assets/Scenes/Shop.unity
+    guid: 65ba3bfffdad3254d9307a5314de0b13
   m_configObjects: {}
