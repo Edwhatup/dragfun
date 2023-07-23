@@ -32,7 +32,6 @@ public class Selections : MonoBehaviour
     #region ISelectable 注册相关方法
     public void AddCanSelection(ISeletableTarget seletable)
     {
-
         if (seletable == null) return;
         if (!allTargets.Contains(seletable))
         {

@@ -17,12 +17,9 @@ public class EnemyNormalAttack : NoTargetCardEffect
     }
     public override void Excute()
     {
-        if(card.GetComponent<DirectAtkCountdownComponent>().Ready!=true)
-        {
-            NoFace();
-        }
-        else Face();
-
+        var cdn = card.GetComponent<DirectAtkCountdownComponent>();
+        if (cdn != null && cdn.Ready) Face();
+        else NoFace();
     }
 
     private void NoFace()
@@ -46,7 +43,7 @@ public class EnemyNormalAttack : NoTargetCardEffect
 
     private void Face()
     {
-        for (int i = 0; i < count-1; i++)
+        for (int i = 0; i < count - 1; i++)
         {
             var targets = CellManager.Instance.GetCells()
                     .FindAll(c => c.row == 0 &&
