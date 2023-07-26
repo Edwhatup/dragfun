@@ -244,6 +244,7 @@ public class CardManager : MonoBehaviour, IManager
                 enemy.field.row = 5;
                 enemy.visual.transform.SetParent(enemyBelowBoardTrans, false);
             }
+            side = !side;
             enemies.Add(enemy);
         }
     }
