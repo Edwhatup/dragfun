@@ -153,21 +153,23 @@ public class ActionComponent : CardComponent, ISelector
         return CanAttack;
     }
 
+
+    private Notice Notice;
     private void ShowTauntMessage()
     {
-        // 利用 card.visual 啥的，添加更生动的嘲讽提醒
-        Debug.Log("这个随从被嘲讽了，只能攻击带有嘲讽的敌人！");
+        Notice.setNotice("你必须攻击那个具有嘲讽的敌人。");
+        //Debug.Log("这个随从被嘲讽了，只能攻击带有嘲讽的敌人！");
     }
 
     private void ShowUsedMessage()
     {
-        // 利用 card.visual 啥的，添加更生动的嘲讽提醒
-        Debug.Log("这个随从已经行动过了");
+        Notice.setNotice("这个随从已经行动过了。");
+        //Debug.Log("这个随从已经行动过了");
     }
 
     private void ShowPPMessage()
     {
-        // 利用 card.visual 啥的，添加更生动的嘲讽提醒
-        Debug.Log("没有足够的PP！");
+        Notice.setNotice("没有足够的PP！");
+        //Debug.Log("没有足够的PP！");
     }
 }
