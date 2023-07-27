@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +13,7 @@ public class RoomManager : MonoBehaviour
 
     [Header("战斗场景的数据")]
     public string combatSceneName;
-    public TextAsset[] enemyDatas;
+    public TextAsset enemyData;
 
     [Header("控制地图生成的参数")]
     public int maxRooms = 10;
@@ -59,7 +62,7 @@ public class RoomManager : MonoBehaviour
             .Forward(towardsW, towardsS)
             .Left(sideW, sideS)
             .Right(sideW, sideS)
-            .Default(new CombatRoom(combatSceneName, enemyDatas))
+            .Default(new CombatRoom(combatSceneName, enemyData))
             .Random(new NullRoom(), 5, 0.3f)
             .Build();
 
@@ -118,5 +121,12 @@ public class RoomManager : MonoBehaviour
             interactButton.onClick.AddListener(room.Execute);
         }
         else interactButton.gameObject.SetActive(false);
+    }
+
+    [Serializable]
+    public class TextAssetWeightPair
+    {
+        public TextAsset text;
+        public int weight;
     }
 }
