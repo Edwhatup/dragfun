@@ -154,22 +154,21 @@ public class ActionComponent : CardComponent, ISelector
     }
 
 
-    private Notice Notice;
     private void ShowTauntMessage()
     {
-        Notice.setNotice("你必须攻击那个具有嘲讽的敌人。");
+        Notice.Instance.setNotice("你必须攻击那个具有嘲讽的敌人。");
         //Debug.Log("这个随从被嘲讽了，只能攻击带有嘲讽的敌人！");
     }
 
     private void ShowUsedMessage()
     {
-        Notice.setNotice("这个随从已经行动过了。");
+        Notice.Instance.setNotice("这个随从已经行动过了。");
         //Debug.Log("这个随从已经行动过了");
     }
 
     private void ShowPPMessage()
     {
-        Notice.setNotice("没有足够的PP！");
+        Notice.Instance.setNotice("没有足够的PP！");
         //Debug.Log("没有足够的PP！");
     }
 }

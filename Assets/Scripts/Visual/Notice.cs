@@ -5,11 +5,23 @@ using UnityEngine.UI;
 
 public class Notice : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private static Notice instance;
+    public static Notice Instance 
+    {
+        get{return instance;}
+    }
     public Text text;
     public GameObject NoticeObject;
 
     private int timer=2;
+
+    private void Awake() 
+    {
+
+        instance = this;
+    }
+        
+    
     public void setNotice(string NoticeContent)
     {
         text.text= NoticeContent;
