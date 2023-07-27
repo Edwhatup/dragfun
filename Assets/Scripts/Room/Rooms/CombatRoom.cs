@@ -12,22 +12,21 @@ public class CombatRoom : AbstractRoom
     private bool isDone = false;
 
     private string combatScene;
-    private List<TextAsset> datas = new List<TextAsset>();
+    private TextAsset data;
 
-    public CombatRoom(string combatSceneName, params TextAsset[] enemyDatas)
+    public CombatRoom(string combatSceneName, TextAsset enemyData)
     {
         combatScene = combatSceneName;
-        datas = new List<TextAsset>(enemyDatas);
+        data = enemyData;
     }
 
-    public override AbstractRoom Copy() => new CombatRoom(combatScene, datas.ToArray());
+    public override AbstractRoom Copy() => new CombatRoom(combatScene, data);
 
     public override void Execute()
     {
         Debug.Log("战斗");
-        if (datas.Count == 0) return;
         if (isDone) return;
-        DataManager.NextEnemyData = datas[new System.Random().Next() % datas.Count];
+        DataManager.NextEnemyData = data;
         SceneManager.LoadScene(combatScene);
     }
 }

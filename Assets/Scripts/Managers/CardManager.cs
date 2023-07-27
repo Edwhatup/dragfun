@@ -211,41 +211,60 @@ public class CardManager : MonoBehaviour, IManager
     {
         enemies.Clear();
         string[] dataRow = DataManager.Instance.CurrentEnemyData.Split('\n');
+        float[] possibilities = dataRow.Select(item =>
+        {
+            if (float.TryParse(item.Split(':')[0], out var result)) return result;
+            Debug.LogError($"错误: {item} 的概率不是小数!");
+            return 0;
+        }).ToArray();
+        var rand = UnityEngine.Random.Range(0, possibilities.Sum());
+        var i = 0;
+        for (; i < possibilities.Length; i++)
+        {
+            rand -= possibilities[i];
+            if (rand <= 0) break;
+        }
+        i = Mathf.Min(i, possibilities.Length - 1);
+        var rowArr = dataRow[i].Split(':');
+        if (rowArr.Length < 2)
+        {
+            Debug.LogError($"敌人配置文件的第 {i + 1} 行格式错误! \n需要有一个冒号分割概率与敌人配置");
+            return;
+        }
+        var args = rowArr[1].TrimStart('[').TrimEnd(']').Split(',');
 
         bool side = true;
-        foreach (var row in dataRow)
+        for (int j = 0; j < args.Length; j += 2)
         {
-            string[] rowArray = row.Split(',');
-            if (rowArray.Length < 2 || rowArray[0] == "name")
-                continue;
-            var info = new CardInfo()
-            { name = rowArray[0] };
+            string name = args[j];
+            int count = 0;
+            if (int.TryParse(args[j + 1], out var result)) count = result;
+            else Debug.LogError($"敌人配置文件的第 {i + 1} 行格式错误! \n需要按照: 敌人名称,数量,敌人名称,数量 的格式填写");
 
-            var enemy = CardStore.Instance.CreateCard(info);
-            enemy.camp = CardCamp.Enemy;
-
-            enemy.field.col = null;
-            board.Add(enemy);
-            cards.Add(enemy);
-
-
-            // if (enemy.field.row >= 0)
-            // {
-            //     EnemyDeriveOnBoard.Add(enemy);
-            // }
-
-            if (side)
+            for (int k = 0; k < count; k++)
             {
-                enemy.field.row = -1;
-                enemy.visual.transform.SetParent(enemyBoardTrans, false);
+                var info = new CardInfo()
+                { name = name };
+
+                var enemy = CardStore.Instance.CreateCard(info);
+                enemy.camp = CardCamp.Enemy;
+
+                enemy.field.col = null;
+                board.Add(enemy);
+                cards.Add(enemy);
+                if (side)
+                {
+                    enemy.field.row = -1;
+                    enemy.visual.transform.SetParent(enemyBoardTrans, false);
+                }
+                else
+                {
+                    enemy.field.row = 5;
+                    enemy.visual.transform.SetParent(enemyBelowBoardTrans, false);
+                }
+                side = !side;
+                enemies.Add(enemy);
             }
-            else
-            {
-                enemy.field.row = 5;
-                enemy.visual.transform.SetParent(enemyBelowBoardTrans, false);
-            }
-            side = !side;
-            enemies.Add(enemy);
         }
     }
 
