@@ -46,6 +46,8 @@ public class CardManager : MonoBehaviour, IManager
 
     public List<Card> enemies = new List<Card>();
 
+    private List<ConstantCellEffect> cellEffects = new List<ConstantCellEffect>();
+
 
     void Awake()
     {
@@ -295,10 +297,9 @@ public class CardManager : MonoBehaviour, IManager
         }
     }
 
-
-
     public void BroadcastCardEvent(AbstractCardEvent cardEvent)
     {
+        HandleEvent(cardEvent);
         foreach (var card in drawDeck.ToList())
             BroadcastCardEvent2Card(card, cardEvent);
         foreach (var card in hand.ToList())
@@ -308,6 +309,7 @@ public class CardManager : MonoBehaviour, IManager
         foreach (var card in discardDeck.ToList())
             BroadcastCardEvent2Card(card, cardEvent);
     }
+
     private void BroadcastCardEvent2Card(Card card, AbstractCardEvent cardEvent)
     {
         // if (card.camp == CardCamp.Friendly)
@@ -319,6 +321,50 @@ public class CardManager : MonoBehaviour, IManager
         // {
         //     card.enemyAction.current.EventListen(cardEvent);
         // }
+    }
+
+    private void HandleEvent(AbstractCardEvent e)
+    {
+        for (int i = cellEffects.Count - 1; i >= 0; i--)
+        {
+            var b = cellEffects[i];
+            switch (e)
+            {
+                case AfterSummonEvent u:
+                    // 是范围内的目标（非目标在开头除掉了），加光环
+                    if (IsInCellEffectRange(b, u.source))
+                    {
+                        b.Execute(u.source);
+                        // Log($"在光环范围内有目标被放置\n给 {u.source.name} 加了光环");
+                    }
+                    break;
+
+                case AfterMoveEvent m:
+                    var card = m.source;
+                    // 别的卡进入，加光环
+                    if (IsEnteringCellEffect(b, m)) b.Execute(card);
+
+                    // 别的卡退出，去光环
+                    else if (IsExitingCellEffect(b, m)) b.Undo(card);
+                    break;
+
+                case DeathEvent d:
+                    // 别的卡死亡, 去光环
+                    if (IsCellEffectTarget(b, d.source)) b.Undo(d.source);
+                    break;
+            }
+
+            if (b.Timer == -1) continue;
+            else
+            {
+                b.Timer -= e.ppCost;
+                if (b.Timer <= 0)
+                {
+                    GetAvailbleCellEffectTargets(b).ForEach(j => b.Undo(j));
+                    cellEffects.Remove(b);
+                }
+            }
+        }
     }
 
     public List<Card> GetSpecificAreaEnemies(Card card, Card target, RangeType range)
@@ -358,7 +404,6 @@ public class CardManager : MonoBehaviour, IManager
                                    .ToList();
             return allEnemies;
         }
-
     }
     public List<Card> GetSpecificAreaFriends(Card card, Card target, RangeType range)
     {
@@ -458,6 +503,16 @@ public class CardManager : MonoBehaviour, IManager
         return sameRowTarget;
     }
 
+    public void ApplyCellEffect(ConstantCellEffect e)
+    {
+        if (!cellEffects.Contains(e)) cellEffects.Add(e);
+    }
+
+    public void RemoveCellEffect(ConstantCellEffect e)
+    {
+        if (cellEffects.Contains(e)) cellEffects.Remove(e);
+    }
+
     public static bool OnBoard(Card card) => Instance.board.Contains(card);
     public static bool InDeck(Card card) => Instance.drawDeck.Contains(card);
     public static bool InDiscard(Card card) => Instance.discardDeck.Contains(card);
@@ -465,4 +520,13 @@ public class CardManager : MonoBehaviour, IManager
 
     // TODO: Implement this method
     public static bool InExile(Card card) => false;
+
+    private List<Card> GetAvailbleCellEffectTargets(CellEffect b) => CardManager.Instance.board.FindAll(c => IsInCellEffectRange(b, c) && IsCellEffectTarget(b, c));
+
+    private bool IsCellEffectTarget(CellEffect b, Card c) => CardTargetUtility.CardIsTarget(c, b.CardTargets);
+
+    private bool IsInCellEffectRange(CellEffect b, Card c) => b.IsInRange(c.field.cell);
+
+    private bool IsEnteringCellEffect(CellEffect b, AfterMoveEvent move) => b.IsInRange(move.targetCell) && !b.IsInRange(move.sourceCell);
+    private bool IsExitingCellEffect(CellEffect b, AfterMoveEvent move) => b.IsInRange(move.sourceCell) && !b.IsInRange(move.targetCell);
 }

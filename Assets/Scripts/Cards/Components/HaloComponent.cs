@@ -84,10 +84,8 @@ public class HaloComponent : EventListenerComponent
     private bool IsInRange(Card c) => Buff.IsInRange(c.field.cell);
 
     private bool IsEntering(AfterMoveEvent move) => Buff.IsInRange(move.targetCell) && !Buff.IsInRange(move.sourceCell);
-    private bool IsExiting(AfterMoveEvent move)
-    {
-        return Buff.IsInRange(move.sourceCell) && !Buff.IsInRange(move.targetCell);
-    }
+    private bool IsExiting(AfterMoveEvent move) => Buff.IsInRange(move.sourceCell) && !Buff.IsInRange(move.targetCell);
+
 
     public override string ToString() => $"光环: {Buff.ToString()}";
 }

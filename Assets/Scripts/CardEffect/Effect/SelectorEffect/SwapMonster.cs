@@ -18,8 +18,8 @@ public class SwapMonster : CardEffect
         var visual1 = Targets[0] as CardVisual;
         var visual2 = Targets[1] as CardVisual;
         var cell1 = visual1.card.field.cell;
-        visual2.card.field.cell.Summon(visual1.card);
-        cell1.Summon(visual2.card);
+        visual2.card.field.cell.PlaceCard(visual1.card);
+        cell1.PlaceCard(visual2.card);
     }
 
     public override void OnSelected()

@@ -20,7 +20,7 @@ public class Cell : MonoBehaviour, ISeletableTarget, IPointerEnterHandler, IPoin
             }
         }
     }
-    public void Summon(Card card)
+    public void PlaceCard(Card card)
     {
         var field = card.field;
         if (field != null)

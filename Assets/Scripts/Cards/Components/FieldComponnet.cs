@@ -31,7 +31,7 @@ public class FieldComponnet : CardComponent
     public void Summon(Cell targetCell, bool isEffect = false)
     {
         AfterSummonEvent afe = new AfterSummonEvent(card, targetCell);
-        targetCell.Summon(card);
+        targetCell.PlaceCard(card);
         CardManager.Instance.SummonCard(card);
         GameManager.Instance.BroadcastCardEvent(afe);
     }
@@ -57,11 +57,11 @@ public class FieldComponnet : CardComponent
         if (targetCell.card != null)
         {
             var monster = targetCell.card;
-            cell.Summon(monster);
+            cell.PlaceCard(monster);
         }
         // Debug.Log($"cell: {cell.row},{cell.col}\ntarget: {targetCell.row},{targetCell.col}");
         var e = new AfterMoveEvent(card, targetCell.card, cell, targetCell, ppcost);
-        targetCell.Summon(card);
+        targetCell.PlaceCard(card);
         GameManager.Instance.BroadcastCardEvent(e);
     }
 }

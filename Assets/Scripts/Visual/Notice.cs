@@ -17,7 +17,6 @@ public class Notice : MonoBehaviour
 
     private void Awake() 
     {
-
         instance = this;
     }
         
