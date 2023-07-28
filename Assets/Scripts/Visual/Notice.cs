@@ -17,6 +17,10 @@ public class Notice : MonoBehaviour
 
     private void Awake() 
     {
+<<<<<<< Updated upstream
+=======
+        NoticeObject.gameObject.SetActive(false);
+>>>>>>> Stashed changes
         instance = this;
     }
         
