@@ -167,7 +167,7 @@ public class CardManager : MonoBehaviour, IManager
             GameManager.Instance.GameFalse();
             return;
         }
-        else if (Enemies.Count == 0)
+        else if (enemies.Count == 0)
         {
             GameManager.Instance.GamePass();
             return;
