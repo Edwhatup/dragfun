@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StatsDownCellHalo : ConstantCellEffect
 {
+    CardBuff buff;
     protected override List<Cell> Cells
         => CellManager.Instance.GetCells().FindAll(c =>
             StreetDistanceFromTriggered(c) == 0);
@@ -20,12 +21,13 @@ public class StatsDownCellHalo : ConstantCellEffect
 
     public override void Execute(Card c)
     {
-        c.attack.atk -= amount;
+        buff=new StatsDebuff(1,0);
+        c.AddBuff(buff);
     }
 
     public override void Undo(Card c)
     {
-        c.attacked.block += amount;
+        c.RemoveBuff(buff);
     }
 
     public override string ToString()

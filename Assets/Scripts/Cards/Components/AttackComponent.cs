@@ -91,6 +91,7 @@ public class AttackComponent : CardComponent
     public override string ToString()
     {
         if (atk > initAtk) return $"<color=green>{atk}</color>";
+        else if (atk < initAtk) return $"<color=red>{atk}</color>";
         else return $"<color=white>{atk}</color>";
     }
 
