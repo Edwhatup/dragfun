@@ -5,16 +5,17 @@ using UnityEngine;
 public class StatsDownCellHalo : ConstantCellEffect
 {
     protected override List<Cell> Cells
-        => CellManager.Instance.GetCells().FindAll(c => CellManager.Instance.GetStreetDistance(c, card.field.cell) == 0);
+        => CellManager.Instance.GetCells().FindAll(c =>
+            StreetDistanceFromTriggered(c) == 1);
     protected override int LifeTime => -1;
 
     private int amount = 1;
     Cell cell;
 
-    public StatsDownCellHalo (Card card,Cell cell,int amount) : base(card) 
+    public StatsDownCellHalo(Card card, Cell cell, int amount) : base(card)
     {
-        this.cell=cell;
-        this.amount=amount;
+        this.cell = cell;
+        this.amount = amount;
     }
 
     public override void Execute(Card c)

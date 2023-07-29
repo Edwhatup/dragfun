@@ -51,13 +51,15 @@ public class CardManager : MonoBehaviour, IManager
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            EventManager.Instance.eventListen += BroadcastCardEvent;
-            DontDestroyOnLoad(gameObject);
-        }
-        else Destroy(gameObject);
+        // if (Instance == null)
+        // {
+        //     Instance = this;
+        //     EventManager.Instance.eventListen += BroadcastCardEvent;
+        //     DontDestroyOnLoad(gameObject);
+        // }
+        // else Destroy(gameObject);
+        Instance = this;
+        EventManager.Instance.eventListen += BroadcastCardEvent;
     }
 
     void OnDestory()
@@ -184,6 +186,7 @@ public class CardManager : MonoBehaviour, IManager
             {
                 dead.Excute();
             }
+            BroadcastCardEvent(new DeathEvent(card.attacked.lastAttacker, card));
             if (enemies.Contains(card)) enemies.Remove(card);
             DestoryCardOnBoard(card);
             flag = true;
@@ -299,6 +302,7 @@ public class CardManager : MonoBehaviour, IManager
 
     public void BroadcastCardEvent(AbstractCardEvent cardEvent)
     {
+        // Debug.Log(cardEvent.GetType());
         HandleEvent(cardEvent);
         foreach (var card in drawDeck.ToList())
             BroadcastCardEvent2Card(card, cardEvent);
@@ -328,6 +332,7 @@ public class CardManager : MonoBehaviour, IManager
         for (int i = cellEffects.Count - 1; i >= 0; i--)
         {
             var b = cellEffects[i];
+            // Debug.Log("进行了场地光环检测");
             switch (e)
             {
                 case AfterSummonEvent u:
@@ -335,15 +340,19 @@ public class CardManager : MonoBehaviour, IManager
                     if (IsInCellEffectRange(b, u.source))
                     {
                         b.Execute(u.source);
-                        // Log($"在光环范围内有目标被放置\n给 {u.source.name} 加了光环");
+                        // Debug.Log($"在光环范围内有目标被放置\n给 {u.source.name} 加了光环");
                     }
                     break;
 
                 case AfterMoveEvent m:
                     var card = m.source;
                     // 别的卡进入，加光环
-                    if (IsEnteringCellEffect(b, m)) b.Execute(card);
-
+                    // Debug.Log($"目标{card.name}移动");
+                    if (IsEnteringCellEffect(b, m))
+                    {
+                        // Debug.Log($"在光环范围内有目标被放置\n给 {m.source.name} 加了光环");
+                        b.Execute(card);
+                    }
                     // 别的卡退出，去光环
                     else if (IsExitingCellEffect(b, m)) b.Undo(card);
                     break;
@@ -505,7 +514,12 @@ public class CardManager : MonoBehaviour, IManager
 
     public void ApplyCellEffect(ConstantCellEffect e)
     {
-        if (!cellEffects.Contains(e)) cellEffects.Add(e);
+        if (!cellEffects.Contains(e))
+        {
+            cellEffects.Add(e);
+            GetAvailbleCellEffectTargets(e).ForEach(c => e.Execute(c));
+            Debug.Log("增加了场地效果!");
+        }
     }
 
     public void RemoveCellEffect(ConstantCellEffect e)

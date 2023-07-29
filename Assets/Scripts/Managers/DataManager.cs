@@ -11,13 +11,13 @@ public class DataManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(this);
-        }
-        else Destroy(Instance);
-
+        // if (Instance == null)
+        // {
+        //     Instance = this;
+        //     DontDestroyOnLoad(this);
+        // }
+        // else Destroy(Instance);
+        Instance = this;
         if (NextEnemyData) enemyData = NextEnemyData;
         // if (NextEnemyData != "") enemyData = Resources.Load<TextAsset>(NextEnemyData);
     }

@@ -25,12 +25,13 @@ public class GameManager : MonoBehaviour, IManager
     private int pp = 1000000;
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(this);
-        }
-        else Destroy(Instance);
+        // if (Instance == null)
+        // {
+        //     Instance = this;
+        //     DontDestroyOnLoad(this);
+        // }
+        // else Destroy(Instance);
+        Instance = this;
     }
     List<IManager> managers = new List<IManager>();
     // Start is called before the first frame update
@@ -64,6 +65,7 @@ public class GameManager : MonoBehaviour, IManager
     #region 回合管理相关
     public void Click2GameStart()
     {
+        // Debug.Log(phase);
         if (phase == GamePhase.ReadyStart)
         {
             phase = GamePhase.Battle;

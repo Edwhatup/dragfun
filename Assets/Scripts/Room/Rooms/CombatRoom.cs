@@ -26,6 +26,7 @@ public class CombatRoom : AbstractRoom
     {
         Debug.Log("战斗");
         if (isDone) return;
+        isDone = true;
         DataManager.NextEnemyData = data;
         SceneManager.LoadScene(combatScene);
     }

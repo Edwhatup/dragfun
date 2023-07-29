@@ -26,17 +26,17 @@ public class CardStore : MonoBehaviour
     private Dictionary<string, ConstructorInfo> cardCtors;
     void Awake()
     {
-        if (Instance != null)
-            Destroy(Instance);
-        else
-        {
-            MonsterDataPath = Path.Combine(Application.dataPath, "Datas", "Monster");
-            SpellDataPath = Path.Combine(Application.dataPath, "Datas", "Spell");
-            EnemyDataPath = Path.Combine(Application.dataPath, "Datas", "Enemy");
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            //LoadCardData();
-        }
+        // if (Instance != null)
+        //     Destroy(Instance);
+        // else
+        // {
+        MonsterDataPath = Path.Combine(Application.dataPath, "Datas", "Monster");
+        SpellDataPath = Path.Combine(Application.dataPath, "Datas", "Spell");
+        EnemyDataPath = Path.Combine(Application.dataPath, "Datas", "Enemy");
+        Instance = this;
+        // DontDestroyOnLoad(gameObject);
+        //LoadCardData();
+        // }
     }
     private void ReadCard()
     {

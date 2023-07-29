@@ -12,6 +12,9 @@ public class AttackedComponent : CardComponent
     public int taunt;
     public bool Taunt => taunt > 0;
     public bool Bless => bless > 0;
+
+    public Card lastAttacker;
+
     public int GetAttackedPriority(Card card)
     {
         //敌人对我方单位的优先性计算
@@ -120,6 +123,7 @@ public class AttackedComponent : CardComponent
         card.visual.UpdateVisual();
         var ae = new AfterDamageEvent(source, card, info);
         EventManager.Instance.PassEvent(ae);
+        lastAttacker = source;
 
         if (card.field.state != BattleState.Survive) GameManager.Instance.Refresh();
 

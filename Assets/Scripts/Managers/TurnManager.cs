@@ -12,13 +12,15 @@ public class TurnManager : MonoBehaviour, IManager
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            EventManager.Instance.eventListen += BroadcastCardEvent;
-            DontDestroyOnLoad(gameObject);
-        }
-        else Destroy(gameObject);
+        // if (Instance == null)
+        // {
+        //     Instance = this;
+        //     EventManager.Instance.eventListen += BroadcastCardEvent;
+        //     DontDestroyOnLoad(gameObject);
+        // }
+        // else Destroy(gameObject);
+        EventManager.Instance.eventListen += BroadcastCardEvent;
+        Instance = this;
     }
 
     public void GameStart()

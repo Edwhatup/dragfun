@@ -1,5 +1,13 @@
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
 public class AddArmorCellEffect : ConstantCellEffect
 {
+    protected override List<Cell> Cells
+        => CellManager.Instance.GetCells().FindAll(c =>
+            StreetDistanceFromTriggered(c) <= 1);
+
     // -1是永久
     protected override int LifeTime => -1;
 
