@@ -329,6 +329,7 @@ public class CardManager : MonoBehaviour, IManager
 
     private void HandleEvent(AbstractCardEvent e)
     {
+        Debug.Log(e.GetType() + " " + cellEffects.Count);
         for (int i = cellEffects.Count - 1; i >= 0; i--)
         {
             var b = cellEffects[i];
@@ -347,7 +348,7 @@ public class CardManager : MonoBehaviour, IManager
                 case AfterMoveEvent m:
                     var card = m.source;
                     // 别的卡进入，加光环
-                    // Debug.Log($"目标{card.name}移动");
+                    Debug.Log($"目标{card.name}移动");
                     if (IsEnteringCellEffect(b, m))
                     {
                         // Debug.Log($"在光环范围内有目标被放置\n给 {m.source.name} 加了光环");
@@ -363,15 +364,12 @@ public class CardManager : MonoBehaviour, IManager
                     break;
             }
 
-            if (b.Timer == -1) continue;
+            if (b.LifeTime == -1) continue;
             else
             {
                 b.Timer -= e.ppCost;
                 if (b.Timer <= 0)
-                {
-                    GetAvailbleCellEffectTargets(b).ForEach(j => b.Undo(j));
-                    cellEffects.Remove(b);
-                }
+                    RemoveCellEffect(b);
             }
         }
     }
@@ -524,7 +522,11 @@ public class CardManager : MonoBehaviour, IManager
 
     public void RemoveCellEffect(ConstantCellEffect e)
     {
-        if (cellEffects.Contains(e)) cellEffects.Remove(e);
+        if (cellEffects.Contains(e))
+        {
+            GetAvailbleCellEffectTargets(e).ForEach(j => e.Undo(j));
+            cellEffects.Remove(e);
+        }
     }
 
     public static bool OnBoard(Card card) => Instance.board.Contains(card);

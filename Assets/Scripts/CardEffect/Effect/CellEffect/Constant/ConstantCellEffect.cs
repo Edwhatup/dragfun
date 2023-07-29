@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class ConstantCellEffect : CellEffect
 {
-    protected abstract int LifeTime { get; }
+    public abstract int LifeTime { get; }
 
     protected int triggeredRow, triggeredCol;
 

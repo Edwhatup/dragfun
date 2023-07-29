@@ -6,8 +6,8 @@ public class StatsDownCellHalo : ConstantCellEffect
 {
     protected override List<Cell> Cells
         => CellManager.Instance.GetCells().FindAll(c =>
-            StreetDistanceFromTriggered(c) == 1);
-    protected override int LifeTime => -1;
+            StreetDistanceFromTriggered(c) == 0);
+    public override int LifeTime => -1;
 
     private int amount = 1;
     Cell cell;

@@ -9,7 +9,7 @@ public class AddArmorCellEffect : ConstantCellEffect
             StreetDistanceFromTriggered(c) <= 1);
 
     // -1是永久
-    protected override int LifeTime => -1;
+    public override int LifeTime => -1;
 
     private int amount = 1;
 
