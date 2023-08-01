@@ -18,16 +18,26 @@ public class EnemyNormalAttack : NoTargetCardEffect
     public override void Excute()
     {
         var cdn = card.GetComponent<DirectAtkCountdownComponent>();
-        if (cdn != null && cdn.Ready) Face();
-        else NoFace();
+        if(card.field.row==-1)
+        {
+            if (cdn != null && cdn.Ready) Face(0);
+            else NoFace(0);
+        }
+        else if(card.field.row==5)
+        {
+            if (cdn != null && cdn.Ready) Face(4);
+            else NoFace(4);
+        }
+        else Debug.Log("敌人主体位置错误！");
+        
     }
 
-    private void NoFace()
+    private void NoFace(int row)
     {
         for (int i = 0; i < count; i++)
         {
             var targets = CellManager.Instance.GetCells()
-                    .FindAll(c => c.row == 0 &&
+                    .FindAll(c => c.row == row &&
                                     c.card != null &&
                                     c.card.camp == CardCamp.Friendly &&
                                     c.card.attacked != null &&
@@ -41,7 +51,7 @@ public class EnemyNormalAttack : NoTargetCardEffect
         }
     }
 
-    private void Face()
+    private void Face(int row)
     {
         for (int i = 0; i < count - 1; i++)
         {

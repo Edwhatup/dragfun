@@ -6,7 +6,7 @@ public class TurnManager : MonoBehaviour, IManager
 {
     public static TurnManager Instance { get; private set; }
 
-    [SerializeField] private int turnPP = 10, drawCnt = 1;
+    [SerializeField] private int turnPP = 5, drawCnt = 1;
 
     private int turn = 0;
 

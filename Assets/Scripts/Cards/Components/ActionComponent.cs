@@ -5,7 +5,7 @@ using UnityEngine;
 public class ActionComponent : CardComponent, ISelector
 {
     public List<ISeletableTarget> Targets { get; } = new List<ISeletableTarget>();
-    int cost => card.ContainsTag("迅捷") ? 0 : 1;
+    int cost => 0;
     public int TargetCount => 1;
     int actionTimes = 1;
     public List<CardTarget> CardTargets { get; } = new List<CardTarget>() { CardTarget.None };

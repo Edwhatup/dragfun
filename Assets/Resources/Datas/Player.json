@@ -5,7 +5,7 @@
 	"maxHandCnt": 10,
 	"initDrawCardCnt": 3,
 	"drawCardCntTurn": 4,
-	"drawPPCost": 3,
+	"drawPPCost": 1,
 	"money": 20,
 	"cards": [ "用于关卡测试", "2","卫士埴轮", "2"]
 }
