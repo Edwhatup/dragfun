@@ -1,48 +1,85 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System.Linq;
 
 public class ShopController : MonoBehaviour
 {
     public static ShopController Instance => instance;
     private static ShopController instance;
 
+    public int count = 5;
+    public int maxRollCount = 1;
     [SerializeField] private CardPack pack;
     [SerializeField] private Transform shopParent;
     [SerializeField] private Text moneyText;
     [SerializeField] private GameObject shopCard;
-    [SerializeField] private string[] items;
+    [SerializeField] private GameObject rollBtn;
+    [SerializeField] TextAsset shopConfig;
 
     public ShopCard SelectedShopCard => selectedCard;
     private ShopCard selectedCard;
 
-    private static string[] targetItems = null;
+    private int curIdx = -1;
+    private int rollCnt = -1;
+    private static Dictionary<string, int> shopPool = new Dictionary<string, int>();
+    private static bool inited = false;
 
     [SerializeField] private string nextScene;
 
     private void Awake()
     {
         instance = this;
+        if (!inited)
+        {
+            ReadShopItem(shopConfig);
+            inited = true;
+        }
     }
 
     private void Start()
     {
-        if (targetItems != null) items = targetItems;
-        targetItems = null;
-
-        foreach (var item in items)
-        {
-            var i = item.Trim('\n', '\r', ' ');
-            var c = CardStore.Instance.CreateCard(i, false);
-            var sC = Instantiate(shopCard, Vector3.zero, Quaternion.identity, shopParent).GetComponent<ShopCard>();
-            sC.BindCard(c);
-        }
+        RollCard();
         moneyText.text = Player.Instance.money.ToString();
     }
 
     private void OnDestroy()
     {
         instance = null;
+    }
+
+    public void RollCard()
+    {
+        if (rollCnt >= maxRollCount) return;
+        rollCnt++;
+        if (rollCnt == maxRollCount) rollBtn.SetActive(false);
+
+        var items = new List<string>();
+        for (int i = 0; i < count; i++)
+        {
+            var cnt = shopPool.Sum(j => j.Value);
+            if (cnt == 0) break;
+            var rand = Random.Range(0, cnt);
+            foreach (var item in shopPool)
+            {
+                if (item.Value > rand)
+                {
+                    items.Add(item.Key);
+                    shopPool[item.Key]--;
+                    break;
+                }
+                rand -= item.Value;
+            }
+        }
+
+        for (int i = 0; i < shopParent.childCount; i++) Destroy(shopParent.GetChild(i).gameObject);
+        foreach (var item in items)
+        {
+            var c = CardStore.Instance.CreateCard(item, false);
+            var sC = Instantiate(shopCard, Vector3.zero, Quaternion.identity, shopParent).GetComponent<ShopCard>();
+            sC.BindCard(c);
+        }
     }
 
     public void SelectShopCard(ShopCard item)
@@ -76,6 +113,7 @@ public class ShopController : MonoBehaviour
 
         p.money -= selectedCard.Card.moneyCost;
         moneyText.text = Player.Instance.money.ToString();
+        selectedCard.gameObject.SetActive(false);
 
         HideDeck();
     }
@@ -85,8 +123,19 @@ public class ShopController : MonoBehaviour
         SceneManager.LoadScene(nextScene);
     }
 
-    public static void SetItems(string[] items)
+    private void ReadShopItem(TextAsset text)
     {
-        targetItems = items;
+        var lines = text.text.Split('\n');
+        foreach (var item in lines)
+        {
+            var result = item.Split(':');
+            if (result.Length == 2)
+            {
+                if (int.TryParse(result[1], out var val))
+                    if (shopPool.ContainsKey(result[0])) shopPool[result[0]] += val;
+                    else shopPool.Add(result[0], val);
+                else Debug.LogError($"商店配置: {result[0]} 需要指定一个数字作为数量");
+            }
+        }
     }
 }

@@ -202,6 +202,8 @@ public abstract class Card
         return text;
     }
     public Dictionary<string, int> tags = new Dictionary<string, int>();
+
+    public bool AttackSelectable => attacked != null && attacked.Selectable;
     //public class CardTag
     //{
     //    string name;

@@ -30,7 +30,7 @@ public class ActionComponent : CardComponent, ISelector
             var dis = e.attacked.GetAttackDistance(card);
             //通过优先级来计算
             // Debug.Log($"CanSelectTarget: {target}, {e.attacked.GetAttackDistance(card) <= card.attack.AtkRange}, {e.attacked.GetAttackedPriority(card) == targetPriority}");
-            return e.attacked.GetAttackDistance(card) <= card.attack.AtkRange && e.attacked.GetAttackedPriority(card) == targetPriority;
+            return e.AttackSelectable && e.attacked.GetAttackDistance(card) <= card.attack.AtkRange && e.attacked.GetAttackedPriority(card) == targetPriority;
         }
 
         // 再判定移动

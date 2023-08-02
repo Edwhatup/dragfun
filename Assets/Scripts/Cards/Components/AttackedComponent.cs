@@ -13,6 +13,19 @@ public class AttackedComponent : CardComponent
     public bool Taunt => taunt > 0;
     public bool Bless => bless > 0;
 
+    /// <summary>
+    /// 不可选中的状态码。如果要改变其不可选中状态，则应当增加这个值
+    /// <para>作为int是为了防止多个buff同时修改时，有一个buff失效即取消其不可选中状态的情况</para>
+    /// <para>应当调用<see cref="AttackedComponent.Selectable">来读取这个单位是否可以被选中</para>
+    /// </summary>
+    public int UnselectableState { private get => unselectableState; set => unselectableState = Mathf.Max(0, value); }
+    private int unselectableState = 0;
+
+    /// <summary>
+    /// 这个单位是否可以被选中？
+    /// </summary>
+    public bool Selectable => UnselectableState == 0;
+
     public Card lastAttacker;
 
     public int GetAttackedPriority(Card card)
