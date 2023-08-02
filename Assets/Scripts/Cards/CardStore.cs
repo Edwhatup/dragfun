@@ -22,8 +22,12 @@ public class CardStore : MonoBehaviour
     private Dictionary<string, SpellCardInfo> spellCardInfos = new Dictionary<string, SpellCardInfo>();
     private Dictionary<string, EnemyCardInfo> CardInfos = new Dictionary<string, EnemyCardInfo>();
 
-    private Dictionary<string, Card> cardBox;
-    private Dictionary<string, ConstructorInfo> cardCtors;
+    public static List<string> cardNameList = new List<string>();
+    private static Dictionary<string, Card> cardBox;
+    private static Dictionary<string, ConstructorInfo> cardCtors;
+
+    private static bool inited = false;
+
     void Awake()
     {
         // if (Instance != null)
@@ -34,12 +38,16 @@ public class CardStore : MonoBehaviour
         SpellDataPath = Path.Combine(Application.dataPath, "Datas", "Spell");
         EnemyDataPath = Path.Combine(Application.dataPath, "Datas", "Enemy");
         Instance = this;
+        ReadCard();
         // DontDestroyOnLoad(gameObject);
         //LoadCardData();
         // }
     }
     private void ReadCard()
     {
+        if (inited) return;
+        inited = true;
+
         cardBox = new Dictionary<string, Card>();
         cardCtors = new Dictionary<string, ConstructorInfo>();
         var ct = typeof(Card);
@@ -47,12 +55,13 @@ public class CardStore : MonoBehaviour
         var types = ass.GetTypes();
         foreach (var type in types)
         {
-            if (type.IsSubclassOf(ct))
+            if (type.IsSubclassOf(ct) && type != typeof(Player))
             {
                 var ctor = type.GetConstructor(new Type[] { typeof(CardInfo) });
                 if (ctor != null)
                 {
                     Card card = (Card)ctor.Invoke(new object[] { null });
+                    cardNameList.Add(card.name);
                     cardBox[card.name] = card;
                     cardCtors[card.name] = ctor;
                 }
@@ -91,7 +100,7 @@ public class CardStore : MonoBehaviour
         if (cardBox.ContainsKey(info.name))
         {
             var card = cardCtors[info.name].Invoke(new object[] { info }) as Card;
-            if (withVisual) CreateCardVisual(card);
+            if (withVisual) Instance.CreateCardVisual(card);
             return card;
         }
         throw new Exception($"不存在{info.name}卡牌");

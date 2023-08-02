@@ -23,6 +23,6 @@ public class EnemyVisual : CardVisual, ISeletableTarget
         if (nameText) nameText.text = card.name;
         if (healthText && card.attacked != null) healthText.text = card.attacked.ToString();
         if (descText) descText.text = card.GetDesc.Invoke();
-        if (countDownText) countDownText.text = card.GetComponent<DirectAtkCountdownComponent>().ToString();
+        if (countDownText) countDownText.text = card.GetComponent<DirectAtkCountdownComponent>().ToString() ?? "";
     }
 }

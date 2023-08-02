@@ -70,6 +70,9 @@ public class GameManager : MonoBehaviour, IManager
             GameStart();
         }
     }
+
+    public void SwitchGameObjState(GameObject go) { go.SetActive(!go.activeInHierarchy); }
+
     public void GameFalse()
     {
         Console.WriteLine("游戏失败");
