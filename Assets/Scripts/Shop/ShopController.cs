@@ -11,6 +11,7 @@ public class ShopController : MonoBehaviour
 
     public int count = 5;
     public int maxRollCount = 1;
+    public int rollFee = 5;
     [SerializeField] private CardPack pack;
     [SerializeField] private Transform shopParent;
     [SerializeField] private Text moneyText;
@@ -51,9 +52,12 @@ public class ShopController : MonoBehaviour
 
     public void RollCard()
     {
+        var p = Player.Instance;
         if (rollCnt >= maxRollCount) return;
         rollCnt++;
         if (rollCnt == maxRollCount) rollBtn.SetActive(false);
+
+        if(p.money<rollFee) return;
 
         var items = new List<string>();
         for (int i = 0; i < count; i++)
@@ -72,6 +76,9 @@ public class ShopController : MonoBehaviour
                 rand -= item.Value;
             }
         }
+
+        p.money -= rollFee;
+        moneyText.text = Player.Instance.money.ToString();
 
         for (int i = 0; i < shopParent.childCount; i++) Destroy(shopParent.GetChild(i).gameObject);
         foreach (var item in items)
