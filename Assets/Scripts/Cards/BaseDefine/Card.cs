@@ -57,7 +57,8 @@ public abstract class Card
 
     public T GetComponent<T>() where T : CardComponent
     {
-        return components.Find((c) => c.GetType() == typeof(T) || c.GetType().IsSubclassOf(typeof(T))) as T;
+        if (components == null) return null;
+        return components.Find(c => c.GetType() == typeof(T) || c.GetType().IsSubclassOf(typeof(T))) as T;
     }
     public void AddComponent(CardComponent component)
     {

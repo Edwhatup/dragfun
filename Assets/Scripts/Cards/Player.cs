@@ -36,6 +36,8 @@ public class Player : Card
 
     }
 
+    public Player(CardInfo info) : base(null) { }
+
     private void SetUp()
     {
         ReadDeck();

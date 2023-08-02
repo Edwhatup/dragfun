@@ -20,5 +20,9 @@ public class ShopCard : CardEntry
         {
             ShopController.Instance.SelectShopCard(this);
         }
+        else
+        {
+            ShopController.Instance.ShowNoMoneyMessage(Card.moneyCost);
+        }
     }
 }

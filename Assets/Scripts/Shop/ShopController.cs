@@ -9,8 +9,9 @@ public class ShopController : MonoBehaviour
     public static ShopController Instance => instance;
     private static ShopController instance;
 
-    public int count = 5;
-    public int maxRollCount = 1;
+    [SerializeField] private int rollCardCnt = 5;
+    [SerializeField] private int maxRollTime = 1;
+    [SerializeField] private int rollCost = 5;
     [SerializeField] private CardPack pack;
     [SerializeField] private Transform shopParent;
     [SerializeField] private Text moneyText;
@@ -51,12 +52,14 @@ public class ShopController : MonoBehaviour
 
     public void RollCard()
     {
-        if (rollCnt >= maxRollCount) return;
+        if (rollCnt >= maxRollTime) { ShowRollTimeoutMessage(); return; }
+        if (Player.Instance.money < rollCost) { ShowNoMoneyMessage(rollCost); return; }
         rollCnt++;
-        if (rollCnt == maxRollCount) rollBtn.SetActive(false);
+        Player.Instance.money -= rollCost;
+        if (rollCnt == maxRollTime) rollBtn.SetActive(false);
 
         var items = new List<string>();
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < rollCnt; i++)
         {
             var cnt = shopPool.Sum(j => j.Value);
             if (cnt == 0) break;
@@ -137,5 +140,22 @@ public class ShopController : MonoBehaviour
                 else Debug.LogError($"商店配置: {result[0]} 需要指定一个数字作为数量");
             }
         }
+    }
+
+    /// <summary>
+    /// 展示“刷新卡牌次数已用完”
+    /// </summary>
+    private void ShowRollTimeoutMessage()
+    {
+
+    }
+
+    /// <summary>
+    /// 展示“你钱不够”
+    /// </summary>
+    /// <param name="requiredMoney">需要的钱</param>
+    public void ShowNoMoneyMessage(int requiredMoney)
+    {
+
     }
 }
