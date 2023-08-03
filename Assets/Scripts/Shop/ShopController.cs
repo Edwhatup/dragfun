@@ -75,6 +75,7 @@ public class ShopController : MonoBehaviour
                 rand -= item.Value;
             }
         }
+        moneyText.text = Player.Instance.money.ToString();
 
         for (int i = 0; i < shopParent.childCount; i++) Destroy(shopParent.GetChild(i).gameObject);
         foreach (var item in items)
