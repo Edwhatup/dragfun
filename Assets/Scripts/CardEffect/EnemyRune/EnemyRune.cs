@@ -2,7 +2,8 @@ public abstract class EnemyRune : CardEffect
 {
     public bool Activated { get; set; }
 
-    private float requiredProgress, progress = 0;
+    private float requiredProgress;
+    protected float progress = 0;
     private int lifeTime, timer = 0;
 
     public float Progress => progress / requiredProgress;
@@ -19,7 +20,7 @@ public abstract class EnemyRune : CardEffect
         return lifeTime > 0 && timer >= lifeTime;
     }
 
-    public void Reset()
+    public virtual void Reset()
     {
         progress = 0;
         timer = 0;
