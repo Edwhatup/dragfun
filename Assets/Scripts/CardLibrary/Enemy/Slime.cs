@@ -16,7 +16,6 @@ public class Slime : Card
         enemyAction.GetNextAction();
         GetDesc =   ()=> enemyAction.current?.ToString()??"";
     }
-
 }
 
 public class SlimeChild : Card

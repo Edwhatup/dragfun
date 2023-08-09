@@ -15,7 +15,9 @@ public class IdolCreature : Card
         AddComponent(new AttackedComponent(1));
         AddComponent(new ActionComponent());
         AddComponent(new FieldComponnet());
-        //没做完
+
+        var listener = new IdolaListener();
+        AddComponent(listener);
 
         GetDesc = () => "";
 
