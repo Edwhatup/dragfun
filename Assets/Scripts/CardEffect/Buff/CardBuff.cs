@@ -4,7 +4,7 @@
     public int LifeTime => lifeTime;
     public int LifeTimer => lifeTimer;
     public BuffType Type => type;
-    public BuffLifeType LifeType => lifeType;
+    public BuffLifeType LifeType { get => lifeType; set => lifeType = value; }
 
     protected string name;
 
@@ -56,7 +56,7 @@
 
     public void ChangeLifeType(BuffLifeType life)
     {
-        this.lifeType=life;
+        this.lifeType = life;
     }
 }
 
