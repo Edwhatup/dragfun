@@ -62,6 +62,7 @@ public class EnemyEffectListener : EventListenerComponent
         {
             protect = true;
             Excute();
+            CardManager.Instance.BroadcastCardEvent(new EnemyActionEvent(card));
             switch (type)
             {
                 case Type.Loop:
