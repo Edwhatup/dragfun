@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -15,6 +13,7 @@ public class CardEntry : MonoBehaviour, IPointerClickHandler
     [SerializeField] private GameObject atkText;
     [SerializeField] private GameObject hpText;
     [SerializeField] private Text costText;
+    [SerializeField] private Image selectEdge;
     // [SerializeField] private GameObject buffText;
 
     public Card Card => card;
@@ -42,5 +41,10 @@ public class CardEntry : MonoBehaviour, IPointerClickHandler
     public virtual void OnPointerClick(PointerEventData eventData)
     {
         Clicked?.Invoke(this);
+    }
+
+    public void SetSelectableState(bool whether)
+    {
+        selectEdge.color = whether ? Color.green : Color.white;
     }
 }

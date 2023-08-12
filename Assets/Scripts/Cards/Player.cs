@@ -28,8 +28,12 @@ public class Player : Card
     public int hp;
     public int money = 0;
 
-    public Dictionary<string, int> deck;
+    public const int MaxCard = 15;
+    public bool CardDeckFull => CardDeck.Count == MaxCard;
+
     public List<string> cards = new List<string>();
+
+    public List<Card> CardDeck { get; private set; } = new List<Card>();
 
     public Player() : base(null)
     {
@@ -52,10 +56,11 @@ public class Player : Card
 
     private void ReadDeck()
     {
-        deck = new Dictionary<string, int>();
         for (int i = 0; i < cards.Count; i += 2)
         {
-            deck[cards[i]] = int.Parse(cards[i + 1]);
+            var cnt = int.Parse(cards[i + 1]);
+            for (int j = 0; j < cnt; j++)
+                CardDeck.Add(CardStore.Instance.CreateCard(new CardInfo() { name = cards[i] }, false));
         }
     }
 

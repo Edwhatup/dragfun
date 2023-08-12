@@ -104,10 +104,10 @@ public class CardManager : MonoBehaviour, IManager
             if (hand.Count == Player.Instance.maxHandCnt) break;
             var card = drawDeck[0];
             drawDeck.Transfer(hand, card);
-            Debug.Log($"抽卡堆减少{cnt}张, 剩余 {drawDeck.Count} ");
             card.Init();
             Refresh();
         }
+        Debug.Log($"抽卡堆减少{cnt}张, 剩余 {drawDeck.Count} ");
     }
 
     public void DrawSpecificRaceCard(int cnt, CardRace race)
@@ -197,20 +197,27 @@ public class CardManager : MonoBehaviour, IManager
     private void ReadDeck()
     {
         drawDeck.Clear();
-        foreach (var item in Player.Instance.deck)
+        // foreach (var item in Player.Instance.deck)
+        // {
+        //     for (int i = 0; i < item.Value; i++)
+        //     {
+        //         var info = new CardInfo()
+        //         {
+        //             name = item.Key
+        //         };
+        //         var card = CardStore.Instance.CreateCard(info);
+        //         card.camp = CardCamp.Friendly;
+        //         drawDeck.Add(card);
+        //         cards.Add(card);
+        //     }
+        // }
+        Player.Instance.CardDeck.ForEach(i =>
         {
-            for (int i = 0; i < item.Value; i++)
-            {
-                var info = new CardInfo()
-                {
-                    name = item.Key
-                };
-                var card = CardStore.Instance.CreateCard(info);
-                card.camp = CardCamp.Friendly;
-                drawDeck.Add(card);
-                cards.Add(card);
-            }
-        }
+            CardStore.Instance.CreateCardVisual(i);
+            i.camp = CardCamp.Friendly;
+            drawDeck.Add(i);
+            cards.Add(i);
+        });
     }
     private void ReadEnemy()
     {

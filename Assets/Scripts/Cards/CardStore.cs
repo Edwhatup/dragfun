@@ -90,7 +90,6 @@ public class CardStore : MonoBehaviour
             default: throw new Exception($"错误的卡牌类型{card.type}");
         }
         var v = visual.GetComponent<CardVisual>();
-        card.Init();
         v.SetCard(card);
         return v;
     }
@@ -101,6 +100,7 @@ public class CardStore : MonoBehaviour
         {
             var card = cardCtors[info.name].Invoke(new object[] { info }) as Card;
             if (withVisual) Instance.CreateCardVisual(card);
+            card.Init();
             return card;
         }
         throw new Exception($"不存在{info.name}卡牌");

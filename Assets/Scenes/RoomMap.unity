@@ -733,9 +733,7 @@ MonoBehaviour:
   charactor: {fileID: 784664331}
   interactButton: {fileID: 1197319883}
   combatSceneName: Test_ZC
-  enemyDatas:
-  - text: {fileID: 4900000, guid: f0a08c25d7e44be45a7843141d381ba6, type: 3}
-    weight: 1
+  enemyData: {fileID: 4900000, guid: f0a08c25d7e44be45a7843141d381ba6, type: 3}
   maxRooms: 10
   towardsW: 1
   towardsS: 0.6

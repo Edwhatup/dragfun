@@ -522,6 +522,7 @@ MonoBehaviour:
   atkText: {fileID: 862873960360895507}
   hpText: {fileID: 4808005523710697293}
   costText: {fileID: 8363955622173664177}
+  selectEdge: {fileID: 5330666713395891652}
 --- !u!1 &5330666712314481437
 GameObject:
   m_ObjectHideFlags: 0

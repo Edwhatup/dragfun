@@ -444,9 +444,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 871429a75baac8543b10f54f6d81a4a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  count: 5
-  maxRollCount: 1
-  rollFee: 5
+  rollCardCnt: 5
+  maxRollTime: 1
+  rollCost: 5
   pack: {fileID: 1894471948}
   shopParent: {fileID: 362312477}
   moneyText: {fileID: 657260455}
@@ -743,7 +743,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 0
 --- !u!222 &657260456
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1825,7 +1825,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2127429589
 RectTransform:
   m_ObjectHideFlags: 0

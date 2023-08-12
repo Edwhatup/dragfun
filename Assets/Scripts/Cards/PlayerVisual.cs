@@ -10,7 +10,7 @@ public class PlayerVisual : CardVisual
 
     public Text healthText;
 
-    void Awake()
+    void Start()
     {
         Player.Instance.BindVisual(this);
     }

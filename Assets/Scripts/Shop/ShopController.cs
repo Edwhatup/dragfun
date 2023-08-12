@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public class ShopController : MonoBehaviour
 {
@@ -63,7 +64,7 @@ public class ShopController : MonoBehaviour
         {
             var cnt = shopPool.Sum(j => j.Value);
             if (cnt == 0) break;
-            var rand = Random.Range(0, cnt);
+            var rand = UnityEngine.Random.Range(0, cnt);
             foreach (var item in shopPool)
             {
                 if (item.Value > rand)
@@ -89,8 +90,40 @@ public class ShopController : MonoBehaviour
     public void SelectShopCard(ShopCard item)
     {
         selectedCard = item;
-        ShowDeck();
-        pack.Entries.ForEach(i => i.Clicked += ReplaceCard);
+        if (!Player.Instance.CardDeckFull)
+        {
+            ShowDeck();
+            pack.Select(selectedCard.Card, new List<Func<Card, bool>>() { c => true },
+                        l =>
+                        {
+                            var c = l[0];
+                            selectedCard.gameObject.SetActive(false);
+                            ReplaceCard(c);
+                            pack.UpdatePack();
+                            ExecuteOnBuyAction(selectedCard.Card);
+                        });
+        }
+        else
+        {
+            Player.Instance.CardDeck.Add(item.Card);
+            selectedCard.gameObject.SetActive(false);
+            ExecuteOnBuyAction(item.Card);
+        }
+    }
+
+    private void ExecuteOnBuyAction(Card c)
+    {
+        var s = c.GetComponent<ShopActionComponent>();
+        if (s != null && s.BuyEffect != null)
+        {
+            // Debug.Log("L");
+            var b = s.BuyEffect;
+            pack.Select(selectedCard.Card,
+                    b.GetSelectTargets(),
+                    d => { b.Execute(d); pack.UpdatePack(); },
+                    b.AllowRepeat,
+                    b.IncludeSelf);
+        }
     }
 
     public void ShowDeck()
@@ -101,25 +134,21 @@ public class ShopController : MonoBehaviour
 
     public void HideDeck()
     {
+        if (pack.Selecting) return;
         pack.Clear();
         pack.gameObject.SetActive(false);
         selectedCard = null;
     }
 
-    private void ReplaceCard(CardEntry what)
+    private void ReplaceCard(Card c)
     {
         var p = Player.Instance;
-        p.deck[what.Card.name]--;
-        if (p.deck[what.Card.name] == 0) p.deck.Remove(what.Card.name);
-
-        if (p.deck.ContainsKey(selectedCard.Card.name)) p.deck[selectedCard.Card.name]++;
-        else p.deck.Add(selectedCard.Card.name, 1);
+        var idx = p.CardDeck.IndexOf(c);
+        p.CardDeck.Insert(idx, selectedCard.Card);
+        p.CardDeck.Remove(c);
 
         p.money -= selectedCard.Card.moneyCost;
         moneyText.text = Player.Instance.money.ToString();
-        selectedCard.gameObject.SetActive(false);
-
-        HideDeck();
     }
 
     public void NextScene()

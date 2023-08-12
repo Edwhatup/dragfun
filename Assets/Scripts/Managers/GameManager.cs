@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour, IManager
     public void GamePass()
     {
         Debug.Log("游戏通关");
-
+        Player.Instance.CardDeck.ForEach(i => Destroy(i.visual));
         SceneManager.LoadScene("Shop");
     }
 
