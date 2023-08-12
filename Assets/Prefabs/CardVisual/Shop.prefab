@@ -523,6 +523,7 @@ MonoBehaviour:
   atkText: {fileID: 862873960360895507}
   hpText: {fileID: 4808005523710697293}
   costText: {fileID: 8363955622173664177}
+  selectEdge: {fileID: 0}
   moneyText: {fileID: 364015340884237615}
 --- !u!1 &5330666712314481437
 GameObject:
@@ -659,7 +660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.003070495, g: 0.22153613, b: 0.6509434, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -736,7 +737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.10866857, g: 0.20779097, b: 0.6981132, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
