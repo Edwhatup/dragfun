@@ -90,7 +90,7 @@ public class ShopController : MonoBehaviour
     public void SelectShopCard(ShopCard item)
     {
         selectedCard = item;
-        if (!Player.Instance.CardDeckFull)
+        if (Player.Instance.CardDeckFull)
         {
             ShowDeck();
             pack.Select(selectedCard.Card, new List<Func<Card, bool>>() { c => true },
@@ -116,7 +116,7 @@ public class ShopController : MonoBehaviour
         var s = c.GetComponent<ShopActionComponent>();
         if (s != null && s.BuyEffect != null)
         {
-            // Debug.Log("L");
+            ShowDeck();
             var b = s.BuyEffect;
             pack.Select(selectedCard.Card,
                     b.GetSelectTargets(),
