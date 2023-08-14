@@ -13,36 +13,35 @@ public class ShopController : MonoBehaviour
     [SerializeField] private int rollCardCnt = 5;
     [SerializeField] private int maxRollTime = 1;
     [SerializeField] private int rollCost = 5;
+    [SerializeField] private int shopLevel = 1;
+    [SerializeField] private TextAsset shopRollRule;
     [SerializeField] private CardPack pack;
     [SerializeField] private Transform shopParent;
     [SerializeField] private Text moneyText;
     [SerializeField] private GameObject shopCard;
     [SerializeField] private GameObject rollBtn;
-    [SerializeField] TextAsset shopConfig;
+    // [SerializeField] TextAsset shopConfig;
 
     public ShopCard SelectedShopCard => selectedCard;
     private ShopCard selectedCard;
 
+    private Predicate<Card> filter = null;
+
+    private ShopPool shopPool => GameInstance.ShopPool;
+
     private int curIdx = -1;
-    private int rollCnt = -1;
-    private static Dictionary<string, int> shopPool = new Dictionary<string, int>();
-    private static bool inited = false;
+    private int rolledCnt = -1;
 
     [SerializeField] private string nextScene;
 
     private void Awake()
     {
         instance = this;
-        if (!inited)
-        {
-            ReadShopItem(shopConfig);
-            inited = true;
-        }
     }
 
     private void Start()
     {
-        RollCard();
+        RollCard(false);
         moneyText.text = Player.Instance.money.ToString();
     }
 
@@ -51,39 +50,23 @@ public class ShopController : MonoBehaviour
         instance = null;
     }
 
-    public void RollCard()
+    public void RollCard(bool spend = true)
     {
-        if (rollCnt >= maxRollTime) { ShowRollTimeoutMessage(); return; }
-        if (Player.Instance.money < rollCost) { ShowNoMoneyMessage(rollCost); return; }
-        rollCnt++;
-        Player.Instance.money -= rollCost;
-        if (rollCnt == maxRollTime) rollBtn.SetActive(false);
+        if (rolledCnt >= maxRollTime) { ShowRollTimeoutMessage(); return; }
+        if (spend && Player.Instance.money < rollCost) { ShowNoMoneyMessage(rollCost); return; }
+        rolledCnt++;
+        if (spend) Player.Instance.money -= rollCost;
+        if (rolledCnt == maxRollTime) rollBtn.SetActive(false);
 
-        var items = new List<string>();
-        for (int i = 0; i < rollCnt; i++)
-        {
-            var cnt = shopPool.Sum(j => j.Value);
-            if (cnt == 0) break;
-            var rand = UnityEngine.Random.Range(0, cnt);
-            foreach (var item in shopPool)
-            {
-                if (item.Value > rand)
-                {
-                    items.Add(item.Key);
-                    shopPool[item.Key]--;
-                    break;
-                }
-                rand -= item.Value;
-            }
-        }
+        var items = shopPool.FetchRandom(shopLevel, rollCardCnt);
         moneyText.text = Player.Instance.money.ToString();
 
         for (int i = 0; i < shopParent.childCount; i++) Destroy(shopParent.GetChild(i).gameObject);
         foreach (var item in items)
         {
-            var c = CardStore.Instance.CreateCard(item, false);
+            if (item == null) continue;
             var sC = Instantiate(shopCard, Vector3.zero, Quaternion.identity, shopParent).GetComponent<ShopCard>();
-            sC.BindCard(c);
+            sC.BindCard(item);
         }
     }
 
@@ -154,22 +137,6 @@ public class ShopController : MonoBehaviour
     public void NextScene()
     {
         SceneManager.LoadScene(nextScene);
-    }
-
-    private void ReadShopItem(TextAsset text)
-    {
-        var lines = text.text.Split('\n');
-        foreach (var item in lines)
-        {
-            var result = item.Split(':');
-            if (result.Length == 2)
-            {
-                if (int.TryParse(result[1], out var val))
-                    if (shopPool.ContainsKey(result[0])) shopPool[result[0]] += val;
-                    else shopPool.Add(result[0], val);
-                else Debug.LogError($"商店配置: {result[0]} 需要指定一个数字作为数量");
-            }
-        }
     }
 
     /// <summary>

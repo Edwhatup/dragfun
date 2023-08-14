@@ -1,5 +1,6 @@
 ﻿public enum CardRarity
 {
-    Normal,
-    Rare,
+    All = -1,
+    Normal = 0,
+    Rare = 1,
 }
