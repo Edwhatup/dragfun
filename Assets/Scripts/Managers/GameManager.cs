@@ -20,7 +20,14 @@ public class GameManager : MonoBehaviour, IManager
         set => pp = value;
     }
 
+    public int LifeEnergyPoint
+    {
+        get => lifeEnergyPoint;
+        set => lifeEnergyPoint = value;
+    }
+
     private int pp = 1000000;
+    private int lifeEnergyPoint = 0;
     void Awake()
     {
         // if (Instance == null)
