@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour, IManager
     public int LifeEnergyPoint
     {
         get => lifeEnergyPoint;
-        set => lifeEnergyPoint = value;
+        set { lifeEnergyPoint = value; UpdateStateUI(); }
     }
 
     private int pp = 1000000;
@@ -109,6 +109,11 @@ public class GameManager : MonoBehaviour, IManager
             return true;
         }
         return false;
+    }
+
+    private void UpdateStateUI()
+    {
+        if (LifeEnergyPoint > 0) LifeEnergyText.Instance.ShowText();
     }
 
 }

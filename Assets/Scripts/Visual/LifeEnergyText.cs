@@ -24,12 +24,12 @@ public class LifeEnergyText : MonoBehaviour
     }
         
     
-    public void setText()
+    public void ShowText()
     {
         LifeEnergyObject.gameObject.SetActive(true);
     }
 
-    public void hideText()
+    public void HideText()
     {
         LifeEnergyObject.gameObject.SetActive(false);
 

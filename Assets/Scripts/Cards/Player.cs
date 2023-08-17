@@ -28,6 +28,8 @@ public class Player : Card
     public int hp;
     public int money = 0;
 
+    public int ShopLvl { get; set; } = 1;
+
     public const int MaxCard = 15;
     public bool CardDeckFull => CardDeck.Count == MaxCard;
 
