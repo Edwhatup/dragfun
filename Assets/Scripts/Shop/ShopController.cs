@@ -12,14 +12,15 @@ public class ShopController : MonoBehaviour
 
     [SerializeField] private int rollCardCnt = 5;
     [SerializeField] private int maxRollTime = 1;
-    [SerializeField] private int rollCost = 5;
-    [SerializeField] private int shopLevel = 1;
+    [SerializeField] private int rollCost = 5, upgradeCost = 10;
+    [SerializeField] private bool enableUpgrade = false;
     [SerializeField] private TextAsset shopRollRule;
     [SerializeField] private CardPack pack;
     [SerializeField] private Transform shopParent;
     [SerializeField] private Text moneyText;
     [SerializeField] private GameObject shopCard;
     [SerializeField] private GameObject rollBtn;
+    [SerializeField] private GameObject upgradeBtn;
     // [SerializeField] TextAsset shopConfig;
 
     public ShopCard SelectedShopCard => selectedCard;
@@ -41,6 +42,8 @@ public class ShopController : MonoBehaviour
 
     private void Start()
     {
+        upgradeBtn.SetActive(enableUpgrade);
+
         RollCard(false);
         moneyText.text = Player.Instance.money.ToString();
     }
@@ -58,7 +61,7 @@ public class ShopController : MonoBehaviour
         if (spend) Player.Instance.money -= rollCost;
         if (rolledCnt == maxRollTime) rollBtn.SetActive(false);
 
-        var items = shopPool.FetchRandom(shopLevel, rollCardCnt);
+        var items = shopPool.FetchRandom(Player.Instance.ShopLvl, rollCardCnt);
         moneyText.text = Player.Instance.money.ToString();
 
         for (int i = 0; i < shopParent.childCount; i++) Destroy(shopParent.GetChild(i).gameObject);
@@ -137,6 +140,16 @@ public class ShopController : MonoBehaviour
     public void NextScene()
     {
         SceneManager.LoadScene(nextScene);
+    }
+
+    public void Upgrade()
+    {
+        if (Player.Instance.money >= upgradeCost)
+        {
+            Player.Instance.ShopLvl++;
+            Player.Instance.money -= upgradeCost;
+        }
+        else ShowNoMoneyMessage(upgradeCost);
     }
 
     /// <summary>
