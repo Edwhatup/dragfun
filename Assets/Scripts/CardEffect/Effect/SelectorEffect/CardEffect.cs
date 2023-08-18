@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
-public abstract class CardEffect :  ISelector
+public abstract class CardEffect : ISelector
 {
     public Card card;
     public static Dictionary<string, Type> CardEffects;
@@ -17,12 +17,12 @@ public abstract class CardEffect :  ISelector
     public CardEffect(Card card)
     {
         this.card = card;
-        InitTarget();   
+        InitTarget();
     }
     public abstract void InitTarget();
     public int TargetCount { get; protected set; }
-    public List<CardTarget> CardTargets { get; }=new List<CardTarget>(){ };
-    public List<ISeletableTarget> Targets { get ; }= new List<ISeletableTarget>();
+    public List<CardTarget> CardTargets { get; } = new List<CardTarget>() { };
+    public List<ISeletableTarget> Targets { get; } = new List<ISeletableTarget>();
 
     public static CardEffect GetCardEffect(string effectName, string[] paras)
     {
@@ -66,4 +66,14 @@ public abstract class NoTargetCardEffect : CardEffect
     {
         TargetCount = 0;
     }
+}
+
+public abstract class PassiveCardEffect : NoTargetCardEffect
+{
+    protected PassiveCardEffect(Card card) : base(card) { }
+
+    public abstract void HandleEvent(AbstractCardEvent e);
+
+    // 我们不用这玩意了，在HandleEvent里实现即可
+    public override sealed void Excute() { }
 }
