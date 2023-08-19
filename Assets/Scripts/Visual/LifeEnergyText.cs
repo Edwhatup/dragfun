@@ -36,7 +36,7 @@ public class LifeEnergyText : MonoBehaviour
     }
     void Start()
     {
-        text = GetComponent<Text>();
+        
     }
 
     // Update is called once per frame

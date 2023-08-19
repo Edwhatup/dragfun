@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GreenFairy : Card
+public class FriendYellElf : Card
 {
-    public GreenFairy(CardInfo info) : base(info)
+    public FriendYellElf(CardInfo info) : base(info)
     {
-        name = "妖精";
+        name = "应援妖精";
         camp = CardCamp.Friendly;
         type = CardType.Monster;
         race = CardRace.Fairy;
@@ -16,8 +16,8 @@ public class GreenFairy : Card
         AddComponent(new ActionComponent());
         AddComponent(new SummonComponent());
         AddComponent(new UseComponent(1));
+        AddComponent(new PassiveEffectComponent(new SpreadAssist(this,1,1,0)));
         AddComponent(new DeadComponent(new ChargeLifeEnergy(this,1)));
         GetDesc = () => "";
     }
-
 }

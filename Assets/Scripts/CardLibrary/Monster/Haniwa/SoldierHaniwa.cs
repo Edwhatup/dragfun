@@ -10,6 +10,7 @@ public class SoldierHaniwa : Card
         camp = CardCamp.Friendly;
         type = CardType.Monster;
         race = CardRace.Haniwa;
+        rarity = CardRarity.FirstBase;
         cost = 1;
         AddComponent(new AttackComponent(1));
         AddComponent(new AttackedComponent(4));
