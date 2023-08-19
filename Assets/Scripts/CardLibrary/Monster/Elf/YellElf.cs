@@ -15,7 +15,7 @@ public class FriendYellElf : Card
         AddComponent(new AttackedComponent(1));
         AddComponent(new ActionComponent());
         AddComponent(new SummonComponent());
-        AddComponent(new UseComponent(1));
+        AddComponent(new UseComponent(2));
         AddComponent(new PassiveEffectComponent(new SpreadAssist(this,1,1,0)));
         AddComponent(new DeadComponent(new ChargeLifeEnergy(this,1)));
         GetDesc = () => "";

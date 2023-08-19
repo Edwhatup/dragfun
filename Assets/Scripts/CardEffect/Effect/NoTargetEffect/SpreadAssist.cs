@@ -17,4 +17,10 @@ public class SpreadAssist : PassiveCardEffect
             u.source.AddBuff(new StatsPositiveBuff(atk, hp, ed));
         }
     }
+
+    public override string ToString()
+    {
+        return $"应援：+1/+1,并使得被应援的随从获得这个效果";
+    }
+
 }
