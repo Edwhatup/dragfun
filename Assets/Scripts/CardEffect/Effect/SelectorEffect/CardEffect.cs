@@ -77,3 +77,23 @@ public abstract class PassiveCardEffect : NoTargetCardEffect
     // 我们不用这玩意了，在HandleEvent里实现即可
     public override sealed void Excute() { }
 }
+
+public class MultipleEffect : CardEffect
+{
+    private List<CardEffect> effs;
+
+    public MultipleEffect(Card card, params CardEffect[] effects) : base(card)
+    {
+        effs = new List<CardEffect>(effects);
+    }
+
+    public override void Excute()
+    {
+        effs.ForEach(i => i.Excute());
+    }
+
+    public override void InitTarget()
+    {
+        effs.ForEach(i => i.InitTarget());
+    }
+}
