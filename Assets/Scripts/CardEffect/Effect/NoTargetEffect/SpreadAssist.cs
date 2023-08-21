@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class SpreadAssist : PassiveCardEffect
 {
     private int atk, hp, ed;
@@ -11,10 +13,15 @@ public class SpreadAssist : PassiveCardEffect
 
     public override void HandleEvent(AbstractCardEvent e)
     {
+        if (!CardManager.OnBoard(card)) return;
+        if (e.source == card) return;
         if (e is AfterUseEvent u)
         {
-            u.source.AddComponent(new PassiveEffectComponent(new SpreadAssist(u.source, atk, hp, ed)));
-            u.source.AddBuff(new StatsPositiveBuff(atk, hp, ed));
+            if (CellManager.Instance.GetStreetDistance(card.field.cell, u.source.field.cell) == 1)
+            {
+                u.source.AddComponent(new PassiveEffectComponent(new SpreadAssist(u.source, atk, hp, ed)));
+                u.source.AddBuff(new StatsPositiveBuff(atk, hp, ed));
+            }
         }
     }
 

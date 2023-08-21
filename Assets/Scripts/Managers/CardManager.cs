@@ -186,7 +186,8 @@ public class CardManager : MonoBehaviour, IManager
             {
                 dead.Excute();
             }
-            BroadcastCardEvent(new DeathEvent(card.attacked.lastAttacker, card));
+            if (card.attacked != null)
+                BroadcastCardEvent(new DeathEvent(card.attacked.lastAttacker, card));
             if (enemies.Contains(card)) enemies.Remove(card);
             DestoryCardOnBoard(card);
             flag = true;
@@ -311,14 +312,15 @@ public class CardManager : MonoBehaviour, IManager
     {
         // Debug.Log(cardEvent.GetType());
         HandleEvent(cardEvent);
-        foreach (var card in drawDeck.ToList())
-            BroadcastCardEvent2Card(card, cardEvent);
-        foreach (var card in hand.ToList())
-            BroadcastCardEvent2Card(card, cardEvent);
-        foreach (var card in board.ToList())
-            BroadcastCardEvent2Card(card, cardEvent);
-        foreach (var card in discardDeck.ToList())
-            BroadcastCardEvent2Card(card, cardEvent);
+        cards.ForEach(i => BroadcastCardEvent2Card(i, cardEvent));
+        // foreach (var card in drawDeck.ToList())
+        //     BroadcastCardEvent2Card(card, cardEvent);
+        // foreach (var card in hand.ToList())
+        //     BroadcastCardEvent2Card(card, cardEvent);
+        // foreach (var card in board.ToList())
+        //     BroadcastCardEvent2Card(card, cardEvent);
+        // foreach (var card in discardDeck.ToList())
+        //     BroadcastCardEvent2Card(card, cardEvent);
     }
 
     private void BroadcastCardEvent2Card(Card card, AbstractCardEvent cardEvent)
@@ -336,7 +338,7 @@ public class CardManager : MonoBehaviour, IManager
 
     private void HandleEvent(AbstractCardEvent e)
     {
-        Debug.Log(e.GetType() + " " + cellEffects.Count);
+        // Debug.Log(e.GetType() + " " + cellEffects.Count);
         for (int i = cellEffects.Count - 1; i >= 0; i--)
         {
             var b = cellEffects[i];
