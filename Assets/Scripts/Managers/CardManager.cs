@@ -312,7 +312,8 @@ public class CardManager : MonoBehaviour, IManager
     {
         // Debug.Log(cardEvent.GetType());
         HandleEvent(cardEvent);
-        cards.ForEach(i => BroadcastCardEvent2Card(i, cardEvent));
+        for (int i = 0; i < cards.Count; i++) BroadcastCardEvent2Card(cards[i], cardEvent);
+        // cards.ForEach(i => );
         // foreach (var card in drawDeck.ToList())
         //     BroadcastCardEvent2Card(card, cardEvent);
         // foreach (var card in hand.ToList())

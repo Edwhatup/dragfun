@@ -18,18 +18,18 @@ public class EnemyNormalAttack : NoTargetCardEffect
     public override void Excute()
     {
         var cdn = card.GetComponent<DirectAtkCountdownComponent>();
-        if(card.field.row==-1)
+        if (card.field.row == -1)
         {
             if (cdn != null && cdn.Ready) Face(0);
             else NoFace(0);
         }
-        else if(card.field.row==5)
+        else if (card.field.row == 5)
         {
             if (cdn != null && cdn.Ready) Face(4);
             else NoFace(4);
         }
-        else Debug.Log("敌人主体位置错误！");
-        
+        else NoFace(card.field.cell.row);
+
     }
 
     private void NoFace(int row)
