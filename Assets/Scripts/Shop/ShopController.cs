@@ -148,6 +148,7 @@ public class ShopController : MonoBehaviour
         {
             Player.Instance.ShopLvl++;
             Player.Instance.money -= upgradeCost;
+            moneyText.text = Player.Instance.money.ToString();
         }
         else ShowNoMoneyMessage(upgradeCost);
     }
