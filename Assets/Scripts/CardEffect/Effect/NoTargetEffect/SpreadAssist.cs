@@ -17,6 +17,7 @@ public class SpreadAssist : PassiveCardEffect
         if (e.source == card) return;
         if (e is AfterUseEvent u)
         {
+            if (card.field == null || u.source == null || u.source.field == null) return;
             if (CellManager.Instance.GetStreetDistance(card.field.cell, u.source.field.cell) == 1)
             {
                 u.source.AddComponent(new PassiveEffectComponent(new SpreadAssist(u.source, atk, hp, ed)));

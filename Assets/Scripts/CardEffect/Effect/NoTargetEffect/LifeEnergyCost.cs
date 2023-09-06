@@ -7,9 +7,10 @@ public class LifeEnergyCost : NoTargetCardEffect
     int cost;
     CardEffect effect;
 
-    public LifeEnergyCost (Card card, int cost,CardEffect effect) : base(card)
+    public LifeEnergyCost(Card card, int cost, CardEffect effect) : base(card)
     {
         this.cost = cost;
+        this.effect = effect;
     }
 
     //public override string ToString()
@@ -19,9 +20,9 @@ public class LifeEnergyCost : NoTargetCardEffect
 
     public override void Excute()
     {
-        if(GameManager.Instance.LifeEnergyPoint>=cost)
+        if (GameManager.Instance.LifeEnergyPoint >= cost)
         {
-            GameManager.Instance.LifeEnergyPoint-=cost;
+            GameManager.Instance.LifeEnergyPoint -= cost;
             effect.Excute();
         }
     }
